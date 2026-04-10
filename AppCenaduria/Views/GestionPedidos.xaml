@@ -3,21 +3,46 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppCenaduria.Views.GestionPedidos"
              Title="Monitor de Cocina"
-             BackgroundColor="#121212">
+             BackgroundColor="#0A0A0A">
 
     <Grid RowDefinitions="Auto, *">
 
-        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="5">
-            <Label Text="Pedidos Activos" FontSize="26" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
-            <Label Text="Despacha las órdenes de la cenaduría" TextColor="#E0E0E0" HorizontalOptions="Center"/>
-        </VerticalStackLayout>
+        <!-- ══ Header ══ -->
+        <Border Grid.Row="0" StrokeThickness="0" BackgroundColor="#111111" Padding="24,28,24,20">
+            <Border.StrokeShape><RoundRectangle CornerRadius="0,0,28,28"/></Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.4"/>
+            </Border.Shadow>
+            <VerticalStackLayout Spacing="6">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <Border StrokeThickness="0" BackgroundColor="#140A03" WidthRequest="38" HeightRequest="38">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                        <Label Text="🔥" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Pedidos Activos" FontSize="26" FontAttributes="Bold" TextColor="#F5F5F5" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+                <Label Text="Despacha las órdenes de la cenaduría" TextColor="#555555" FontSize="13" HorizontalOptions="Center"/>
+                <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="40" HorizontalOptions="Center" Margin="0,6,0,0">
+                    <BoxView.Shadow>
+                        <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.5"/>
+                    </BoxView.Shadow>
+                </BoxView>
+            </VerticalStackLayout>
+        </Border>
 
-        <CollectionView x:Name="listaPedidos" Grid.Row="1" Margin="15">
+        <!-- ══ Lista de Pedidos ══ -->
+        <CollectionView x:Name="listaPedidos" Grid.Row="1" Margin="16,14,16,16">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="10" Margin="0,0,0,15" Padding="0" HasShadow="True">
-                        <Grid ColumnDefinitions="10, *">
+                    <Border StrokeThickness="1" Stroke="#1A1A1A" BackgroundColor="#111111" 
+                            Margin="0,0,0,12" Padding="0">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
+                        </Border.Shadow>
+                        <Grid ColumnDefinitions="5, *">
 
+                            <!-- Barra lateral de color por tipo -->
                             <BoxView Grid.Column="0">
                                 <BoxView.Triggers>
                                     <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Comedor">
@@ -35,40 +60,63 @@
                                 </BoxView.Triggers>
                             </BoxView>
 
-                            <Grid Grid.Column="1" RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10" Padding="15">
-                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Folio, StringFormat='Orden: #{0}'}" FontSize="18" TextColor="White" FontAttributes="Bold" Margin="0,0,10,0"/>
-                                <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#4CAF50" Padding="8,4" CornerRadius="5" HasShadow="False">
-                                    <Label Text="{Binding Estado}" TextColor="White" FontSize="12" FontAttributes="Bold"/>
-                                </Frame>
+                            <!-- Contenido -->
+                            <Grid Grid.Column="1" RowDefinitions="Auto, Auto, Auto" 
+                                  ColumnDefinitions="*, Auto" RowSpacing="10" Padding="18">
 
-                                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="2">
-                                    <Label Text="{Binding Total, StringFormat='Total a cobrar: ${0:F2}'}" FontSize="18" FontAttributes="Bold" TextColor="White"/>
-                                    <Label Text="{Binding NombreCliente, StringFormat='Para: {0}'}" FontSize="14" TextColor="#fc4b08" FontAttributes="Bold"/>
-                                    <Label Text="{Binding TipoEntrega, StringFormat='Tipo: {0}'}" FontSize="14" TextColor="#E0E0E0" FontAttributes="Bold"/>
-                                    <Label Text="{Binding TipoPago, StringFormat='Pago en: {0}'}" FontSize="14" TextColor="#E0E0E0"/>
+                                <!-- Folio -->
+                                <Label Grid.Row="0" Grid.Column="0" 
+                                       Text="{Binding Folio, StringFormat='Orden #{0}'}" 
+                                       FontSize="18" TextColor="#F0F0F0" FontAttributes="Bold"/>
+
+                                <!-- Badge de estado -->
+                                <Border Grid.Row="0" Grid.Column="1" StrokeThickness="0" 
+                                        BackgroundColor="#0D1A0D" Padding="10,5">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                                    <Label Text="{Binding Estado}" TextColor="#4CAF50" FontSize="10" FontAttributes="Bold"/>
+                                </Border>
+
+                                <!-- Detalles -->
+                                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="5">
+                                    <Label Text="{Binding Total, StringFormat='Total: ${0:F2}'}" 
+                                           FontSize="20" FontAttributes="Bold" TextColor="#F0F0F0"/>
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="👤" FontSize="13"/>
+                                        <Label Text="{Binding NombreCliente}" FontSize="14" TextColor="#fc4b08" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+                                    <HorizontalStackLayout Spacing="12">
+                                        <Label Text="{Binding TipoEntrega, StringFormat='📦 {0}'}" FontSize="12" TextColor="#555555"/>
+                                        <Label Text="{Binding TipoPago, StringFormat='💳 {0}'}" FontSize="12" TextColor="#555555"/>
+                                    </HorizontalStackLayout>
                                 </VerticalStackLayout>
 
+                                <!-- Botón -->
                                 <Button Grid.Row="2" Grid.ColumnSpan="2" 
-                                        Text="Cambiar Estado 📝" 
-                                        BackgroundColor="#2196F3" 
-                                        TextColor="White" 
+                                        Text="Cambiar Estado" 
+                                        BackgroundColor="#0D1520" 
+                                        TextColor="#64B5F6" 
                                         FontAttributes="Bold" 
-                                        CornerRadius="8" 
-                                        HeightRequest="45"
-                                        Margin="0,10,0,0"
+                                        FontSize="14"
+                                        CornerRadius="14" 
+                                        HeightRequest="46"
+                                        Margin="0,4,0,0"
+                                        BorderWidth="1" BorderColor="#1A2A3D"
                                         CommandParameter="{Binding .}"
-                                        Clicked="OnCambiarEstadoClicked">
-                                </Button>
+                                        Clicked="OnCambiarEstadoClicked"/>
                             </Grid>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 
             <CollectionView.EmptyView>
-                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
-                    <Label Text="🙌" FontSize="50" HorizontalOptions="Center"/>
-                    <Label Text="Sin pedidos pendientes" TextColor="#757575" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,60,0,0">
+                    <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" WidthRequest="70" HeightRequest="70" HorizontalOptions="Center">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <Label Text="🙌" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <Label Text="Sin pedidos pendientes" TextColor="#555555" FontSize="15" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label Text="¡Todo al día!" TextColor="#333333" FontSize="12" HorizontalOptions="Center"/>
                 </VerticalStackLayout>
             </CollectionView.EmptyView>
         </CollectionView>

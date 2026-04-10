@@ -1,22 +1,28 @@
-using Supabase;
 using AppCenaduria.Models;
+using AppCenaduria.Controllers;
 
 namespace AppCenaduria.Views;
 
 public partial class Perfil : ContentPage
 {
-    private Supabase.Client _supabase;
+    private PerfilController _controller;
     private Usuario _usuarioActual;
 
     public Perfil()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        _supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+        
+        if (_controller == null)
+        {
+            var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+            _controller = new PerfilController(supabase);
+        }
+
         await CargarDatosUsuario();
     }
 
@@ -24,13 +30,10 @@ public partial class Perfil : ContentPage
     {
         try
         {
-            string correo = _supabase.Auth.CurrentUser.Email;
-            var res = await _supabase.From<Usuario>().Where(x => x.CorreoGoogle == correo).Get();
-            _usuarioActual = res.Models.FirstOrDefault();
+            _usuarioActual = await _controller.ObtenerPerfilAsync();
 
             if (_usuarioActual != null)
             {
-                // Si ya tiene datos (de Google o guardados antes), los ponemos en las cajas
                 txtNombre.Text = _usuarioActual.NombreCompleto;
                 txtTelefono.Text = _usuarioActual.Telefono;
                 txtDomicilio.Text = _usuarioActual.Domicilio;
@@ -56,7 +59,7 @@ public partial class Perfil : ContentPage
             _usuarioActual.Telefono = txtTelefono.Text?.Trim();
             _usuarioActual.Domicilio = txtDomicilio.Text?.Trim();
 
-            await _supabase.From<Usuario>().Update(_usuarioActual);
+            await _controller.ActualizarPerfilAsync(_usuarioActual);
 
             await DisplayAlert("Éxito", "Perfil actualizado correctamente.", "OK");
         }

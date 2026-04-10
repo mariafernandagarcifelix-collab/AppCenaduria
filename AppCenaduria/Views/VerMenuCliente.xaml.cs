@@ -1,24 +1,26 @@
 using Supabase;
 using AppCenaduria.Models;
+using AppCenaduria.Controllers;
 
 namespace AppCenaduria.Views;
 
 public partial class VerMenuCliente : ContentPage
 {
-    private Supabase.Client _supabase;
+    private VerMenuClienteController _controller;
 
     public VerMenuCliente()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        if (_supabase == null)
+        if (_controller == null)
         {
-            _supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+            var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+            _controller = new VerMenuClienteController(supabase);
         }
 
         await CargarMenuAsync();
@@ -28,13 +30,8 @@ public partial class VerMenuCliente : ContentPage
     {
         try
         {
-            // Descargamos de PostgreSQL solo los platillos disponibles
-            var respuesta = await _supabase.From<Platillo>()
-                                           .Where(x => x.Disponible == true)
-                                           .Get();
-
-            // Llenamos la interfaz gráfica con los datos
-            listaPlatillos.ItemsSource = respuesta.Models;
+            var platillos = await _controller.ObtenerMenuDisponibleAsync();
+            listaPlatillos.ItemsSource = platillos;
         }
         catch (Exception ex)
         {
@@ -47,8 +44,6 @@ public partial class VerMenuCliente : ContentPage
         var boton = sender as Button;
         var platilloSeleccionado = boton.CommandParameter as Platillo;
 
-        // En lugar de mostrar un mensaje, abrimos la pantalla de personalización
-        // pasándole el platillo que el cliente tocó
         await Navigation.PushAsync(new PersonalizarPlatillo(platilloSeleccionado));
     }
 }

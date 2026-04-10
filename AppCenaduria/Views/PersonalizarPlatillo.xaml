@@ -3,51 +3,135 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppCenaduria.Views.PersonalizarPlatillo"
              Title="Preparar Platillo"
-             BackgroundColor="#121212">
+             BackgroundColor="#0A0A0A">
 
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+        <VerticalStackLayout Padding="0" Spacing="0">
 
-            <Image x:Name="imgPlatillo" HeightRequest="200" Aspect="AspectFill" Margin="0,0,0,10">
-                <Image.Clip>
-                    <RoundRectangleGeometry CornerRadius="15" Rect="0,0,400,200"/>
-                </Image.Clip>
-            </Image>
+            <!-- ══ Imagen Hero ══ -->
+            <Border StrokeThickness="0" BackgroundColor="#111111" Padding="0" HeightRequest="240">
+                <Border.StrokeShape><RoundRectangle CornerRadius="0,0,28,28"/></Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.5"/>
+                </Border.Shadow>
+                <Image x:Name="imgPlatillo" HeightRequest="240" Aspect="AspectFill">
+                    <Image.Clip>
+                        <RoundRectangleGeometry CornerRadius="0,0,28,28" Rect="0,0,500,240"/>
+                    </Image.Clip>
+                </Image>
+            </Border>
 
-            <Label x:Name="lblNombre" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
-            <Label x:Name="lblDescripcion" TextColor="#B0B0B0" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
-            <Label x:Name="lblPrecio" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,20"/>
+            <VerticalStackLayout Padding="20,18,20,0" Spacing="14">
 
-            <Label Text="Cantidad:" TextColor="#E0E0E0" FontAttributes="Bold"/>
-            <Grid ColumnDefinitions="*, Auto, *" ColumnSpacing="15" HorizontalOptions="Center">
-                <Button Grid.Column="0" Text="-" Clicked="OnMenosClicked" BackgroundColor="#333333" TextColor="White" FontAttributes="Bold" WidthRequest="50" CornerRadius="25"/>
-                <Label Grid.Column="1" x:Name="lblCantidad" Text="1" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center"/>
-                <Button Grid.Column="2" Text="+" Clicked="OnMasClicked" BackgroundColor="#333333" TextColor="White" FontAttributes="Bold" WidthRequest="50" CornerRadius="25"/>
-            </Grid>
+                <!-- ══ Info del Platillo ══ -->
+                <VerticalStackLayout Spacing="6" HorizontalOptions="Center" Margin="0,2,0,0">
+                    <Label x:Name="lblNombre" FontSize="28" FontAttributes="Bold" TextColor="#F5F5F5" 
+                           HorizontalOptions="Center" CharacterSpacing="0.5"/>
+                    <Label x:Name="lblDescripcion" TextColor="#666666" FontSize="14" 
+                           HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="34" HorizontalOptions="Center" Margin="0,6,0,0">
+                        <BoxView.Shadow>
+                            <Shadow Brush="#fc4b08" Offset="0,0" Radius="6" Opacity="0.5"/>
+                        </BoxView.Shadow>
+                    </BoxView>
+                    <Label x:Name="lblPrecio" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" 
+                           HorizontalOptions="Center" Margin="0,6,0,0"/>
+                </VerticalStackLayout>
 
-            <Label Text="Especificaciones especiales:" TextColor="#E0E0E0" FontAttributes="Bold" Margin="0,15,0,0"/>
-            <Editor x:Name="txtComentarios" 
-                    Placeholder="Ej. Sin cebolla, con extra de salsa roja..." 
-                    PlaceholderColor="#757575" 
-                    TextColor="White" 
-                    BackgroundColor="#1E1E1E" 
-                    HeightRequest="100"/>
+                <!-- ══ Selector de Cantidad ══ -->
+                <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="22,18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="14">
+                        <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <BoxView WidthRequest="4" HeightRequest="14" Color="#fc4b08" VerticalOptions="Center">
 
-            <Label Text="💡 Tip: Si deseas platillos con especificaciones diferentes, agrégalos al carrito de uno en uno." 
-                   TextColor="#757575" 
-                   FontSize="12" 
-                   FontAttributes="Italic" 
-                   Margin="0,5,0,0"/>
+                            </BoxView>
+                            <Label Text="CANTIDAD" TextColor="#888888" FontSize="11" FontAttributes="Bold" 
+                                   CharacterSpacing="1.5" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="22">
+                            <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" 
+                                    WidthRequest="52" HeightRequest="52">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnMenosClicked"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="−" FontSize="26" FontAttributes="Bold" TextColor="#888888" 
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
 
-            <Button Text="Añadir al Carrito 🛒" 
-                    Clicked="OnAñadirCarritoClicked"
-                    BackgroundColor="#fc4b08" 
-                    TextColor="#121212" 
-                    FontAttributes="Bold" 
-                    CornerRadius="10" 
-                    HeightRequest="50" 
-                    Margin="0,20,0,0"/>
+                            <Border StrokeThickness="2" Stroke="#fc4b08" BackgroundColor="#1C1206" 
+                                    WidthRequest="68" HeightRequest="52">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#fc4b08" Offset="0,0" Radius="10" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Label x:Name="lblCantidad" Text="1" FontSize="26" FontAttributes="Bold" 
+                                       TextColor="#fc4b08" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
 
+                            <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" 
+                                    WidthRequest="52" HeightRequest="52">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnMasClicked"/>
+                                </Border.GestureRecognizers>
+                                <Label Text="＋" FontSize="26" FontAttributes="Bold" TextColor="#888888" 
+                                       HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- ══ Notas Especiales ══ -->
+                <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="22,18">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="12">
+                        <HorizontalStackLayout Spacing="8">
+                            <BoxView WidthRequest="4" HeightRequest="14" Color="#fc4b08" VerticalOptions="Center">
+
+                            </BoxView>
+                            <Label Text="NOTAS ESPECIALES" TextColor="#888888" FontSize="11" 
+                                   FontAttributes="Bold" CharacterSpacing="1" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" Padding="16,10">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                            <Editor x:Name="txtComentarios" 
+                                    Placeholder="Ej. Sin cebolla, con extra de salsa roja..." 
+                                    PlaceholderColor="#333333" TextColor="White" 
+                                    BackgroundColor="Transparent" HeightRequest="85" FontSize="14"/>
+                        </Border>
+
+                        <HorizontalStackLayout Spacing="6" Margin="0,2,0,0">
+                            <Label Text="💡" FontSize="11"/>
+                            <Label Text="Si deseas platillos con especificaciones diferentes, agrégalos de uno en uno." 
+                                   TextColor="#444444" FontSize="11" FontAttributes="Italic"/>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- ══ Botón Añadir ══ -->
+                <Button Text="Añadir al Carrito" 
+                        Clicked="OnAñadirCarritoClicked"
+                        BackgroundColor="#fc4b08" 
+                        TextColor="White" 
+                        FontAttributes="Bold" 
+                        FontSize="16"
+                        CornerRadius="16" 
+                        HeightRequest="56" 
+                        Margin="0,8,0,30">
+                    <Button.Shadow>
+                        <Shadow Brush="#fc4b08" Offset="0,6" Radius="20" Opacity="0.4"/>
+                    </Button.Shadow>
+                </Button>
+
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

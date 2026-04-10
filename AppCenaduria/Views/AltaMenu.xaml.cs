@@ -1,42 +1,56 @@
 using Supabase;
 using AppCenaduria.Models;
+using AppCenaduria.Controllers;
+using System.Globalization;
 
 namespace AppCenaduria.Views;
 
 public partial class AltaMenu : ContentPage
 {
-    private Supabase.Client _supabase; 
-    private FileResult _fotoSeleccionada; // Variable global para guardar la foto en memoria
+    private AltaMenuController _controller;
+    private FileResult _fotoSeleccionada;
+    private Platillo _platilloEnEdicion;
 
     public AltaMenu()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_supabase == null)
+        if (_controller == null)
         {
-            _supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+            var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+            _controller = new AltaMenuController(supabase);
+        }
+
+        await CargarMenu();
+    }
+
+    private async Task CargarMenu()
+    {
+        try
+        {
+            var platillos = await _controller.ObtenerPlatillosAsync();
+            listaMenu.ItemsSource = platillos;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "No se pudo cargar el menú: " + ex.Message, "OK");
         }
     }
 
-    // --- FUNCIÓN PARA ABRIR LA GALERÍA DEL CELULAR ---
     private async void OnSeleccionarFotoClicked(object sender, EventArgs e)
     {
         try
         {
             _fotoSeleccionada = await MediaPicker.Default.PickPhotoAsync();
-
             if (_fotoSeleccionada != null)
             {
-                // Mostramos la foto en la pantalla para que el administrador la vea
                 var stream = await _fotoSeleccionada.OpenReadAsync();
                 imgPreview.Source = ImageSource.FromStream(() => stream);
-                imgPreview.IsVisible = true;
-
-                // Limpiamos la URL manual porque usaremos el archivo
+                borderPreview.IsVisible = true;
                 txtFotoUrl.Text = string.Empty;
             }
         }
@@ -46,7 +60,6 @@ public partial class AltaMenu : ContentPage
         }
     }
 
-    // --- FUNCIÓN PARA GUARDAR EN LA BASE DE DATOS ---
     private async void OnGuardarClicked(object sender, EventArgs e)
     {
         if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtPrecio.Text))
@@ -59,49 +72,151 @@ public partial class AltaMenu : ContentPage
         {
             string urlFinal = txtFotoUrl.Text?.Trim() ?? "";
 
-            // Si el usuario seleccionó una foto de la galería, la subimos a Supabase Storage primero
             if (_fotoSeleccionada != null)
             {
-                using var stream = await _fotoSeleccionada.OpenReadAsync();
-                using var memoryStream = new MemoryStream();
-                await stream.CopyToAsync(memoryStream);
-                var bytesObtenidos = memoryStream.ToArray();
-
-                // Creamos un nombre único para que no choquen las fotos (ej. 1234-5678_foto.jpg)
-                string nombreArchivoUnico = $"{Guid.NewGuid()}_{_fotoSeleccionada.FileName}";
-
-                // Subimos los bytes al bucket "platillos"
-                await _supabase.Storage.From("platillos").Upload(bytesObtenidos, nombreArchivoUnico);
-
-                // Recuperamos la URL pública generada por Supabase
-                urlFinal = _supabase.Storage.From("platillos").GetPublicUrl(nombreArchivoUnico);
+                urlFinal = await _controller.SubirFotoAsync(_fotoSeleccionada);
             }
 
-            var nuevoPlatillo = new Platillo
+            if (_platilloEnEdicion == null)
             {
-                Nombre = txtNombre.Text.Trim(),
-                Descripcion = txtDescripcion.Text?.Trim() ?? "",
-                Precio = Convert.ToDecimal(txtPrecio.Text),
-                FotografiaUrl = urlFinal, // Guardamos la URL pública o la que escribieron a mano
-                Disponible = swDisponible.IsToggled
-            };
+                // MODO: CREAR
+                var nuevoPlatillo = new Platillo
+                {
+                    Nombre = txtNombre.Text.Trim(),
+                    Descripcion = txtDescripcion.Text?.Trim() ?? "",
+                    Precio = Convert.ToDecimal(txtPrecio.Text),
+                    FotografiaUrl = urlFinal,
+                    Disponible = swDisponible.IsToggled
+                };
 
-            await _supabase.From<Platillo>().Insert(nuevoPlatillo);
+                await _controller.GuardarPlatilloAsync(nuevoPlatillo);
+                await DisplayAlert("Éxito", "El platillo se guardó correctamente.", "OK");
+            }
+            else
+            {
+                // MODO: EDITAR
+                _platilloEnEdicion.Nombre = txtNombre.Text.Trim();
+                _platilloEnEdicion.Descripcion = txtDescripcion.Text?.Trim() ?? "";
+                _platilloEnEdicion.Precio = Convert.ToDecimal(txtPrecio.Text);
+                _platilloEnEdicion.Disponible = swDisponible.IsToggled;
+                
+                if (!string.IsNullOrEmpty(urlFinal))
+                {
+                    _platilloEnEdicion.FotografiaUrl = urlFinal;
+                }
 
-            await DisplayAlert("Éxito", "¡El platillo se guardó correctamente!", "Genial");
+                await _controller.ActualizarPlatilloAsync(_platilloEnEdicion);
+                await DisplayAlert("Éxito", "El platillo se actualizó correctamente.", "OK");
+            }
 
-            // Limpiamos la pantalla
-            txtNombre.Text = string.Empty;
-            txtDescripcion.Text = string.Empty;
-            txtPrecio.Text = string.Empty;
-            txtFotoUrl.Text = string.Empty;
-            imgPreview.IsVisible = false;
-            _fotoSeleccionada = null;
-            swDisponible.IsToggled = true;
+            RestaurarFormulario();
+            await CargarMenu();
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", "No se pudo guardar: " + ex.Message, "OK");
         }
     }
+
+    private void OnEditarClicked(object sender, TappedEventArgs e)
+    {
+        var platillo = e.Parameter as Platillo;
+        if (platillo == null) return;
+
+        _platilloEnEdicion = platillo;
+
+        lblTituloFormulario.Text = "Editar Platillo";
+        btnGuardar.Text = "Actualizar Platillo";
+        btnCancelar.IsVisible = true;
+        Grid.SetColumnSpan(btnGuardar, 1);
+
+        txtNombre.Text = platillo.Nombre;
+        txtDescripcion.Text = platillo.Descripcion;
+        txtPrecio.Text = platillo.Precio.ToString();
+        swDisponible.IsToggled = platillo.Disponible;
+        txtFotoUrl.Text = platillo.FotografiaUrl;
+
+        if (!string.IsNullOrEmpty(platillo.FotografiaUrl))
+        {
+            imgPreview.Source = platillo.FotografiaUrl;
+            borderPreview.IsVisible = true;
+        }
+        else
+        {
+            borderPreview.IsVisible = false;
+        }
+        
+        _fotoSeleccionada = null;
+
+        // Desplaza la vista arriba
+        _ = mainScroll.ScrollToAsync(0, 0, true);
+    }
+
+    private async void OnEliminarClicked(object sender, TappedEventArgs e)
+    {
+        var platillo = e.Parameter as Platillo;
+        if (platillo == null) return;
+
+        bool confirm = await DisplayAlert("Eliminar", $"¿Estás seguro de eliminar '{platillo.Nombre}'?", "Sí, eliminar", "Cancelar");
+        if (!confirm) return;
+
+        try
+        {
+            await _controller.EliminarPlatilloAsync(platillo);
+            await DisplayAlert("Eliminado", "Platillo eliminado correctamente.", "OK");
+            RestaurarFormulario();
+            await CargarMenu();
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", "No se pudo eliminar: " + ex.Message, "OK");
+        }
+    }
+
+    private void OnCancelarClicked(object sender, EventArgs e)
+    {
+        RestaurarFormulario();
+    }
+
+    private void RestaurarFormulario()
+    {
+        _platilloEnEdicion = null;
+        lblTituloFormulario.Text = "Nuevo Platillo";
+        btnGuardar.Text = "Guardar Platillo";
+        btnCancelar.IsVisible = false;
+        Grid.SetColumnSpan(btnGuardar, 2);
+
+        txtNombre.Text = string.Empty;
+        txtDescripcion.Text = string.Empty;
+        txtPrecio.Text = string.Empty;
+        txtFotoUrl.Text = string.Empty;
+        borderPreview.IsVisible = false;
+        _fotoSeleccionada = null;
+        swDisponible.IsToggled = true;
+    }
+}
+
+// Converters
+public class BoolToDisponibilidadConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is bool isAvailable && isAvailable)
+            return "● Disponible";
+        return "● Agotado";
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
+}
+
+public class BoolToColorConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is bool isAvailable && isAvailable)
+            return Color.FromArgb("#4CAF50");
+        return Color.FromArgb("#F44336");
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
 }
