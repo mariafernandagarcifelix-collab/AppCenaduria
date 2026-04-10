@@ -5,103 +5,100 @@
              Title="Corte de Caja"
              BackgroundColor="#0A0A0A">
 
-    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="0">
-
-        <!-- ══ Header ══ -->
-        <Border Grid.Row="0" StrokeThickness="0" BackgroundColor="#111111" Padding="24,28,24,18">
-            <Border.StrokeShape><RoundRectangle CornerRadius="0,0,28,28"/></Border.StrokeShape>
-            <Border.Shadow>
-                <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.4"/>
-            </Border.Shadow>
-            <VerticalStackLayout Spacing="6">
-                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-                    <Border StrokeThickness="0" BackgroundColor="#140A03" WidthRequest="38" HeightRequest="38">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                        <Label Text="📈" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
-                    </Border>
-                    <Label Text="Historial de Ventas" FontSize="24" FontAttributes="Bold" TextColor="#F5F5F5" VerticalOptions="Center"/>
-                </HorizontalStackLayout>
-                <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="40" HorizontalOptions="Center" Margin="0,6,0,0">
-                    <BoxView.Shadow>
-                        <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.5"/>
-                    </BoxView.Shadow>
-                </BoxView>
-            </VerticalStackLayout>
-        </Border>
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="16,10,16,16">
 
         <!-- ══ Filtros ══ -->
-        <VerticalStackLayout Grid.Row="1" Spacing="10" Padding="16,14,16,0">
+        <VerticalStackLayout Grid.Row="0" Spacing="14" Margin="0,10,0,14">
+            <!-- Header simple -->
+            <HorizontalStackLayout Spacing="8" Margin="0,0,0,4">
+                <BoxView WidthRequest="4" HeightRequest="16" Color="#fc4b08" VerticalOptions="Center"/>
+                <Label Text="HISTORIAL Y CORTES" TextColor="#888888" FontSize="11" FontAttributes="Bold" CharacterSpacing="1" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+            
             <!-- Buscador -->
-            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="0" HeightRequest="48">
-                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+            <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" Padding="0" HeightRequest="52">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                 <SearchBar x:Name="sbBuscador" 
                            Placeholder="Buscar mesa, nombre o folio..." 
-                           PlaceholderColor="#444444" TextColor="White"
+                           PlaceholderColor="#555555" TextColor="White"
                            BackgroundColor="Transparent" TextChanged="OnFiltrosCambiados"/>
             </Border>
 
             <!-- Toggle de fechas -->
-            <VerticalStackLayout Spacing="8">
-                <HorizontalStackLayout Spacing="10">
-                    <Switch x:Name="swUsarFechas" IsToggled="False" Toggled="OnSwitchFechasToggled" OnColor="#fc4b08" ThumbColor="White"/>
-                    <Label Text="Filtrar por rango de fechas" TextColor="#666666" VerticalOptions="Center" FontSize="13"/>
-                </HorizontalStackLayout>
+            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="16,14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="12">
+                        <Switch x:Name="swUsarFechas" IsToggled="False" Toggled="OnSwitchFechasToggled" OnColor="#fc4b08" ThumbColor="White"/>
+                        <Label Text="Filtrar por rango de fechas" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="14" FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
 
-                <Grid x:Name="contenedorFechas" ColumnDefinitions="*, *" ColumnSpacing="10" IsEnabled="False" Opacity="0.4">
-                    <Border Grid.Column="0" StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="10,6">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
-                        <VerticalStackLayout>
-                            <Label Text="Desde:" TextColor="#555555" FontSize="10"/>
-                            <DatePicker x:Name="dpInicio" BackgroundColor="Transparent" TextColor="White" Format="dd/MM/yyyy" DateSelected="OnFiltrosCambiados"/>
-                        </VerticalStackLayout>
-                    </Border>
-                    <Border Grid.Column="1" StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="10,6">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
-                        <VerticalStackLayout>
-                            <Label Text="Hasta:" TextColor="#555555" FontSize="10"/>
-                            <DatePicker x:Name="dpFin" BackgroundColor="Transparent" TextColor="White" Format="dd/MM/yyyy" DateSelected="OnFiltrosCambiados"/>
-                        </VerticalStackLayout>
-                    </Border>
-                </Grid>
-            </VerticalStackLayout>
+                    <Grid x:Name="contenedorFechas" ColumnDefinitions="*, *" ColumnSpacing="12" IsEnabled="False" Opacity="0.4">
+                        <Border Grid.Column="0" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0A0A0A" Padding="12,8">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                            <VerticalStackLayout>
+                                <Label Text="Desde:" TextColor="#777777" FontSize="11"/>
+                                <DatePicker x:Name="dpInicio" BackgroundColor="Transparent" TextColor="White" Format="dd/MM/yyyy" DateSelected="OnFiltrosCambiados"/>
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Column="1" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0A0A0A" Padding="12,8">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                            <VerticalStackLayout>
+                                <Label Text="Hasta:" TextColor="#777777" FontSize="11"/>
+                                <DatePicker x:Name="dpFin" BackgroundColor="Transparent" TextColor="White" Format="dd/MM/yyyy" DateSelected="OnFiltrosCambiados"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
         </VerticalStackLayout>
 
         <!-- ══ Chips de Filtro ══ -->
-        <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="16,12,16,10">
-            <HorizontalStackLayout Spacing="8">
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="0,0,0,16">
+            <HorizontalStackLayout Spacing="10">
                 <Button Text="Todos" StyleId="Todos" Clicked="OnFiltroChipClicked" 
-                        BackgroundColor="#fc4b08" TextColor="White" CornerRadius="12" 
-                        HeightRequest="34" Padding="14,0" FontSize="12" FontAttributes="Bold"/>
+                        BackgroundColor="#fc4b08" TextColor="White" CornerRadius="16" 
+                        HeightRequest="36" Padding="16,0" FontSize="12" FontAttributes="Bold"/>
                 <Button Text="Efectivo" StyleId="Efectivo" Clicked="OnFiltroChipClicked" 
-                        BackgroundColor="#1A1A1A" TextColor="#888888" CornerRadius="12" 
-                        HeightRequest="34" Padding="14,0" FontSize="12" BorderWidth="1" BorderColor="#252525"/>
+                        BackgroundColor="#1A1A1A" TextColor="#AAAAAA" CornerRadius="16" 
+                        HeightRequest="36" Padding="16,0" FontSize="12"/>
                 <Button Text="Tarjeta" StyleId="Tarjeta" Clicked="OnFiltroChipClicked" 
-                        BackgroundColor="#1A1A1A" TextColor="#888888" CornerRadius="12" 
-                        HeightRequest="34" Padding="14,0" FontSize="12" BorderWidth="1" BorderColor="#252525"/>
+                        BackgroundColor="#1A1A1A" TextColor="#AAAAAA" CornerRadius="16" 
+                        HeightRequest="36" Padding="16,0" FontSize="12"/>
                 <Button Text="Comedor" StyleId="Comedor" Clicked="OnFiltroChipClicked" 
-                        BackgroundColor="#1A1A1A" TextColor="#888888" CornerRadius="12" 
-                        HeightRequest="34" Padding="14,0" FontSize="12" BorderWidth="1" BorderColor="#252525"/>
+                        BackgroundColor="#1A1A1A" TextColor="#AAAAAA" CornerRadius="16" 
+                        HeightRequest="36" Padding="16,0" FontSize="12"/>
                 <Button Text="Domicilio" StyleId="Domicilio" Clicked="OnFiltroChipClicked" 
-                        BackgroundColor="#1A1A1A" TextColor="#888888" CornerRadius="12" 
-                        HeightRequest="34" Padding="14,0" FontSize="12" BorderWidth="1" BorderColor="#252525"/>
+                        BackgroundColor="#1A1A1A" TextColor="#AAAAAA" CornerRadius="16" 
+                        HeightRequest="36" Padding="16,0" FontSize="12"/>
             </HorizontalStackLayout>
         </ScrollView>
 
+        <!-- Separador centrado -->
+        <Grid Grid.Row="2" ColumnDefinitions="*, Auto, *" Margin="0,0,0,16">
+            <BoxView Grid.Column="0" HeightRequest="1" Color="#1E1E1E" VerticalOptions="Center"/>
+            <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#161616" Padding="12,4" Margin="10,0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                <Label Text="RESULTADOS" TextColor="#666666" FontSize="10" FontAttributes="Bold" CharacterSpacing="2"/>
+            </Border>
+            <BoxView Grid.Column="2" HeightRequest="1" Color="#1E1E1E" VerticalOptions="Center"/>
+        </Grid>
+
         <!-- ══ Lista de Ventas ══ -->
-        <CollectionView Grid.Row="3" x:Name="listaHistorial" Margin="16,0,16,8">
+        <CollectionView Grid.Row="3" x:Name="listaHistorial" Margin="0,0,0,5">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border StrokeThickness="1" Stroke="#1A1A1A" BackgroundColor="#111111" 
-                            Margin="0,0,0,10" Padding="0">
+                    <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" 
+                            Margin="0,0,0,12" Padding="0">
                         <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                         <Border.Shadow>
-                            <Shadow Brush="Black" Offset="0,4" Radius="10" Opacity="0.25"/>
+                            <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
                         </Border.Shadow>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnPedidoTapped" CommandParameter="{Binding .}"/>
                         </Border.GestureRecognizers>
 
-                        <Grid ColumnDefinitions="5, *, Auto">
+                        <Grid ColumnDefinitions="6, *, Auto">
 
                             <!-- Barra lateral -->
                             <BoxView Grid.Column="0">
@@ -122,23 +119,23 @@
                             </BoxView>
 
                             <!-- Info -->
-                            <VerticalStackLayout Grid.Column="1" Padding="14,12" Spacing="3">
-                                <Label Text="{Binding Folio, StringFormat='Orden #{0}'}" TextColor="#F0F0F0" FontAttributes="Bold" FontSize="14"/>
+                            <VerticalStackLayout Grid.Column="1" Padding="14,12" Spacing="4">
+                                <Label Text="{Binding Folio, StringFormat='Orden #{0}'}" TextColor="#F0F0F0" FontAttributes="Bold" FontSize="15" CharacterSpacing="0.5"/>
                                 <Label Text="{Binding NombreCliente}" TextColor="#888888" FontSize="13" FontAttributes="Bold"/>
-                                <Label Text="{Binding FechaPedido, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" TextColor="#444444" FontSize="10"/>
+                                <Label Text="{Binding FechaPedido, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" TextColor="#555555" FontSize="11" Margin="0,2,0,0"/>
                             </VerticalStackLayout>
 
                             <!-- Total + Menú -->
-                            <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="6" Margin="0,0,10,0">
-                                <Label Text="{Binding Total, StringFormat='${0:F2}'}" TextColor="#4CAF50" FontAttributes="Bold" FontSize="15" VerticalOptions="Center"/>
+                            <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="8" Margin="0,0,12,0">
+                                <Label Text="{Binding Total, StringFormat='${0:F2}'}" TextColor="#4CAF50" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
 
-                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" WidthRequest="34" HeightRequest="34" 
+                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" WidthRequest="36" HeightRequest="36" 
                                         VerticalOptions="Center">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnDotsTapped" CommandParameter="{Binding .}"/>
                                     </Border.GestureRecognizers>
-                                    <Label Text="⋮" FontSize="18" TextColor="#666666" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label Text="⋮" FontSize="20" TextColor="#888888" HorizontalOptions="Center" VerticalOptions="Center" Margin="0,-2,0,0"/>
                                 </Border>
                             </HorizontalStackLayout>
                         </Grid>
@@ -148,51 +145,52 @@
         </CollectionView>
 
         <!-- ══ Modal Ticket ══ -->
-        <Grid x:Name="modalTicket" Grid.RowSpan="4" IsVisible="False" BackgroundColor="#CC000000">
+        <Grid x:Name="modalTicket" Grid.RowSpan="4" IsVisible="False" BackgroundColor="#CC000000" Margin="-16,-10,-16,-16">
             <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" 
                     WidthRequest="340" HorizontalOptions="Center" VerticalOptions="Center"
-                    Padding="26">
+                    Padding="26,24">
                 <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
                 <Border.Shadow>
-                    <Shadow Brush="#fc4b08" Offset="0,0" Radius="30" Opacity="0.15"/>
+                    <Shadow Brush="Black" Offset="0,10" Radius="30" Opacity="0.5"/>
                 </Border.Shadow>
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="CENADURÍA EL PARQUESITO" FontAttributes="Bold" FontSize="13" TextColor="#888888" HorizontalOptions="Center" CharacterSpacing="1.5"/>
-                    <Label x:Name="lblTicketFolio" Text="Folio:" TextColor="#F0F0F0" FontAttributes="Bold" FontSize="18" HorizontalOptions="Center"/>
-                    <BoxView HeightRequest="1" Color="#1E1E1E" Margin="0,4"/>
-                    <Label x:Name="lblTicketCliente" Text="Cliente:" TextColor="#888888" FontSize="13"/>
-                    <Label x:Name="lblTicketFecha" Text="Fecha:" TextColor="#888888" FontSize="13"/>
-                    <Label x:Name="lblTicketTipo" Text="Tipo:" TextColor="#888888" FontSize="13"/>
-                    <BoxView HeightRequest="1" Color="#1E1E1E" Margin="0,4"/>
+                    <Label Text="🍽️ CENADURÍA" FontAttributes="Bold" FontSize="18" TextColor="#fc4b08" HorizontalOptions="Center" CharacterSpacing="1"/>
+                    <Label x:Name="lblTicketFolio" Text="Folio:" TextColor="#F0F0F0" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <BoxView HeightRequest="1" Color="#1E1E1E" Margin="0,8"/>
+                    
+                    <Grid ColumnDefinitions="Auto, *" RowSpacing="4" ColumnSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Cliente:" TextColor="#777777" FontSize="13"/>
+                        <Label Grid.Row="0" Grid.Column="1" x:Name="lblTicketCliente" TextColor="#DDDDDD" FontSize="13" FontAttributes="Bold" HorizontalOptions="End"/>
+                        
+                        <Label Grid.Row="1" Grid.Column="0" Text="Fecha:" TextColor="#777777" FontSize="13"/>
+                        <Label Grid.Row="1" Grid.Column="1" x:Name="lblTicketFecha" TextColor="#DDDDDD" FontSize="13" FontAttributes="Bold" HorizontalOptions="End"/>
+                        
+                        <Label Grid.Row="2" Grid.Column="0" Text="Tipo:" TextColor="#777777" FontSize="13"/>
+                        <Label Grid.Row="2" Grid.Column="1" x:Name="lblTicketTipo" TextColor="#DDDDDD" FontSize="13" FontAttributes="Bold" HorizontalOptions="End"/>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" Color="#1E1E1E" Margin="0,8"/>
 
-                    <CollectionView x:Name="listaDetallesTicket" MaximumHeightRequest="200">
+                    <CollectionView x:Name="listaDetallesTicket" MaximumHeightRequest="180">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <Grid ColumnDefinitions="Auto, *, Auto" Padding="0,5">
-                                    <Label Grid.Column="0" Text="{Binding Cantidad, StringFormat='{0}x '}" TextColor="#666666" FontSize="13"/>
-                                    <Label Grid.Column="1" Text="{Binding NombrePlatillo}" TextColor="#E0E0E0" FontSize="13" LineBreakMode="TailTruncation" Margin="5,0"/>
-                                    <Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='${0:F2}'}" TextColor="#E0E0E0" FontSize="13" FontAttributes="Bold"/>
+                                    <Label Grid.Column="0" Text="{Binding Cantidad, StringFormat='{0}x '}" TextColor="#888888" FontSize="13" FontAttributes="Bold"/>
+                                    <Label Grid.Column="1" Text="{Binding NombrePlatillo}" TextColor="#DDDDDD" FontSize="13" LineBreakMode="TailTruncation" Margin="6,0"/>
+                                    <Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='${0:F2}'}" TextColor="#F0F0F0" FontSize="13" FontAttributes="Bold"/>
                                 </Grid>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
 
-                    <BoxView HeightRequest="2" Color="#fc4b08" Margin="0,4">
-                        <BoxView.Shadow>
-                            <Shadow Brush="#fc4b08" Offset="0,0" Radius="6" Opacity="0.4"/>
-                        </BoxView.Shadow>
-                    </BoxView>
+                    <BoxView HeightRequest="2" Color="#fc4b08" Margin="0,8"/>
                     <Grid ColumnDefinitions="*, Auto">
-                        <Label Grid.Column="0" Text="TOTAL" FontAttributes="Bold" TextColor="#888888" FontSize="14" CharacterSpacing="1"/>
-                        <Label x:Name="lblTicketTotal" Grid.Column="1" Text="$0.00" FontAttributes="Bold" TextColor="#fc4b08" FontSize="20"/>
+                        <Label Grid.Column="0" Text="TOTAL:" FontAttributes="Bold" TextColor="#F0F0F0" FontSize="18"/>
+                        <Label x:Name="lblTicketTotal" Grid.Column="1" Text="$0.00" FontAttributes="Bold" TextColor="#4CAF50" FontSize="20"/>
                     </Grid>
-                    <Button Text="Cerrar" BackgroundColor="#fc4b08" TextColor="White" FontAttributes="Bold"
-                            CornerRadius="14" HeightRequest="48" Margin="0,8,0,0" FontSize="15"
-                            Clicked="OnCerrarTicketClicked">
-                        <Button.Shadow>
-                            <Shadow Brush="#fc4b08" Offset="0,4" Radius="14" Opacity="0.35"/>
-                        </Button.Shadow>
-                    </Button>
+                    
+                    <Button Text="Cerrar Ticket" BackgroundColor="#1A1A1A" TextColor="#E0E0E0" FontAttributes="Bold"
+                            CornerRadius="14" HeightRequest="48" Margin="0,16,0,0" BorderWidth="1" BorderColor="#252525" Clicked="OnCerrarTicketClicked"/>
                 </VerticalStackLayout>
             </Border>
         </Grid>

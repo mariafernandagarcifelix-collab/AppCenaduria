@@ -22,7 +22,7 @@ namespace AppCenaduria.Controllers
             return respuestaUsuario.Models.FirstOrDefault();
         }
 
-        public async Task<NuevoPedido> CrearPedidoAsync(Usuario usuario, decimal total, List<Carrito.ItemCarrito> items)
+        public async Task<NuevoPedido> CrearPedidoAsync(Usuario usuario, decimal total, List<Carrito.ItemCarrito> items, string tipoEntrega = "Local", string tipoPago = "Efectivo")
         {
             var nuevoPedido = new NuevoPedido
             {
@@ -30,8 +30,8 @@ namespace AppCenaduria.Controllers
                 NombreCliente = usuario.NombreCompleto,
                 Total = total,
                 Estado = "En preparación",
-                TipoPago = "Efectivo",
-                TipoEntrega = "Local"
+                TipoPago = tipoPago,
+                TipoEntrega = tipoEntrega
             };
 
             var resultadoPedido = await _supabase.From<NuevoPedido>().Insert(nuevoPedido);

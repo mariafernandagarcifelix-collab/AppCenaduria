@@ -29,6 +29,8 @@ public partial class Login : ContentPage
         {
             var usuarioDb = await _controller.IniciarSesionGoogleAsync();
 
+            Preferences.Set("UserRole", usuarioDb.Rol);
+
             MainThread.BeginInvokeOnMainThread(() =>
             {
                 Application.Current.MainPage = new Menu(usuarioDb.Rol);

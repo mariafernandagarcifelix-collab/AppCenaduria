@@ -38,6 +38,15 @@ public partial class MiCarrito : ContentPage
     {
         if (Carrito.CarritoGlobal.Articulos.Count == 0) return;
 
+        if (pickerEntrega.SelectedItem == null || pickerPago.SelectedItem == null)
+        {
+            await DisplayAlert("Faltan Opciones", "Por favor selecciona el tipo de entrega y el método de pago.", "OK");
+            return;
+        }
+
+        string tipoEntrega = pickerEntrega.SelectedItem.ToString();
+        string tipoPago = pickerPago.SelectedItem.ToString();
+
         try
         {
             var miUsuarioReal = await _controller.ObtenerUsuarioActualAsync();
@@ -57,7 +66,7 @@ public partial class MiCarrito : ContentPage
 
             decimal totalReal = Carrito.CarritoGlobal.Articulos.Sum(x => x.Subtotal);
 
-            var pedidoGuardado = await _controller.CrearPedidoAsync(miUsuarioReal, totalReal, Carrito.CarritoGlobal.Articulos);
+            var pedidoGuardado = await _controller.CrearPedidoAsync(miUsuarioReal, totalReal, Carrito.CarritoGlobal.Articulos, tipoEntrega, tipoPago);
 
             await DisplayAlert("¡Éxito!", "Tu pedido ha sido enviado. ¡Gracias por tu compra!", "OK");
 

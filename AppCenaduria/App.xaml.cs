@@ -1,4 +1,4 @@
-﻿using AppCenaduria.Views;
+using AppCenaduria.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Firebase.CloudMessaging;
 
@@ -9,7 +9,16 @@ namespace AppCenaduria
         public App()
         {
             InitializeComponent();
-            MainPage = new Login();
+
+            string rolGuardado = Preferences.Get("UserRole", "");
+            if (!string.IsNullOrEmpty(rolGuardado))
+            {
+                MainPage = new Menu(rolGuardado);
+            }
+            else
+            {
+                MainPage = new Login();
+            }
         }
 
         protected override async void OnStart()

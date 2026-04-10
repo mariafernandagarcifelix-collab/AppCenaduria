@@ -65,4 +65,21 @@ public partial class Menu : FlyoutPage
         Detail = new NavigationPage(new HistorialVentas());
         IsPresented = false;
     } 
+
+    private async void OnCerrarSesionClicked(object sender, EventArgs e)
+    {
+        bool confirmacion = await DisplayAlert("Cerrar Sesión", "¿Estás seguro de que deseas salir?", "Sí", "Cancelar");
+        if (confirmacion)
+        {
+            try
+            {
+                var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+                await supabase.Auth.SignOut();
+            }
+            catch { } // Ignore errors if already signed out
+            
+            Preferences.Remove("UserRole");
+            Application.Current.MainPage = new Login();
+        }
+    }
 }

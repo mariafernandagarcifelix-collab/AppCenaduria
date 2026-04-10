@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Postgrest.Attributes;
@@ -27,5 +27,8 @@ namespace AppCenaduria.Models
 
         [Column("disponible")]
         public bool Disponible { get; set; }
+
+        [Column("categoria")]
+        public string Categoria { get; set; }
     }
 }

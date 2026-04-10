@@ -95,6 +95,35 @@
                 <Shadow Brush="Black" Offset="0,-6" Radius="20" Opacity="0.35"/>
             </Border.Shadow>
             <VerticalStackLayout Spacing="16">
+                
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="15" Margin="0,0,0,5">
+                    <VerticalStackLayout Grid.Column="0" Spacing="5">
+                        <Label Text="Entrega" FontSize="12" TextColor="#777777"/>
+                        <Border StrokeThickness="1" Stroke="#2A2A2A" BackgroundColor="#1A1A1A" Padding="10,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Picker x:Name="pickerEntrega" Title="Elegir..." TextColor="#E0E0E0" TitleColor="#555555" BackgroundColor="Transparent">
+                                <Picker.Items>
+                                    <x:String>Domicilio</x:String>
+                                    <x:String>Recoger</x:String>
+                                    <x:String>Comer ahí</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Border>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="5">
+                        <Label Text="Pago" FontSize="12" TextColor="#777777"/>
+                        <Border StrokeThickness="1" Stroke="#2A2A2A" BackgroundColor="#1A1A1A" Padding="10,0">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Picker x:Name="pickerPago" Title="Elegir..." TextColor="#E0E0E0" TitleColor="#555555" BackgroundColor="Transparent">
+                                <Picker.Items>
+                                    <x:String>Efectivo</x:String>
+                                    <x:String>Tarjeta</x:String>
+                                </Picker.Items>
+                            </Picker>
+                        </Border>
+                    </VerticalStackLayout>
+                </Grid>
+
                 <Grid ColumnDefinitions="*, Auto">
                     <Label Grid.Column="0" Text="Total a Pagar" FontSize="16" TextColor="#777777" VerticalOptions="Center"/>
                     <Label Grid.Column="1" x:Name="lblTotal" Text="$0.00" FontSize="28" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center"/>
