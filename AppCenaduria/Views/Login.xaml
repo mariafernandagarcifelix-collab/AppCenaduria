@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.Login"
+             Title="Iniciar Sesión"
+             BackgroundColor="#121212"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="*, Auto">
+        <VerticalStackLayout Grid.Row="0" VerticalOptions="Center" Padding="40" Spacing="10">
+            <Image Source="dotnet_bot.png" HeightRequest="160" HorizontalOptions="Center" Margin="0,0,0,20"/>
+            <Label Text="Cenaduría El Parquesito" FontSize="32" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+            <Label Text="Tus comidas favoritas a un clic" TextColor="#E0E0E0" FontSize="16" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Padding="30" Spacing="20" Margin="0,0,0,40">
+            <Frame BackgroundColor="White" CornerRadius="25" Padding="0" HasShadow="True" HeightRequest="55">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGoogleAuthClicked"/>
+                </Frame.GestureRecognizers>
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="15">
+                    <Image Source="https://hupzobsidmopihmllvtp.supabase.co/storage/v1/object/public/platillos/google_logo.png" HeightRequest="24" WidthRequest="24"/>
+                    <Label Text="Continuar con Google" TextColor="#444444" FontAttributes="Bold" FontSize="16" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.HistorialCliente"
+             Title="Mis Pedidos"
+             BackgroundColor="#121212">
+
+    <Grid>
+        <VerticalStackLayout Padding="15" Spacing="15">
+
+            <Label Text="Historial de compras 🌮" FontSize="22" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
+            <Label Text="Aquí puedes ver cómo van tus órdenes y los platillos que ya disfrutaste." TextColor="#E0E0E0" HorizontalOptions="Center" HorizontalTextAlignment="Center" FontSize="14"/>
+
+            <CollectionView x:Name="listaMisPedidos" Margin="0,10,0,0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#1A1A1A" BorderColor="#333333" CornerRadius="10" Padding="0" HasShadow="True" Margin="0,0,0,15">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPedidoTapped" CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="8, *, Auto">
+                                <BoxView Grid.Column="0">
+                                    <BoxView.Triggers>
+                                        <DataTrigger TargetType="BoxView" Binding="{Binding Estado}" Value="En preparación">
+                                            <Setter Property="Color" Value="#FF9800"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="BoxView" Binding="{Binding Estado}" Value="En proceso de entrega">
+                                            <Setter Property="Color" Value="#2196F3"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="BoxView" Binding="{Binding Estado}" Value="Entregado">
+                                            <Setter Property="Color" Value="#4CAF50"/>
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="BoxView" Binding="{Binding Estado}" Value="Cancelado">
+                                            <Setter Property="Color" Value="#F44336"/>
+                                        </DataTrigger>
+                                    </BoxView.Triggers>
+                                </BoxView>
+
+                                <VerticalStackLayout Grid.Column="1" Padding="15">
+                                    <Label Text="{Binding Folio, StringFormat='Orden #{0}'}" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                                    <Label Text="{Binding FechaPedido, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" TextColor="#757575" FontSize="12"/>
+                                    <Label Text="{Binding Estado}" TextColor="#fc4b08" FontAttributes="Bold" FontSize="13" Margin="0,5,0,0"/>
+                                </VerticalStackLayout>
+
+                                <Label Grid.Column="2" Text="{Binding Total, StringFormat='${0:F2}'}" TextColor="White" FontAttributes="Bold" FontSize="18" VerticalOptions="Center" Margin="0,0,15,0"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                        <Label Text="🛒" FontSize="50" HorizontalOptions="Center"/>
+                        <Label Text="Aún no tienes pedidos." TextColor="#757575" FontSize="16" HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </VerticalStackLayout>
+
+        <Grid x:Name="modalTicketCliente" IsVisible="False" BackgroundColor="#CC000000">
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" WidthRequest="320" HorizontalOptions="Center" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="🍽️ DETALLE DE TU ORDEN" FontAttributes="Bold" FontSize="16" TextColor="Black" HorizontalOptions="Center"/>
+                    <Label x:Name="lblTicketFolio" Text="Folio:" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <Label x:Name="lblTicketEstado" Text="Estado:" TextColor="#fc4b08" FontAttributes="Bold" HorizontalOptions="Center"/>
+
+                    <BoxView HeightRequest="1" Color="Gray" Margin="0,5"/>
+
+                    <CollectionView x:Name="listaDetallesTicket" MaximumHeightRequest="150">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto, *, Auto" Padding="0,3">
+                                    <Label Grid.Column="0" Text="{Binding Cantidad, StringFormat='{0}x '}" TextColor="Black" FontSize="13"/>
+                                    <Label Grid.Column="1" Text="{Binding NombrePlatillo}" TextColor="Black" FontSize="13" LineBreakMode="TailTruncation" Margin="5,0"/>
+                                    <Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='${0:F2}'}" TextColor="Black" FontSize="13" FontAttributes="Bold"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <BoxView HeightRequest="1" Color="Black" Margin="0,5"/>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0" Text="TOTAL:" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
+                        <Label x:Name="lblTicketTotal" Grid.Column="1" Text="$0.00" FontAttributes="Bold" TextColor="Black" FontSize="16"/>
+                    </Grid>
+                    <Button Text="Cerrar" BackgroundColor="#fc4b08" TextColor="White" Margin="0,15,0,0" Clicked="OnCerrarTicketClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

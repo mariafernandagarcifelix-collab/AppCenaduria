@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.PersonalizarPlatillo"
+             Title="Preparar Platillo"
+             BackgroundColor="#121212">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Image x:Name="imgPlatillo" HeightRequest="200" Aspect="AspectFill" Margin="0,0,0,10">
+                <Image.Clip>
+                    <RoundRectangleGeometry CornerRadius="15" Rect="0,0,400,200"/>
+                </Image.Clip>
+            </Image>
+
+            <Label x:Name="lblNombre" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
+            <Label x:Name="lblDescripcion" TextColor="#B0B0B0" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+            <Label x:Name="lblPrecio" FontSize="20" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" Margin="0,0,0,20"/>
+
+            <Label Text="Cantidad:" TextColor="#E0E0E0" FontAttributes="Bold"/>
+            <Grid ColumnDefinitions="*, Auto, *" ColumnSpacing="15" HorizontalOptions="Center">
+                <Button Grid.Column="0" Text="-" Clicked="OnMenosClicked" BackgroundColor="#333333" TextColor="White" FontAttributes="Bold" WidthRequest="50" CornerRadius="25"/>
+                <Label Grid.Column="1" x:Name="lblCantidad" Text="1" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center"/>
+                <Button Grid.Column="2" Text="+" Clicked="OnMasClicked" BackgroundColor="#333333" TextColor="White" FontAttributes="Bold" WidthRequest="50" CornerRadius="25"/>
+            </Grid>
+
+            <Label Text="Especificaciones especiales:" TextColor="#E0E0E0" FontAttributes="Bold" Margin="0,15,0,0"/>
+            <Editor x:Name="txtComentarios" 
+                    Placeholder="Ej. Sin cebolla, con extra de salsa roja..." 
+                    PlaceholderColor="#757575" 
+                    TextColor="White" 
+                    BackgroundColor="#1E1E1E" 
+                    HeightRequest="100"/>
+
+            <Label Text="💡 Tip: Si deseas platillos con especificaciones diferentes, agrégalos al carrito de uno en uno." 
+                   TextColor="#757575" 
+                   FontSize="12" 
+                   FontAttributes="Italic" 
+                   Margin="0,5,0,0"/>
+
+            <Button Text="Añadir al Carrito 🛒" 
+                    Clicked="OnAñadirCarritoClicked"
+                    BackgroundColor="#fc4b08" 
+                    TextColor="#121212" 
+                    FontAttributes="Bold" 
+                    CornerRadius="10" 
+                    HeightRequest="50" 
+                    Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

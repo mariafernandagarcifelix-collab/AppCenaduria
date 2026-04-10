@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.HistorialVentas"
+             Title="Corte de Caja"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="10">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="8" Margin="0,0,0,10">
+            <SearchBar x:Name="sbBuscador" 
+                       Placeholder="Buscar mesa, nombre o folio..." 
+                       PlaceholderColor="#757575" TextColor="White"
+                       BackgroundColor="#1A1A1A" TextChanged="OnFiltrosCambiados"/>
+
+            <VerticalStackLayout Spacing="5">
+                <HorizontalStackLayout Spacing="10" Margin="0,0,0,5">
+                    <Switch x:Name="swUsarFechas" IsToggled="False" Toggled="OnSwitchFechasToggled" OnColor="#fc4b08"/>
+                    <Label Text="Filtrar por rango de fechas" TextColor="#E0E0E0" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <Grid x:Name="contenedorFechas" ColumnDefinitions="*, *" ColumnSpacing="10" IsEnabled="False" Opacity="0.5">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="Desde:" TextColor="#757575" FontSize="11"/>
+                        <DatePicker x:Name="dpInicio" BackgroundColor="#1A1A1A" TextColor="White" Format="dd/MM/yyyy" DateSelected="OnFiltrosCambiados"/>
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1">
+                        <Label Text="Hasta:" TextColor="#757575" FontSize="11"/>
+                        <DatePicker x:Name="dpFin" BackgroundColor="#1A1A1A" TextColor="White" Format="dd/MM/yyyy" DateSelected="OnFiltrosCambiados"/>
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Margin="0,0,0,10">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Todos" StyleId="Todos" Clicked="OnFiltroChipClicked" BackgroundColor="#fc4b08" TextColor="White" CornerRadius="15" HeightRequest="35" Padding="12,0" FontSize="12"/>
+                <Button Text="Efectivo" StyleId="Efectivo" Clicked="OnFiltroChipClicked" BackgroundColor="#333333" TextColor="White" CornerRadius="15" HeightRequest="35" Padding="12,0" FontSize="12"/>
+                <Button Text="Tarjeta" StyleId="Tarjeta" Clicked="OnFiltroChipClicked" BackgroundColor="#333333" TextColor="White" CornerRadius="15" HeightRequest="35" Padding="12,0" FontSize="12"/>
+                <Button Text="Comedor" StyleId="Comedor" Clicked="OnFiltroChipClicked" BackgroundColor="#333333" TextColor="White" CornerRadius="15" HeightRequest="35" Padding="12,0" FontSize="12"/>
+                <Button Text="Domicilio" StyleId="Domicilio" Clicked="OnFiltroChipClicked" BackgroundColor="#333333" TextColor="White" CornerRadius="15" HeightRequest="35" Padding="12,0" FontSize="12"/>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <BoxView Grid.Row="2" HeightRequest="1" Color="#333333" Margin="0,0,0,10"/>
+
+        <CollectionView Grid.Row="3" x:Name="listaHistorial" Margin="0,0,0,5">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1A1A1A" BorderColor="#333333" CornerRadius="10" Padding="0" HasShadow="True" Margin="0,0,0,10">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPedidoTapped" CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="8, *, Auto">
+
+                            <BoxView Grid.Column="0">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Comedor">
+                                        <Setter Property="Color" Value="#4CAF50"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Domicilio">
+                                        <Setter Property="Color" Value="#F44336"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Local">
+                                        <Setter Property="Color" Value="#2196F3"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Para Llevar">
+                                        <Setter Property="Color" Value="#2196F3"/>
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+
+                            <VerticalStackLayout Grid.Column="1" Padding="10">
+                                <Label Text="{Binding Folio, StringFormat='Orden #{0}'}" TextColor="White" FontAttributes="Bold" FontSize="14"/>
+                                <Label Text="{Binding NombreCliente}" TextColor="#E0E0E0" FontSize="13" FontAttributes="Bold"/>
+                                <Label Text="{Binding FechaPedido, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" TextColor="#757575" FontSize="10"/>
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="2" Margin="0,0,8,0">
+                                <Label Text="{Binding Total, StringFormat='${0:F2}'}" TextColor="#4CAF50" FontAttributes="Bold" FontSize="15" VerticalOptions="Center"/>
+
+                                <Label Text="⋮" FontSize="30" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center" Padding="15">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnDotsTapped" CommandParameter="{Binding .}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid x:Name="modalTicket" Grid.RowSpan="4" IsVisible="False" BackgroundColor="#CC000000">
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" WidthRequest="340" HorizontalOptions="Center" VerticalOptions="Center">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="🍽️ CENADURÍA" FontAttributes="Bold" FontSize="18" TextColor="Black" HorizontalOptions="Center"/>
+                    <Label x:Name="lblTicketFolio" Text="Folio:" TextColor="Black" FontAttributes="Bold" HorizontalOptions="Center"/>
+                    <BoxView HeightRequest="1" Color="Gray" Margin="0,5"/>
+                    <Label x:Name="lblTicketCliente" Text="Cliente:" TextColor="Black" FontSize="13"/>
+                    <Label x:Name="lblTicketFecha" Text="Fecha:" TextColor="Black" FontSize="13"/>
+                    <Label x:Name="lblTicketTipo" Text="Tipo:" TextColor="Black" FontSize="13"/>
+                    <BoxView HeightRequest="1" Color="Gray" Margin="0,5"/>
+
+                    <CollectionView x:Name="listaDetallesTicket" MaximumHeightRequest="200">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto, *, Auto" Padding="0,3">
+                                    <Label Grid.Column="0" Text="{Binding Cantidad, StringFormat='{0}x '}" TextColor="Black" FontSize="13"/>
+                                    <Label Grid.Column="1" Text="{Binding NombrePlatillo}" TextColor="Black" FontSize="13" LineBreakMode="TailTruncation" Margin="5,0"/>
+                                    <Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='${0:F2}'}" TextColor="Black" FontSize="13" FontAttributes="Bold"/>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <BoxView HeightRequest="1" Color="Black" Margin="0,5"/>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Label Grid.Column="0" Text="TOTAL:" FontAttributes="Bold" TextColor="Black" FontSize="18"/>
+                        <Label x:Name="lblTicketTotal" Grid.Column="1" Text="$0.00" FontAttributes="Bold" TextColor="Black" FontSize="18"/>
+                    </Grid>
+                    <Button Text="Cerrar" BackgroundColor="#fc4b08" TextColor="White" Margin="0,10,0,0" Clicked="OnCerrarTicketClicked"/>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

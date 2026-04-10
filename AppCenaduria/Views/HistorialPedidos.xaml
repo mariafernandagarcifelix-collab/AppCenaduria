@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.HistorialPedidos"
+             Title="Mis Pedidos"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="5">
+            <Label Text="Historial de Pedidos" FontSize="26" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
+            <Label Text="Revisa el estado de tus compras anteriores" TextColor="#E0E0E0" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <CollectionView x:Name="listaHistorial" Grid.Row="1" Margin="15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="10" Margin="0,0,0,15" Padding="15" HasShadow="True">
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
+
+                            <Label Grid.Row="0" Grid.Column="0" Text="{Binding Folio, StringFormat='Orden: #{0}'}" FontSize="18" TextColor="White" FontAttributes="Bold"/>
+
+                            <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#fc4b08" Padding="10,5" CornerRadius="8" HasShadow="False">
+                                <Label Text="{Binding Estado}" TextColor="#121212" FontSize="12" FontAttributes="Bold"/>
+                            </Frame>
+
+                            <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="2" Margin="0,5,0,0">
+                                <Label Text="{Binding Total, StringFormat='Total pagado: ${0:F2}'}" FontSize="16" FontAttributes="Bold" TextColor="White"/>
+                                <Label Text="{Binding TipoEntrega, StringFormat='Entrega: {0}'}" FontSize="14" TextColor="#B0B0B0"/>
+                                <Label Text="{Binding TipoPago, StringFormat='Método: {0}'}" FontSize="14" TextColor="#B0B0B0"/>
+                            </VerticalStackLayout>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="📜" FontSize="50" HorizontalOptions="Center"/>
+                    <Label Text="Aún no tienes pedidos" TextColor="#757575" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

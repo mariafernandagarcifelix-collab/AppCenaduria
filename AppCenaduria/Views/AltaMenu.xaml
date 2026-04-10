@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.AltaMenu"
+             Title="Alta de Platillos"
+             BackgroundColor="#121212">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Label Text="Registrar Nuevo Platillo" FontSize="22" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center" Margin="0,0,0,10"/>
+
+            <Label Text="Nombre del Platillo" TextColor="#E0E0E0" FontAttributes="Bold"/>
+            <Entry x:Name="txtNombre" Placeholder="Ej. Tacos Dorados" PlaceholderColor="#757575" TextColor="White" BackgroundColor="#1E1E1E"/>
+
+            <Label Text="Descripción" TextColor="#E0E0E0" FontAttributes="Bold"/>
+            <Editor x:Name="txtDescripcion" Placeholder="Ej. Con lechuga, queso..." PlaceholderColor="#757575" TextColor="White" HeightRequest="80" BackgroundColor="#1E1E1E"/>
+
+            <Grid ColumnDefinitions="*,*">
+                <VerticalStackLayout Grid.Column="0" Margin="0,0,10,0">
+                    <Label Text="Precio ($)" TextColor="#E0E0E0" FontAttributes="Bold"/>
+                    <Entry x:Name="txtPrecio" Placeholder="0.00" Keyboard="Numeric" PlaceholderColor="#757575" TextColor="White" BackgroundColor="#1E1E1E"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                    <Label Text="¿Disponible?" TextColor="#E0E0E0" FontAttributes="Bold"/>
+                    <Switch x:Name="swDisponible" IsToggled="True" OnColor="#fc4b08" ThumbColor="White"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <Label Text="Fotografía (URL o Galería)" TextColor="#E0E0E0" FontAttributes="Bold"/>
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <Entry x:Name="txtFotoUrl" Grid.Column="0" Placeholder="Pega la URL aquí..." PlaceholderColor="#757575" TextColor="White" BackgroundColor="#1E1E1E"/>
+                <Button Grid.Column="1" Text="📷 Galería" Clicked="OnSeleccionarFotoClicked" BackgroundColor="#333333" TextColor="White" FontAttributes="Bold"/>
+            </Grid>
+
+            <Image x:Name="imgPreview" HeightRequest="200" Aspect="AspectFit" IsVisible="False" Margin="0,10,0,0"/>
+
+            <Button Text="Guardar Platillo" 
+                    Clicked="OnGuardarClicked"
+                    BackgroundColor="#fc4b08" 
+                    TextColor="#121212" 
+                    FontAttributes="Bold" 
+                    CornerRadius="10" 
+                    HeightRequest="50" 
+                    Margin="0,20,0,0"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

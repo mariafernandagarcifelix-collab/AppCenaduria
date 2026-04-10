@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.Menu"
+            FlyoutLayoutBehavior="Popover">
+
+    <FlyoutPage.Flyout>
+        <ContentPage Title="Menú">
+            <VerticalStackLayout Padding="20" Spacing="20" BackgroundColor="#121212">
+
+                <Label Text="Cenaduría El Parquesito" FontSize="22" TextColor="#fc4b08" FontAttributes="Bold" Margin="0,20,0,20"/>
+
+                <Button Text="👤 Mi Perfil" Clicked="OnPerfilClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                <Button Text="🍽️ Ver Menú"  Clicked="OnVerMenuClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                <Button Text="🛒 Mi Carrito" Clicked="OnMiCarritoClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                <Button Text="📜 Historial Pedidos" Clicked="OnHistorialClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+
+                <VerticalStackLayout x:Name="seccionAdmin">
+                    <BoxView HeightRequest="1" Color="#fc4b08" Margin="0,10"/>
+                    <Label Text="Administración" TextColor="#fc4b08" FontSize="14" FontAttributes="Bold"/>
+                    <Button Text="⚙️ Alta Menú" Clicked="OnAltaMenuClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                    <Button Text="📋 Gestión de Pedidos" Clicked="OnGestionPedidosClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                    <Button Text="📈 Reportes" Clicked="OnReportesClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                    <Button Text="📈 Historial de Ventas" Clicked="OnHistorialVentasClicked" TextColor="White" BackgroundColor="Transparent" HorizontalOptions="Start" FontSize="18"/>
+                </VerticalStackLayout>
+
+                <Button Text="Cerrar Sesión" TextColor="#757575" BackgroundColor="Transparent" HorizontalOptions="Start" VerticalOptions="EndAndExpand" Margin="0,50,0,0"/>
+
+            </VerticalStackLayout>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+
+    <FlyoutPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <ContentPage Title="Inicio" BackgroundColor="#121212">
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="15">
+                        <Label Text="¡Bienvenido a la Cenaduría!" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                        <Label Text="Desliza desde el borde izquierdo o toca el menú arriba para comenzar." TextColor="#E0E0E0" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+
+</FlyoutPage>

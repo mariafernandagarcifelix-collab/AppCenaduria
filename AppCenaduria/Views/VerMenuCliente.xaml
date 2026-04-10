@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.VerMenuCliente"
+             Title="Menú de la Cenaduría"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="Auto, *">
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="5">
+            <Label Text="Nuestro Menú" FontSize="26" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
+            <Label Text="¡Pide tus antojitos favoritos!" TextColor="#E0E0E0" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <CollectionView x:Name="listaPlatillos" Grid.Row="1" Margin="15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="15" Margin="0,0,0,15" Padding="0" HasShadow="True">
+                        <Grid ColumnDefinitions="120, *" RowDefinitions="Auto, Auto, Auto" Padding="10" ColumnSpacing="15">
+
+                            <Image Grid.RowSpan="3" Grid.Column="0" Source="{Binding FotografiaUrl}" Aspect="AspectFill" HeightRequest="100" WidthRequest="100">
+                                <Image.Clip>
+                                    <RoundRectangleGeometry CornerRadius="10" Rect="0,0,100,100"/>
+                                </Image.Clip>
+                            </Image>
+
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding Nombre}" FontSize="18" FontAttributes="Bold" TextColor="White" />
+
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding Descripcion}" FontSize="12" TextColor="#B0B0B0" MaxLines="2" LineBreakMode="TailTruncation" Margin="0,5,0,0"/>
+
+                            <Grid Grid.Row="2" Grid.Column="1" ColumnDefinitions="*, Auto" Margin="0,10,0,0">
+                                <Label Grid.Column="0" Text="{Binding Precio, StringFormat='${0:F2}'}" FontSize="16" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center"/>
+                                <Button Grid.Column="1" Text="Agregar" TextColor="#121212" BackgroundColor="#fc4b08" FontAttributes="Bold" CornerRadius="8" HeightRequest="35" Padding="15,0" Clicked="OnAgregarClicked" CommandParameter="{Binding .}"/>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>

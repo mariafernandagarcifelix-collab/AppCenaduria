@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.GestionPedidos"
+             Title="Monitor de Cocina"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="Auto, *">
+
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="5">
+            <Label Text="Pedidos Activos" FontSize="26" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
+            <Label Text="Despacha las órdenes de la cenaduría" TextColor="#E0E0E0" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <CollectionView x:Name="listaPedidos" Grid.Row="1" Margin="15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="10" Margin="0,0,0,15" Padding="0" HasShadow="True">
+                        <Grid ColumnDefinitions="10, *">
+
+                            <BoxView Grid.Column="0">
+                                <BoxView.Triggers>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Comedor">
+                                        <Setter Property="Color" Value="#4CAF50"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Domicilio">
+                                        <Setter Property="Color" Value="#F44336"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Local">
+                                        <Setter Property="Color" Value="#2196F3"/>
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="BoxView" Binding="{Binding TipoEntrega}" Value="Para Llevar">
+                                        <Setter Property="Color" Value="#2196F3"/>
+                                    </DataTrigger>
+                                </BoxView.Triggers>
+                            </BoxView>
+
+                            <Grid Grid.Column="1" RowDefinitions="Auto, Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10" Padding="15">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding Folio, StringFormat='Orden: #{0}'}" FontSize="18" TextColor="White" FontAttributes="Bold" Margin="0,0,10,0"/>
+                                <Frame Grid.Row="0" Grid.Column="1" BackgroundColor="#4CAF50" Padding="8,4" CornerRadius="5" HasShadow="False">
+                                    <Label Text="{Binding Estado}" TextColor="White" FontSize="12" FontAttributes="Bold"/>
+                                </Frame>
+
+                                <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="2">
+                                    <Label Text="{Binding Total, StringFormat='Total a cobrar: ${0:F2}'}" FontSize="18" FontAttributes="Bold" TextColor="White"/>
+                                    <Label Text="{Binding NombreCliente, StringFormat='Para: {0}'}" FontSize="14" TextColor="#fc4b08" FontAttributes="Bold"/>
+                                    <Label Text="{Binding TipoEntrega, StringFormat='Tipo: {0}'}" FontSize="14" TextColor="#E0E0E0" FontAttributes="Bold"/>
+                                    <Label Text="{Binding TipoPago, StringFormat='Pago en: {0}'}" FontSize="14" TextColor="#E0E0E0"/>
+                                </VerticalStackLayout>
+
+                                <Button Grid.Row="2" Grid.ColumnSpan="2" 
+                                        Text="Cambiar Estado 📝" 
+                                        BackgroundColor="#2196F3" 
+                                        TextColor="White" 
+                                        FontAttributes="Bold" 
+                                        CornerRadius="8" 
+                                        HeightRequest="45"
+                                        Margin="0,10,0,0"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnCambiarEstadoClicked">
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="🙌" FontSize="50" HorizontalOptions="Center"/>
+                    <Label Text="Sin pedidos pendientes" TextColor="#757575" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "262585549020",
+    "project_id": "cenaduriaapp",
+    "storage_bucket": "cenaduriaapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262585549020:android:f62b4f03ab02be025b7419",
+        "android_client_info": {
+          "package_name": "com.companyname.appcenaduria"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK5O0wh3YRzSU4PYLudOf5Gpd9bGUX-Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

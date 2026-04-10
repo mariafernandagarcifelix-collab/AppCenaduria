@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.MiCarrito"
+             Title="Mi Carrito"
+             BackgroundColor="#121212">
+
+    <Grid RowDefinitions="Auto, *, Auto">
+
+        <VerticalStackLayout Grid.Row="0" Padding="20" Spacing="5">
+            <Label Text="Tu Pedido" FontSize="26" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center"/>
+            <Label Text="Revisa tus platillos antes de confirmar" TextColor="#E0E0E0" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+
+        <CollectionView x:Name="listaCarrito" Grid.Row="1" Margin="15">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="#1E1E1E" BorderColor="#333333" CornerRadius="15" Margin="0,0,0,10" Padding="10" HasShadow="True">
+                        <Grid ColumnDefinitions="80, *, Auto" ColumnSpacing="15">
+
+                            <Image Grid.Column="0" Source="{Binding FotografiaUrl}" Aspect="AspectFill" HeightRequest="80" WidthRequest="80" VerticalOptions="Center">
+                                <Image.Clip>
+                                    <RoundRectangleGeometry CornerRadius="10" Rect="0,0,80,80"/>
+                                </Image.Clip>
+                            </Image>
+
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                <Label Text="{Binding Nombre}" FontSize="16" FontAttributes="Bold" TextColor="White" />
+                                <Label Text="{Binding Cantidad, StringFormat='Cantidad: {0}'}" FontSize="14" TextColor="#E0E0E0" />
+                                <Label Text="{Binding Comentarios, StringFormat='Nota: {0}'}" FontSize="12" TextColor="#fc4b08" FontAttributes="Italic" MaxLines="2" LineBreakMode="TailTruncation"/>
+                            </VerticalStackLayout>
+
+                            <Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='${0:F2}'}" FontSize="18" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,50,0,0">
+                    <Label Text="🛒" FontSize="50" HorizontalOptions="Center"/>
+                    <Label Text="Tu carrito está vacío" TextColor="#757575" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <Frame Grid.Row="2" BackgroundColor="#1A1A1A" BorderColor="#333333" CornerRadius="20" Margin="10,0,10,20" Padding="20">
+            <VerticalStackLayout Spacing="15">
+                <Grid ColumnDefinitions="*, Auto">
+                    <Label Grid.Column="0" Text="Total a Pagar:" FontSize="20" FontAttributes="Bold" TextColor="White" VerticalOptions="Center"/>
+                    <Label Grid.Column="1" x:Name="lblTotal" Text="$0.00" FontSize="24" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center"/>
+                </Grid>
+
+                <Button Text="Confirmar Pedido" 
+                        Clicked="OnConfirmarPedidoClicked"
+                        BackgroundColor="#fc4b08" 
+                        TextColor="#121212" 
+                        FontAttributes="Bold" 
+                        CornerRadius="10" 
+                        HeightRequest="50"/>
+            </VerticalStackLayout>
+        </Frame>
+
+    </Grid>
+</ContentPage>
