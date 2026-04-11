@@ -114,7 +114,7 @@
                         </HorizontalStackLayout>
                         <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="10,0">
                             <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                            <Picker x:Name="pickerEntrega" Title="Elegir..." TextColor="#E0E0E0" TitleColor="#444444" BackgroundColor="Transparent">
+                            <Picker x:Name="pickerEntrega" Title="Elegir..." TextColor="#E0E0E0" TitleColor="#444444" BackgroundColor="Transparent" SelectedIndexChanged="OnPickerEntregaSelectedIndexChanged">
                                 <Picker.Items>
                                     <x:String>Domicilio</x:String>
                                     <x:String>Recoger</x:String>
@@ -139,6 +139,31 @@
                         </Border>
                     </VerticalStackLayout>
                 </Grid>
+
+                <!-- ══ Admin Specific Fields ══ -->
+                <VerticalStackLayout x:Name="stackDatosAdmin" Spacing="10" IsVisible="False" Margin="0,4,0,0">
+                    <Label Text="DATOS DEL PEDIDO (MODO MESERO)" TextColor="#fc4b08" FontSize="10" FontAttributes="Bold" CharacterSpacing="1"/>
+                    
+                    <Border x:Name="borderAdminNombre" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="12,0" IsVisible="False">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Entry x:Name="entryAdminNombre" Placeholder="Nombre del Cliente" TextColor="White" PlaceholderColor="#555555" BackgroundColor="Transparent"/>
+                    </Border>
+                    
+                    <Border x:Name="borderAdminTelefono" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="12,0" IsVisible="False">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Entry x:Name="entryAdminTelefono" Placeholder="Teléfono" Keyboard="Telephone" TextColor="White" PlaceholderColor="#555555" BackgroundColor="Transparent"/>
+                    </Border>
+
+                    <Border x:Name="borderAdminDomicilio" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="12,0" IsVisible="False">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Entry x:Name="entryAdminDomicilio" Placeholder="Domicilio" TextColor="White" PlaceholderColor="#555555" BackgroundColor="Transparent"/>
+                    </Border>
+
+                    <Border x:Name="borderAdminMesa" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="12,0" IsVisible="False">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Entry x:Name="entryAdminMesa" Placeholder="Indicador de Mesa (Ej: Mesa 5)" TextColor="White" PlaceholderColor="#555555" BackgroundColor="Transparent"/>
+                    </Border>
+                </VerticalStackLayout>
 
                 <!-- Divider -->
                 <BoxView HeightRequest="1" Color="#1E1E1E"/>

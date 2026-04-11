@@ -13,7 +13,7 @@ public partial class Menu : FlyoutPage
         {
             seccionAdmin.IsVisible = false;
         }
-        else
+        else 
         {
             seccionPerfil.IsVisible = false;
         }

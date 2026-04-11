@@ -8,171 +8,144 @@
     <ScrollView>
         <VerticalStackLayout Padding="0" Spacing="0">
 
-            <!-- ══ Header ══ -->
-            <Border StrokeThickness="0" BackgroundColor="#111111" Padding="24,30,24,22">
-                <Border.StrokeShape><RoundRectangle CornerRadius="0,0,30,30"/></Border.StrokeShape>
+            <!-- ══ Header (más compacto) ══ -->
+            <Border StrokeThickness="0" BackgroundColor="#111111" Padding="24,28,24,20">
+                <Border.StrokeShape><RoundRectangle CornerRadius="0,0,28,28"/></Border.StrokeShape>
                 <Border.Shadow>
-                    <Shadow Brush="Black" Offset="0,10" Radius="24" Opacity="0.45"/>
+                    <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.4"/>
                 </Border.Shadow>
-                <VerticalStackLayout Spacing="6">
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-                        <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="42" HeightRequest="42">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow Brush="#fc4b08" Offset="0,0" Radius="10" Opacity="0.2"/>
-                            </Border.Shadow>
-                            <Label Text="📊" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </Border>
-                        <Label Text="Dashboard" FontSize="28" FontAttributes="Bold" TextColor="#F5F5F5" VerticalOptions="Center" CharacterSpacing="0.5"/>
-                    </HorizontalStackLayout>
-                    <Label Text="Visualiza el desempeño y ventas del negocio" TextColor="#555555" FontSize="13" HorizontalOptions="Center"/>
-                    <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="44" HorizontalOptions="Center" Margin="0,6,0,0">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="📊  Dashboard" FontSize="24" FontAttributes="Bold" 
+                           TextColor="#F5F5F5" HorizontalOptions="Center" CharacterSpacing="0.5"/>
+                    <Label Text="Resumen de ventas del negocio" TextColor="#555555" FontSize="12" HorizontalOptions="Center"/>
+                    <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="40" 
+                             HorizontalOptions="Center" Margin="0,6,0,0">
                         <BoxView.Shadow>
-                            <Shadow Brush="#fc4b08" Offset="0,0" Radius="10" Opacity="0.5"/>
+                            <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.5"/>
                         </BoxView.Shadow>
                     </BoxView>
                 </VerticalStackLayout>
             </Border>
 
-            <VerticalStackLayout Padding="16,22,16,16" Spacing="18">
-                <!-- ══ Main Metrics ══ -->
-                <Grid ColumnDefinitions="*, *" ColumnSpacing="14">
+            <VerticalStackLayout Padding="16,20,16,16" Spacing="16">
 
-                    <!-- Today's Sales -->
-                    <Border Grid.Column="0" StrokeThickness="2" Stroke="#fc4b08" BackgroundColor="#111111" Padding="20">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                <!-- ══ Métricas principales (2 cards lado a lado) ══ -->
+                <Grid ColumnDefinitions="*, *" ColumnSpacing="12">
+
+                    <!-- Ventas de Hoy -->
+                    <Border Grid.Column="0" StrokeThickness="2" Stroke="#fc4b08" 
+                            BackgroundColor="#111111" Padding="16">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
                         <Border.Shadow>
-                            <Shadow Brush="#fc4b08" Offset="0,0" Radius="20" Opacity="0.18"/>
+                            <Shadow Brush="#fc4b08" Offset="0,0" Radius="16" Opacity="0.15"/>
                         </Border.Shadow>
-                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                            <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="44" HeightRequest="44" HorizontalOptions="Center">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
-                                <Border.Shadow>
-                                    <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.2"/>
-                                </Border.Shadow>
-                                <Label Text="🔥" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Hoy" TextColor="#777777" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label x:Name="lblVentasHoy" Text="$0.00" FontSize="26" FontAttributes="Bold" TextColor="#4CAF50" HorizontalOptions="Center"/>
-                            <Label x:Name="lblPedidosHoy" Text="0 pedidos" TextColor="#555555" FontSize="11" HorizontalOptions="Center"/>
+                        <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                            <Label Text="🔥" FontSize="22" HorizontalOptions="Center"/>
+                            <Label Text="Hoy" TextColor="#777777" FontSize="11" 
+                                   FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label x:Name="lblVentasHoy" Text="$0.00" FontSize="22" 
+                                   FontAttributes="Bold" TextColor="#4CAF50" HorizontalOptions="Center"/>
+                            <Label x:Name="lblPedidosHoy" Text="0 pedidos" TextColor="#555555" 
+                                   FontSize="10" HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Border>
 
-                    <!-- Monthly Sales -->
-                    <Border Grid.Column="1" StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="20">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <!-- Ventas del Mes -->
+                    <Border Grid.Column="1" StrokeThickness="1" Stroke="#1E1E1E" 
+                            BackgroundColor="#111111" Padding="16">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
                         <Border.Shadow>
-                            <Shadow Brush="Black" Offset="0,4" Radius="14" Opacity="0.3"/>
+                            <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.25"/>
                         </Border.Shadow>
-                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
-                            <Border StrokeThickness="0" BackgroundColor="#0F0F0F" WidthRequest="44" HeightRequest="44" HorizontalOptions="Center">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
-                                <Label Text="📅" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="Este Mes" TextColor="#777777" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center"/>
-                            <Label x:Name="lblVentasMes" Text="$0.00" FontSize="26" FontAttributes="Bold" TextColor="#F0F0F0" HorizontalOptions="Center"/>
-                            <Label x:Name="lblPedidosMes" Text="0 pedidos" TextColor="#555555" FontSize="11" HorizontalOptions="Center"/>
+                        <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
+                            <Label Text="📅" FontSize="22" HorizontalOptions="Center"/>
+                            <Label Text="Este Mes" TextColor="#777777" FontSize="11" 
+                                   FontAttributes="Bold" HorizontalOptions="Center"/>
+                            <Label x:Name="lblVentasMes" Text="$0.00" FontSize="22" 
+                                   FontAttributes="Bold" TextColor="#F0F0F0" HorizontalOptions="Center"/>
+                            <Label x:Name="lblPedidosMes" Text="0 pedidos" TextColor="#555555" 
+                                   FontSize="10" HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
 
-                <BoxView HeightRequest="1" Color="#1E1E1E" Margin="0,4"/>
+                <!-- ══ Filtro por Fecha (simplificado) ══ -->
+                <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="16,14">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="FILTRAR POR PERIODO" TextColor="#666666" FontSize="10" 
+                               FontAttributes="Bold" CharacterSpacing="1"/>
 
-                <!-- ══ Date Filter ══ -->
-                <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="20">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
-                    <Border.Shadow>
-                        <Shadow Brush="Black" Offset="0,4" Radius="14" Opacity="0.3"/>
-                    </Border.Shadow>
-                    <VerticalStackLayout Spacing="14">
-                        <HorizontalStackLayout Spacing="8">
-                            <BoxView WidthRequest="4" HeightRequest="16" Color="#fc4b08" VerticalOptions="Center"/>
-                            <Label Text="FILTRAR HISTORIAL" TextColor="#888888" FontSize="11" FontAttributes="Bold" CharacterSpacing="1" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                        <Grid ColumnDefinitions="*, *, Auto" ColumnSpacing="12" VerticalOptions="Center">
-                            <Border Grid.Column="0" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="14,10">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                        <Grid ColumnDefinitions="*, *, Auto" ColumnSpacing="10">
+                            <Border Grid.Column="0" StrokeThickness="1" Stroke="#252525" 
+                                    BackgroundColor="#0D0D0D" Padding="10,8">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
                                 <VerticalStackLayout>
-                                    <Label Text="Desde:" TextColor="#555555" FontSize="11" FontAttributes="Bold"/>
-                                    <DatePicker x:Name="dpInicio" BackgroundColor="Transparent" TextColor="White" Format="dd/MM/yyyy"/>
+                                    <Label Text="Desde" TextColor="#555555" FontSize="10"/>
+                                    <DatePicker x:Name="dpInicio" BackgroundColor="Transparent" 
+                                                TextColor="White" Format="dd/MM/yy"/>
                                 </VerticalStackLayout>
                             </Border>
 
-                            <Border Grid.Column="1" StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="14,10">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                            <Border Grid.Column="1" StrokeThickness="1" Stroke="#252525" 
+                                    BackgroundColor="#0D0D0D" Padding="10,8">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
                                 <VerticalStackLayout>
-                                    <Label Text="Hasta:" TextColor="#555555" FontSize="11" FontAttributes="Bold"/>
-                                    <DatePicker x:Name="dpFin" BackgroundColor="Transparent" TextColor="White" Format="dd/MM/yyyy"/>
+                                    <Label Text="Hasta" TextColor="#555555" FontSize="10"/>
+                                    <DatePicker x:Name="dpFin" BackgroundColor="Transparent" 
+                                                TextColor="White" Format="dd/MM/yy"/>
                                 </VerticalStackLayout>
                             </Border>
 
                             <Button Grid.Column="2" Text="🔍" BackgroundColor="#fc4b08" TextColor="White" 
                                     VerticalOptions="End" FontAttributes="Bold" Clicked="OnFiltrarClicked"
-                                    WidthRequest="52" HeightRequest="52" CornerRadius="18" Padding="0" FontSize="20">
+                                    WidthRequest="48" HeightRequest="48" CornerRadius="14" Padding="0" FontSize="18">
                                 <Button.Shadow>
-                                    <Shadow Brush="#fc4b08" Offset="0,4" Radius="12" Opacity="0.35"/>
+                                    <Shadow Brush="#fc4b08" Offset="0,3" Radius="10" Opacity="0.3"/>
                                 </Button.Shadow>
                             </Button>
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
 
-                <!-- ══ Period Total ══ -->
-                <Border StrokeThickness="1" Stroke="#1E3A1E" BackgroundColor="#0D1A0D" Padding="18">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
-                    <Border.Shadow>
-                        <Shadow Brush="#4CAF50" Offset="0,0" Radius="12" Opacity="0.08"/>
-                    </Border.Shadow>
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="14">
-                        <Border StrokeThickness="0" BackgroundColor="#0D2010" WidthRequest="36" HeightRequest="36">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                            <Label Text="💰" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </Border>
-                        <Label Text="Total del periodo filtrado:" TextColor="#AAAAAA" FontSize="14" VerticalOptions="Center"/>
-                        <Label x:Name="lblTotalFiltrado" Text="$0.00" TextColor="#4CAF50" FontAttributes="Bold" FontSize="24" VerticalOptions="Center"/>
+                <!-- ══ Total del Periodo ══ -->
+                <Border StrokeThickness="1" Stroke="#1E3A1E" BackgroundColor="#0D1A0D" Padding="14,12">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                        <Label Text="💰" FontSize="16" VerticalOptions="Center"/>
+                        <Label Text="Total filtrado:" TextColor="#AAAAAA" FontSize="13" VerticalOptions="Center"/>
+                        <Label x:Name="lblTotalFiltrado" Text="$0.00" TextColor="#4CAF50" 
+                               FontAttributes="Bold" FontSize="20" VerticalOptions="Center"/>
                     </HorizontalStackLayout>
                 </Border>
 
-                <!-- ══ Results ══ -->
-                <Grid ColumnDefinitions="*, Auto, *" Margin="0,10,0,0">
-                    <BoxView Grid.Column="0" HeightRequest="1" Color="#1E1E1E" VerticalOptions="Center"/>
-                    <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#161616" Padding="14,5" Margin="10,0">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                        <Label Text="RESULTADOS" TextColor="#666666" FontSize="10" FontAttributes="Bold" CharacterSpacing="2"/>
-                    </Border>
-                    <BoxView Grid.Column="2" HeightRequest="1" Color="#1E1E1E" VerticalOptions="Center"/>
-                </Grid>
+                <!-- ══ Lista de Resultados ══ -->
+                <Label Text="RESULTADOS" TextColor="#555555" FontSize="10" 
+                       FontAttributes="Bold" CharacterSpacing="1.5" Margin="4,6,0,0"/>
 
-                <CollectionView x:Name="listaResumen" HeightRequest="300" Margin="0,10,0,0">
+                <CollectionView x:Name="listaResumen" HeightRequest="300">
                     <CollectionView.EmptyView>
-                        <VerticalStackLayout HorizontalOptions="Center" Spacing="12" Margin="0,40,0,0">
-                            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" WidthRequest="80" HeightRequest="80" HorizontalOptions="Center">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
-                                <Border.Shadow>
-                                    <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
-                                </Border.Shadow>
-                                <Label Text="📭" FontSize="32" HorizontalOptions="Center" VerticalOptions="Center"/>
-                            </Border>
-                            <Label Text="No hay ventas registradas aquí." TextColor="#555555" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center"/>
+                        <VerticalStackLayout HorizontalOptions="Center" Spacing="10" Margin="0,40,0,0">
+                            <Label Text="📭" FontSize="36" HorizontalOptions="Center"/>
+                            <Label Text="No hay ventas registradas" TextColor="#555555" 
+                                   FontSize="14" HorizontalOptions="Center"/>
                         </VerticalStackLayout>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Margin="0,0,0,10" Padding="18,16">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
-                                <Border.Shadow>
-                                    <Shadow Brush="Black" Offset="0,3" Radius="10" Opacity="0.25"/>
-                                </Border.Shadow>
+                            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" 
+                                    Margin="0,0,0,8" Padding="14,12">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                 <Grid ColumnDefinitions="*, Auto">
-                                    <VerticalStackLayout Grid.Column="0" Spacing="4">
-                                        <Label Text="{Binding Folio, StringFormat='Orden #{0}'}" TextColor="#F0F0F0" FontAttributes="Bold" FontSize="15" CharacterSpacing="0.3"/>
-                                        <HorizontalStackLayout Spacing="4">
-                                            <Label Text="🕐" FontSize="10"/>
-                                            <Label Text="{Binding FechaPedido, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" TextColor="#666666" FontSize="11"/>
-                                        </HorizontalStackLayout>
+                                    <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                        <Label Text="{Binding Folio, StringFormat='Orden #{0}'}" 
+                                               TextColor="#F0F0F0" FontAttributes="Bold" FontSize="14"/>
+                                        <Label Text="{Binding FechaPedido, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" 
+                                               TextColor="#666666" FontSize="11"/>
                                     </VerticalStackLayout>
-                                    <Label Grid.Column="1" Text="{Binding Total, StringFormat='${0:F2}'}" TextColor="#4CAF50" FontAttributes="Bold" FontSize="17" VerticalOptions="Center"/>
+                                    <Label Grid.Column="1" Text="{Binding Total, StringFormat='${0:F2}'}" 
+                                           TextColor="#4CAF50" FontAttributes="Bold" FontSize="16" 
+                                           VerticalOptions="Center"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

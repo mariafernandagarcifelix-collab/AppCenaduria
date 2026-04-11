@@ -69,4 +69,15 @@ public partial class GestionPedidos : ContentPage
             }
         }
     }
+
+    private async void OnVerPedidoClicked(object sender, EventArgs e)
+    {
+        var boton = sender as Button;
+        var pedidoSeleccionado = boton.CommandParameter as Pedido;
+
+        if (pedidoSeleccionado != null)
+        {
+            await Navigation.PushAsync(new ComandaPedido(pedidoSeleccionado));
+        }
+    }
 }

@@ -96,9 +96,9 @@ public partial class HistorialVentas : ContentPage
         if (pedidoSeleccionado != null)
         {
             lblTicketFolio.Text = $"Folio: #{pedidoSeleccionado.Folio}";
-            lblTicketCliente.Text = $"Cliente/Mesa: {pedidoSeleccionado.NombreCliente ?? "Sin Nombre"}";
-            lblTicketFecha.Text = $"Fecha: {pedidoSeleccionado.FechaPedido.ToString("dd/MM/yyyy HH:mm")}";
-            lblTicketTipo.Text = $"Tipo: {pedidoSeleccionado.TipoEntrega ?? "N/A"} - {pedidoSeleccionado.TipoPago ?? "N/A"}";
+            lblTicketCliente.Text = $"{pedidoSeleccionado.NombreCliente ?? "Sin Nombre"}";
+            lblTicketFecha.Text = $"{pedidoSeleccionado.FechaPedido.ToString("dd/MM/yyyy HH:mm")}";
+            lblTicketTipo.Text = $" {pedidoSeleccionado.TipoEntrega ?? "N/A"} - {pedidoSeleccionado.TipoPago ?? "N/A"}";
             lblTicketTotal.Text = $"${pedidoSeleccionado.Total:F2}";
 
             try

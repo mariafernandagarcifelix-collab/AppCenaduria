@@ -174,9 +174,9 @@
                     <Label x:Name="lblTicketFolio" Text="Folio:" TextColor="#F0F0F0" FontAttributes="Bold" HorizontalOptions="Center" FontSize="14"/>
                     <BoxView HeightRequest="1" Color="#1E1E1E" Margin="0,10"/>
                     
-                    <Grid ColumnDefinitions="Auto, *" RowSpacing="6" ColumnSpacing="12">
+                    <Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto, Auto, Auto" RowSpacing="6" ColumnSpacing="12">
                         <Label Grid.Row="0" Grid.Column="0" Text="Cliente:" TextColor="#777777" FontSize="13"/>
-                        <Label Grid.Row="0" Grid.Column="1" x:Name="lblTicketCliente" TextColor="#DDDDDD" FontSize="13" FontAttributes="Bold" HorizontalOptions="End"/>
+                        <Label Grid.Row="0" Grid.Column="1" x:Name="lblTicketCliente" TextColor="#DDDDDD" FontSize="13" FontAttributes="Bold" HorizontalOptions="End" LineBreakMode="WordWrap" HorizontalTextAlignment="End"/>
                         
                         <Label Grid.Row="1" Grid.Column="0" Text="Fecha:" TextColor="#777777" FontSize="13"/>
                         <Label Grid.Row="1" Grid.Column="1" x:Name="lblTicketFecha" TextColor="#DDDDDD" FontSize="13" FontAttributes="Bold" HorizontalOptions="End"/>

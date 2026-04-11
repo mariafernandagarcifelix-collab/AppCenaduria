@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.ComandaPedido"
+             Title="Ticket de Orden"
+             BackgroundColor="#0A0A0A">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16,24,16,30" Spacing="20">
+            
+            <!-- ══ TICKET BODY ══ -->
+            <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#111111" Padding="0">
+                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.5"/>
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="0">
+                    
+                    <!-- Header Ticket -->
+                    <VerticalStackLayout BackgroundColor="#151515" Padding="20">
+                        <Label x:Name="lblFolio" Text="ORDEN #0" FontSize="26" FontAttributes="Bold" TextColor="#fc4b08" HorizontalOptions="Center" CharacterSpacing="1"/>
+                        <Label x:Name="lblFecha" Text="01/01/2000" FontSize="12" TextColor="#666666" HorizontalOptions="Center" Margin="0,4,0,0"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Línea punteada de separación -->
+                    <BoxView HeightRequest="1" Color="#222222" Margin="0" />
+
+                    <!-- Información de Entrega -->
+                    <Grid ColumnDefinitions="*,*" Padding="20" RowSpacing="10" ColumnSpacing="10">
+                        <!-- Box Entrega -->
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="ENTREGA" FontSize="10" FontAttributes="Bold" TextColor="#777777" CharacterSpacing="1"/>
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="📦" FontSize="14" VerticalOptions="Center"/>
+                                <Label x:Name="lblTipoEntrega" Text="-" FontSize="14" TextColor="#E0E0E0" FontAttributes="Bold" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                        
+                        <!-- Box Pago -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="PAGO" FontSize="10" FontAttributes="Bold" TextColor="#777777" CharacterSpacing="1"/>
+                            <HorizontalStackLayout Spacing="6">
+                                <Label Text="💳" FontSize="14" VerticalOptions="Center"/>
+                                <Label x:Name="lblTipoPago" Text="-" FontSize="14" TextColor="#E0E0E0" FontAttributes="Bold" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" Color="#1E1E1E" Margin="16,0"/>
+
+                    <!-- Información del Cliente -->
+                    <VerticalStackLayout Padding="20" Spacing="8">
+                        <HorizontalStackLayout Spacing="6">
+                            <BoxView WidthRequest="4" HeightRequest="14" Color="#fc4b08" VerticalOptions="Center"/>
+                            <Label Text="DATOS DEL PEDIDO" FontSize="11" FontAttributes="Bold" TextColor="#888888" CharacterSpacing="1" VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                        
+                        <Label x:Name="lblDatosCliente" Text="Cargando..." FontSize="14" TextColor="#CCCCCC" LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                    
+                    <!-- Decoración ZigZag o Separador fuerte -->
+                    <BoxView HeightRequest="2" Color="#111111" Margin="0"/>
+                    <BoxView HeightRequest="1" Color="#fc4b08" Margin="0"/>
+
+                    <!-- Lista de Productos -->
+                    <VerticalStackLayout Padding="20" Spacing="10">
+                        <Grid ColumnDefinitions="45, *, 70">
+                            <Label Grid.Column="0" Text="CANT" FontSize="10" FontAttributes="Bold" TextColor="#666666" HorizontalTextAlignment="Center"/>
+                            <Label Grid.Column="1" Text="PLATILLO" FontSize="10" FontAttributes="Bold" TextColor="#666666"/>
+                            <Label Grid.Column="2" Text="SUBTOTAL" FontSize="10" FontAttributes="Bold" TextColor="#666666" HorizontalTextAlignment="End"/>
+                        </Grid>
+
+                        <CollectionView x:Name="listaPlatillos">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <VerticalStackLayout Margin="0,0,0,12">
+                                        <Grid ColumnDefinitions="45, *, 70">
+                                            <!-- Cantidad -->
+                                            <Label Grid.Column="0" Text="{Binding Cantidad, StringFormat='{0}x'}" FontSize="15" FontAttributes="Bold" TextColor="#fc4b08" HorizontalTextAlignment="Center" VerticalOptions="Start"/>
+                                            
+                                            <!-- Platillo y Notas -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                <Label Text="{Binding NombrePlatillo}" FontSize="15" FontAttributes="Bold" TextColor="#F5F5F5"/>
+                                                
+                                                <!-- Comentarios solo visibles si existen -->
+                                                <Border StrokeThickness="0" BackgroundColor="#1A1A1A" Padding="8,4" Margin="0,4,0,0"
+                                                        IsVisible="{Binding TieneComentarios}">
+                                                    <Border.StrokeShape><RoundRectangle CornerRadius="6"/></Border.StrokeShape>
+                                                    <HorizontalStackLayout Spacing="4">
+                                                        <Label Text="📝" FontSize="10" VerticalOptions="Center"/>
+                                                        <Label Text="{Binding Comentarios}" FontSize="12" TextColor="#AAAAAA" FontAttributes="Italic" VerticalOptions="Center"/>
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                            </VerticalStackLayout>
+                                            
+                                            <!-- Subtotal -->
+                                            <Label Grid.Column="2" Text="{Binding Subtotal, StringFormat='${0:F2}'}" FontSize="14" TextColor="#E0E0E0" HorizontalTextAlignment="End" VerticalOptions="Start"/>
+                                        </Grid>
+                                    </VerticalStackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                    
+                    <BoxView HeightRequest="1" Color="#1E1E1E" Margin="16,0"/>
+
+                    <!-- Gran Total -->
+                    <Grid ColumnDefinitions="*, Auto" Padding="20">
+                        <Label Grid.Column="0" Text="TOTAL" FontSize="18" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center"/>
+                        <Label Grid.Column="1" x:Name="lblMontoTotal" Text="$0.00" FontSize="26" FontAttributes="Bold" TextColor="#FFFFFF" VerticalOptions="Center"/>
+                    </Grid>
+
+                    <BoxView HeightRequest="10" Color="#fc4b08" Margin="0"/>
+                </VerticalStackLayout>
+            </Border>
+            
+            <Button Text="Cerrar Comanda" 
+                    Clicked="OnCerrarClicked"
+                    BackgroundColor="#1A1A1A"
+                    TextColor="#888888"
+                    FontAttributes="Bold"
+                    BorderWidth="1"
+                    BorderColor="#333333"
+                    CornerRadius="16"
+                    HeightRequest="50"
+                    Margin="0,0,0,10"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

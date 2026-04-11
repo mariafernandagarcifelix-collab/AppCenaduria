@@ -105,24 +105,38 @@
                                     </HorizontalStackLayout>
                                 </VerticalStackLayout>
 
-                                <!-- Action Button -->
-                                <Button Grid.Row="2" Grid.ColumnSpan="2" 
-                                        Text="Actualizar Estado  →" 
-                                        BackgroundColor="#141E2A" 
-                                        TextColor="#64B5F6" 
-                                        FontAttributes="Bold" 
-                                        FontSize="14"
-                                        CornerRadius="16" 
-                                        HeightRequest="50"
-                                        Margin="0,6,0,0"
-                                        BorderWidth="1"
-                                        BorderColor="#1A2A3D"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnCambiarEstadoClicked">
-                                    <Button.Shadow>
-                                        <Shadow Brush="#2196F3" Offset="0,2" Radius="10" Opacity="0.15"/>
-                                    </Button.Shadow>
-                                </Button>
+                                <!-- Action Buttons -->
+                                <Grid Grid.Row="2" Grid.ColumnSpan="2" ColumnDefinitions="*, *" ColumnSpacing="10" Margin="0,6,0,0">
+                                    <Button Grid.Column="0"
+                                            Text="Ver Pedido"
+                                            BackgroundColor="#1E1E1E"
+                                            TextColor="#FFFFFF"
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            CornerRadius="16"
+                                            HeightRequest="50"
+                                            BorderWidth="1"
+                                            BorderColor="#333333"
+                                            CommandParameter="{Binding .}"
+                                            Clicked="OnVerPedidoClicked"/>
+                                            
+                                    <Button Grid.Column="1"
+                                            Text="Estado →" 
+                                            BackgroundColor="#141E2A" 
+                                            TextColor="#64B5F6" 
+                                            FontAttributes="Bold" 
+                                            FontSize="14"
+                                            CornerRadius="16" 
+                                            HeightRequest="50"
+                                            BorderWidth="1"
+                                            BorderColor="#1A2A3D"
+                                            CommandParameter="{Binding .}"
+                                            Clicked="OnCambiarEstadoClicked">
+                                        <Button.Shadow>
+                                            <Shadow Brush="#2196F3" Offset="0,2" Radius="10" Opacity="0.15"/>
+                                        </Button.Shadow>
+                                    </Button>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Border>
