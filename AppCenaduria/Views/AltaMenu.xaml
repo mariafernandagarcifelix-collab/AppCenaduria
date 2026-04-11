@@ -20,45 +20,47 @@
                 <!-- ══════════════════════════════════════ -->
                 <!--          HEADER HERO SECTION           -->
                 <!-- ══════════════════════════════════════ -->
-                <Border StrokeThickness="0" BackgroundColor="#111111" Padding="28,32,28,24">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="0,0,28,28"/></Border.StrokeShape>
+                <Border StrokeThickness="0" BackgroundColor="#111111" Padding="28,34,28,26">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="0,0,30,30"/></Border.StrokeShape>
                     <Border.Shadow>
-                        <Shadow Brush="Black" Offset="0,8" Radius="20" Opacity="0.4"/>
+                        <Shadow Brush="Black" Offset="0,10" Radius="24" Opacity="0.45"/>
                     </Border.Shadow>
                     <VerticalStackLayout Spacing="6">
-                        <!-- Icono + Título -->
+                        <!-- Icon + Title -->
                         <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
-                            <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="42" HeightRequest="42">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-                                <Label Text="⚙️" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="44" HeightRequest="44">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#fc4b08" Offset="0,0" Radius="10" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Label Text="⚙️" FontSize="19" HorizontalOptions="Center" VerticalOptions="Center"/>
                             </Border>
                             <Label x:Name="lblTituloFormulario" Text="Nuevo Platillo" 
-                                   FontSize="26" FontAttributes="Bold" TextColor="#F5F5F5" 
+                                   FontSize="28" FontAttributes="Bold" TextColor="#F5F5F5" 
                                    VerticalOptions="Center" CharacterSpacing="0.5"/>
                         </HorizontalStackLayout>
                         <Label Text="Administra el catálogo de tu cenaduría" 
                                TextColor="#666666" FontSize="13" HorizontalOptions="Center"/>
-                        <!-- Línea decorativa naranja -->
                         <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="50" 
                                  HorizontalOptions="Center" Margin="0,8,0,0">
                             <BoxView.Shadow>
-                                <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.5"/>
+                                <Shadow Brush="#fc4b08" Offset="0,0" Radius="10" Opacity="0.5"/>
                             </BoxView.Shadow>
                         </BoxView>
                     </VerticalStackLayout>
                 </Border>
 
-                <VerticalStackLayout Padding="18,20,18,0" Spacing="14">
+                <VerticalStackLayout Padding="18,22,18,0" Spacing="16">
 
                     <!-- ══════════════════════════════════════ -->
                     <!--         CARD: DATOS PRINCIPALES       -->
                     <!-- ══════════════════════════════════════ -->
-                    <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#121212" Padding="22,20">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="24,22">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="22"/></Border.StrokeShape>
                         <Border.Shadow>
-                            <Shadow Brush="Black" Offset="0,6" Radius="18" Opacity="0.35"/>
+                            <Shadow Brush="Black" Offset="0,6" Radius="20" Opacity="0.35"/>
                         </Border.Shadow>
-                        <VerticalStackLayout Spacing="18">
+                        <VerticalStackLayout Spacing="20">
                             <!-- Section label -->
                             <HorizontalStackLayout Spacing="8">
                                 <BoxView WidthRequest="4" HeightRequest="16" Color="#fc4b08" 
@@ -69,11 +71,14 @@
                                        FontAttributes="Bold" CharacterSpacing="1" VerticalOptions="Center"/>
                             </HorizontalStackLayout>
 
-                            <!-- Nombre -->
+                            <!-- Name -->
                             <VerticalStackLayout Spacing="8">
-                                <Label Text="Nombre" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
-                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" 
-                                        Padding="16,0" HeightRequest="50">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label Text="🏷️" FontSize="11"/>
+                                    <Label Text="Nombre" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" 
+                                        Padding="16,0" HeightRequest="52">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                     <Entry x:Name="txtNombre" Placeholder="Ej. Tacos Dorados de Pollo" 
                                            PlaceholderColor="#444444" TextColor="White" 
@@ -81,24 +86,49 @@
                                 </Border>
                             </VerticalStackLayout>
 
-                            <!-- Descripción -->
+                            <!-- Description -->
                             <VerticalStackLayout Spacing="8">
-                                <Label Text="Descripción" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
-                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" 
-                                        Padding="16,10">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label Text="📝" FontSize="11"/>
+                                    <Label Text="Descripción" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" 
+                                        Padding="16,12">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                     <Editor x:Name="txtDescripcion" Placeholder="Ej. Tortilla crujiente, pollo desmenuzado, lechuga, crema y salsa..." 
                                             PlaceholderColor="#444444" TextColor="White" 
-                                            HeightRequest="80" BackgroundColor="Transparent" FontSize="14"/>
+                                            HeightRequest="85" BackgroundColor="Transparent" FontSize="14"/>
                                 </Border>
                             </VerticalStackLayout>
 
-                            <!-- Precio y Disponibilidad -->
+                            <!-- Categoría -->
+                            <VerticalStackLayout Spacing="8">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label Text="📂" FontSize="11"/>
+                                    <Label Text="Categoría" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+                                <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" 
+                                        Padding="16,0" HeightRequest="52">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                    <Picker x:Name="pickerCategoria" Title="Seleccione..." TextColor="White" TitleColor="#444444" BackgroundColor="Transparent">
+                                        <Picker.Items>
+                                            <x:String>Comidas</x:String>
+                                            <x:String>Bebidas</x:String>
+                                            <x:String>Postres</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                </Border>
+                            </VerticalStackLayout>
+
+                            <!-- Price & Availability -->
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="14">
                                 <VerticalStackLayout Grid.Column="0" Spacing="8">
-                                    <Label Text="Precio" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
-                                    <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" 
-                                            Padding="16,0" HeightRequest="50">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="💰" FontSize="11"/>
+                                        <Label Text="Precio" TextColor="#AAAAAA" FontSize="12" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+                                    <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" 
+                                            Padding="16,0" HeightRequest="52">
                                         <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                         <Grid ColumnDefinitions="Auto, *">
                                             <Label Grid.Column="0" Text="$" TextColor="#fc4b08" FontSize="18" 
@@ -113,8 +143,8 @@
                                 <VerticalStackLayout Grid.Column="1" Spacing="8">
                                     <Label Text="Disponibilidad" TextColor="#AAAAAA" FontSize="12" 
                                            FontAttributes="Bold" HorizontalOptions="Center"/>
-                                    <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0F0F0F" 
-                                            Padding="12,0" HeightRequest="50" HorizontalOptions="Fill">
+                                    <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" 
+                                            Padding="12,0" HeightRequest="52" HorizontalOptions="Fill">
                                         <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                         <HorizontalStackLayout HorizontalOptions="Center" Spacing="10" VerticalOptions="Center">
                                             <Switch x:Name="swDisponible" IsToggled="True" OnColor="#fc4b08" ThumbColor="White"/>
@@ -130,10 +160,10 @@
                     <!-- ══════════════════════════════════════ -->
                     <!--          CARD: FOTOGRAFÍA             -->
                     <!-- ══════════════════════════════════════ -->
-                    <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#121212" Padding="22,20">
-                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" Padding="24,22">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="22"/></Border.StrokeShape>
                         <Border.Shadow>
-                            <Shadow Brush="Black" Offset="0,6" Radius="18" Opacity="0.35"/>
+                            <Shadow Brush="Black" Offset="0,6" Radius="20" Opacity="0.35"/>
                         </Border.Shadow>
                         <VerticalStackLayout Spacing="14">
                             <HorizontalStackLayout Spacing="8">
@@ -146,29 +176,35 @@
 
                             <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
                                 <Border Grid.Column="0" StrokeThickness="1" Stroke="#252525" 
-                                        BackgroundColor="#0F0F0F" Padding="16,0" HeightRequest="50">
+                                        BackgroundColor="#0D0D0D" Padding="16,0" HeightRequest="52">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                     <Entry x:Name="txtFotoUrl" Placeholder="URL de la imagen..." 
                                            PlaceholderColor="#444444" TextColor="White" 
                                            BackgroundColor="Transparent" FontSize="14"/>
                                 </Border>
                                 <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#1C1206" 
-                                        WidthRequest="50" HeightRequest="50">
+                                        WidthRequest="52" HeightRequest="52">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.15"/>
+                                    </Border.Shadow>
                                     <Border.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="OnSeleccionarFotoClicked"/>
                                     </Border.GestureRecognizers>
-                                    <Label Text="📷" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Label Text="📷" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
                             </Grid>
 
-                            <!-- Preview con placeholder -->
+                            <!-- Preview with placeholder -->
                             <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#0D0D0D" 
-                                    HeightRequest="200" IsVisible="False" x:Name="borderPreview">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
-                                <Image x:Name="imgPreview" HeightRequest="200" Aspect="AspectFill">
+                                    HeightRequest="220" IsVisible="False" x:Name="borderPreview">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
+                                </Border.Shadow>
+                                <Image x:Name="imgPreview" HeightRequest="220" Aspect="AspectFill">
                                     <Image.Clip>
-                                        <RoundRectangleGeometry CornerRadius="16" Rect="0,0,400,200"/>
+                                        <RoundRectangleGeometry CornerRadius="18" Rect="0,0,400,220"/>
                                     </Image.Clip>
                                 </Image>
                             </Border>
@@ -183,14 +219,14 @@
                                 Grid.Column="0" 
                                 Text="✕  Cancelar" 
                                 Clicked="OnCancelarClicked"
-                                BackgroundColor="#1A1A1A" 
+                                BackgroundColor="#141414" 
                                 TextColor="#999999" 
                                 FontAttributes="Bold" 
                                 FontSize="15"
-                                CornerRadius="16" 
+                                CornerRadius="18" 
                                 HeightRequest="56" 
                                 BorderWidth="1" 
-                                BorderColor="#2A2A2A"
+                                BorderColor="#252525"
                                 IsVisible="False" />
                                 
                         <Button x:Name="btnGuardar" 
@@ -201,10 +237,11 @@
                                 TextColor="White" 
                                 FontAttributes="Bold" 
                                 FontSize="16"
-                                CornerRadius="16" 
-                                HeightRequest="56">
+                                CornerRadius="18" 
+                                HeightRequest="56"
+                                CharacterSpacing="0.3">
                             <Button.Shadow>
-                                <Shadow Brush="#fc4b08" Offset="0,6" Radius="20" Opacity="0.4"/>
+                                <Shadow Brush="#fc4b08" Offset="0,6" Radius="22" Opacity="0.45"/>
                             </Button.Shadow>
                         </Button>
                     </Grid>
@@ -212,8 +249,8 @@
                     <!-- ══════════════════════════════════════ -->
                     <!--          SECCIÓN: CATÁLOGO            -->
                     <!-- ══════════════════════════════════════ -->
-                    <VerticalStackLayout Spacing="0" Margin="0,18,0,0">
-                        <!-- Separador con gradiente -->
+                    <VerticalStackLayout Spacing="0" Margin="0,20,0,0">
+                        <!-- Decorative Divider -->
                         <Grid ColumnDefinitions="*, Auto, *" Margin="0,0,0,18">
                             <BoxView Grid.Column="0" HeightRequest="1" Color="#1E1E1E" VerticalOptions="Center"/>
                             <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#161616" 
@@ -225,15 +262,15 @@
                             <BoxView Grid.Column="2" HeightRequest="1" Color="#1E1E1E" VerticalOptions="Center"/>
                         </Grid>
 
-                        <!-- Header del catálogo -->
+                        <!-- Catalog Header -->
                         <HorizontalStackLayout Spacing="10" Margin="4,0,0,14">
                             <Border StrokeThickness="0" BackgroundColor="#1C1206" 
-                                    WidthRequest="36" HeightRequest="36">
-                                <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                                <Label Text="📋" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    WidthRequest="38" HeightRequest="38">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                <Label Text="📋" FontSize="17" HorizontalOptions="Center" VerticalOptions="Center"/>
                             </Border>
-                            <Label Text="Platillos Registrados" FontSize="18" FontAttributes="Bold" 
-                                   TextColor="#E0E0E0" VerticalOptions="Center"/>
+                            <Label Text="Platillos Registrados" FontSize="19" FontAttributes="Bold" 
+                                   TextColor="#E0E0E0" VerticalOptions="Center" CharacterSpacing="0.3"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
 
@@ -243,58 +280,64 @@
                             <DataTemplate>
                                 <Border StrokeThickness="1" Stroke="#1A1A1A" BackgroundColor="#111111" 
                                         Margin="0,0,0,10" Padding="14">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
                                     <Border.Shadow>
-                                        <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
+                                        <Shadow Brush="Black" Offset="0,4" Radius="14" Opacity="0.35"/>
                                     </Border.Shadow>
-                                    <Grid ColumnDefinitions="76, *, Auto" ColumnSpacing="14">
+                                    <Grid ColumnDefinitions="78, *, Auto" ColumnSpacing="14">
                                         
-                                        <!-- Foto con borde sutil -->
+                                        <!-- Photo -->
                                         <Border Grid.Column="0" StrokeThickness="1" Stroke="#1E1E1E" 
                                                 BackgroundColor="#0D0D0D" WidthRequest="72" HeightRequest="72">
-                                            <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                            <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                                             <Image Source="{Binding FotografiaUrl}" Aspect="AspectFill" 
                                                    HeightRequest="72" WidthRequest="72">
                                                 <Image.Clip>
-                                                    <RoundRectangleGeometry CornerRadius="14" Rect="0,0,72,72"/>
+                                                    <RoundRectangleGeometry CornerRadius="16" Rect="0,0,72,72"/>
                                                 </Image.Clip>
                                             </Image>
                                         </Border>
                                         
-                                        <!-- Datos -->
-                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
+                                        <!-- Data -->
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="5">
                                             <Label Text="{Binding Nombre}" FontSize="15" FontAttributes="Bold" 
-                                                   TextColor="#F0F0F0" LineBreakMode="TailTruncation" MaxLines="1"/>
-                                            <Label Text="{Binding Precio, StringFormat='${0:F2}'}" FontSize="16" 
+                                                   TextColor="#F0F0F0" LineBreakMode="TailTruncation" MaxLines="1" CharacterSpacing="0.3"/>
+                                            <Label Text="{Binding Precio, StringFormat='${0:F2}'}" FontSize="17" 
                                                    TextColor="#fc4b08" FontAttributes="Bold"/>
-                                            <!-- Estado badge -->
+                                            <!-- Status badge -->
                                             <Border StrokeThickness="0" 
                                                     BackgroundColor="{Binding Disponible, Converter={StaticResource BoolToColorConverter}, ConverterParameter=bg}" 
-                                                    Padding="8,3" HorizontalOptions="Start">
-                                                <Border.StrokeShape><RoundRectangle CornerRadius="6"/></Border.StrokeShape>
+                                                    Padding="10,4" HorizontalOptions="Start">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                                                 <Label Text="{Binding Disponible, Converter={StaticResource BoolToDisponibilidadConverter}}" 
                                                        FontSize="10" FontAttributes="Bold"
                                                        TextColor="{Binding Disponible, Converter={StaticResource BoolToColorConverter}}"/>
                                             </Border>
                                         </VerticalStackLayout>
                                         
-                                        <!-- Acciones -->
-                                        <VerticalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
+                                        <!-- Actions -->
+                                        <VerticalStackLayout Grid.Column="2" Spacing="8" VerticalOptions="Center">
                                             <Border StrokeThickness="1" Stroke="#1A2A3D" BackgroundColor="#0D1520" 
-                                                    WidthRequest="42" HeightRequest="42">
-                                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                                    WidthRequest="44" HeightRequest="44">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                                <Border.Shadow>
+                                                    <Shadow Brush="Black" Offset="0,2" Radius="6" Opacity="0.2"/>
+                                                </Border.Shadow>
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="OnEditarClicked" CommandParameter="{Binding .}"/>
                                                 </Border.GestureRecognizers>
-                                                <Label Text="✏️" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                <Label Text="✏️" FontSize="17" HorizontalOptions="Center" VerticalOptions="Center"/>
                                             </Border>
                                             <Border StrokeThickness="1" Stroke="#3D1A1A" BackgroundColor="#200D0D" 
-                                                    WidthRequest="42" HeightRequest="42">
-                                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                                    WidthRequest="44" HeightRequest="44">
+                                                <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
+                                                <Border.Shadow>
+                                                    <Shadow Brush="Black" Offset="0,2" Radius="6" Opacity="0.2"/>
+                                                </Border.Shadow>
                                                 <Border.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="OnEliminarClicked" CommandParameter="{Binding .}"/>
                                                 </Border.GestureRecognizers>
-                                                <Label Text="🗑" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                <Label Text="🗑" FontSize="17" HorizontalOptions="Center" VerticalOptions="Center"/>
                                             </Border>
                                         </VerticalStackLayout>
                                     </Grid>
@@ -303,13 +346,16 @@
                         </CollectionView.ItemTemplate>
 
                         <CollectionView.EmptyView>
-                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" Margin="0,30,0,40">
+                            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12" Margin="0,30,0,40">
                                 <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" 
-                                        WidthRequest="70" HeightRequest="70" HorizontalOptions="Center">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
-                                    <Label Text="🍽️" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        WidthRequest="80" HeightRequest="80" HorizontalOptions="Center">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="Black" Offset="0,4" Radius="12" Opacity="0.3"/>
+                                    </Border.Shadow>
+                                    <Label Text="🍽️" FontSize="32" HorizontalOptions="Center" VerticalOptions="Center"/>
                                 </Border>
-                                <Label Text="Sin platillos registrados" TextColor="#555555" FontSize="15" 
+                                <Label Text="Sin platillos registrados" TextColor="#555555" FontSize="16" 
                                        FontAttributes="Bold" HorizontalOptions="Center"/>
                                 <Label Text="Agrega tu primer platillo al catálogo" TextColor="#333333" FontSize="12" HorizontalOptions="Center"/>
                             </VerticalStackLayout>

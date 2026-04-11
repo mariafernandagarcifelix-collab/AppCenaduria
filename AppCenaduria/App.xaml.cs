@@ -27,6 +27,10 @@ namespace AppCenaduria
 
             try
             {
+                // 🔥 Iniciar sesión guardada en Supabase 🔥
+                var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+                await supabase.InitializeAsync();
+
                 // 1. FORZAR LA VENTANA DE PERMISO (Para Android 13+)
                 if (DeviceInfo.Platform == DevicePlatform.Android)
                 {

@@ -84,6 +84,7 @@ public partial class AltaMenu : ContentPage
                 {
                     Nombre = txtNombre.Text.Trim(),
                     Descripcion = txtDescripcion.Text?.Trim() ?? "",
+                    Categoria = pickerCategoria.SelectedItem?.ToString() ?? "Todos",
                     Precio = Convert.ToDecimal(txtPrecio.Text),
                     FotografiaUrl = urlFinal,
                     Disponible = swDisponible.IsToggled
@@ -97,6 +98,7 @@ public partial class AltaMenu : ContentPage
                 // MODO: EDITAR
                 _platilloEnEdicion.Nombre = txtNombre.Text.Trim();
                 _platilloEnEdicion.Descripcion = txtDescripcion.Text?.Trim() ?? "";
+                _platilloEnEdicion.Categoria = pickerCategoria.SelectedItem?.ToString() ?? "Todos";
                 _platilloEnEdicion.Precio = Convert.ToDecimal(txtPrecio.Text);
                 _platilloEnEdicion.Disponible = swDisponible.IsToggled;
                 
@@ -132,6 +134,7 @@ public partial class AltaMenu : ContentPage
 
         txtNombre.Text = platillo.Nombre;
         txtDescripcion.Text = platillo.Descripcion;
+        pickerCategoria.SelectedItem = platillo.Categoria;
         txtPrecio.Text = platillo.Precio.ToString();
         swDisponible.IsToggled = platillo.Disponible;
         txtFotoUrl.Text = platillo.FotografiaUrl;
@@ -188,6 +191,7 @@ public partial class AltaMenu : ContentPage
 
         txtNombre.Text = string.Empty;
         txtDescripcion.Text = string.Empty;
+        pickerCategoria.SelectedItem = null;
         txtPrecio.Text = string.Empty;
         txtFotoUrl.Text = string.Empty;
         borderPreview.IsVisible = false;

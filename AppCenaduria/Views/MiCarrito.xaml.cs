@@ -51,9 +51,11 @@ public partial class MiCarrito : ContentPage
         {
             var miUsuarioReal = await _controller.ObtenerUsuarioActualAsync();
 
-            if (string.IsNullOrWhiteSpace(miUsuarioReal?.NombreCompleto) ||
+            bool esAdmin = miUsuarioReal?.Rol == "Administrador";
+
+            if (!esAdmin && (string.IsNullOrWhiteSpace(miUsuarioReal?.NombreCompleto) ||
                 string.IsNullOrWhiteSpace(miUsuarioReal?.Telefono) ||
-                string.IsNullOrWhiteSpace(miUsuarioReal?.Domicilio))
+                string.IsNullOrWhiteSpace(miUsuarioReal?.Domicilio)))
             {
                 await DisplayAlert("Datos Incompletos", "Para realizar un pedido, necesitamos tu nombre, teléfono y dirección de entrega.", "Ir a Mi Perfil");
 

@@ -26,6 +26,21 @@ public partial class VerMenuCliente : ContentPage
             _controller = new VerMenuClienteController(supabase);
         }
 
+        // 🔥 ANIMACIÓN DEL BOTÓN FLOTANTE
+        _ = AnimarFAB();
+
+        // 🔥 ACTUALIZAR EL GLOBO ROJO DEL CARRITO (BADGE)
+        int cantidadPlatillos = Carrito.CarritoGlobal.Articulos.Count;
+        if (cantidadPlatillos > 0)
+        {
+            badgeCarritoMenu.IsVisible = true;
+            lblCantidadCarrito.Text = cantidadPlatillos.ToString();
+        }
+        else
+        {
+            badgeCarritoMenu.IsVisible = false;
+        }
+
         await CargarMenuAsync();
     }
 
@@ -42,6 +57,29 @@ public partial class VerMenuCliente : ContentPage
         }
     }
 
+    private async Task AnimarFAB()
+    {
+        if (fabCarrito != null)
+        {
+            while (true)
+            {
+                await fabCarrito.ScaleTo(1.1, 800, Easing.SinInOut);
+                await fabCarrito.ScaleTo(1, 800, Easing.SinInOut);
+            }
+        }
+    }
+
+    // Efecto visual de rebote (Touch)
+    private async Task AnimarBotonClic(object sender)
+    {
+        if (sender is Button boton)
+        {
+            await boton.ScaleTo(0.90, 50);
+            await boton.ScaleTo(1, 50);
+        }
+    }
+
+    // Cuando tocan la tarjeta completa
     private async void OnPlatilloTapped(object sender, TappedEventArgs e)
     {
         var platilloSeleccionado = e.Parameter as Platillo;
@@ -51,8 +89,24 @@ public partial class VerMenuCliente : ContentPage
         }
     }
 
+    // Cuando tocan específicamente el botón naranja "+"
+    private async void OnAgregarClicked(object sender, EventArgs e)
+    {
+        if (sender is Button btn)
+        {
+            await AnimarBotonClic(btn);
+            var platilloSeleccionado = btn.CommandParameter as Platillo;
+            if (platilloSeleccionado != null)
+            {
+                await Navigation.PushAsync(new PersonalizarPlatillo(platilloSeleccionado));
+            }
+        }
+    }
+
     private async void OnVerCarritoClicked(object sender, EventArgs e)
     {
+        // NO animamos el botón aquí porque ya está siendo animado en un bucle infinito (AnimarFAB).
+        // Evita que la pantalla se congele por choques en el hilo principal de MAUI.
         await Navigation.PushAsync(new MiCarrito());
     }
 
@@ -63,10 +117,10 @@ public partial class VerMenuCliente : ContentPage
         var boton = sender as Button;
         string categoria = boton.Text;
 
-        // Reset
+        // Reset Visual
         btnFiltroTodos.BackgroundColor = Color.FromArgb("#1A1A1A");
         btnFiltroTodos.TextColor = Color.FromArgb("#AAAAAA");
-        
+
         btnFiltroComida.BackgroundColor = Color.FromArgb("#1A1A1A");
         btnFiltroComida.TextColor = Color.FromArgb("#AAAAAA");
 
@@ -77,7 +131,7 @@ public partial class VerMenuCliente : ContentPage
         btnFiltroPostres.TextColor = Color.FromArgb("#AAAAAA");
 
         // Highlight
-        boton.BackgroundColor = Color.FromArgb("#fc4b08");
+        boton.BackgroundColor = Color.FromArgb("#FF6B00");
         boton.TextColor = Colors.White;
 
         _categoriaActual = categoria;

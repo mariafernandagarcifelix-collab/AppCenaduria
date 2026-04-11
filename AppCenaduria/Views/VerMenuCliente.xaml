@@ -7,48 +7,102 @@
 
     <Grid RowDefinitions="Auto, Auto, Auto, *">
 
-        <Label Grid.Row="0" Text="¿Qué se te antoja hoy?" FontSize="22" TextColor="White" Margin="16,16,16,6" FontAttributes="Bold"/>
-
-        <Border Grid.Row="1" StrokeThickness="1" Stroke="#2A2A2A" BackgroundColor="#1A1A1A" Margin="16,0,16,10" Padding="5,0">
-            <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
-            <SearchBar x:Name="searchBar" Placeholder="Buscar platillo..." TextColor="White" PlaceholderColor="#777777" BackgroundColor="Transparent" CancelButtonColor="#fc4b08" TextChanged="OnSearchTextChanged"/>
+        <!-- ══ Header ══ -->
+        <Border Grid.Row="0" StrokeThickness="0" BackgroundColor="#111111" Padding="20,24,20,18">
+            <Border.StrokeShape><RoundRectangle CornerRadius="0,0,24,24"/></Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,6" Radius="16" Opacity="0.4"/>
+            </Border.Shadow>
+            <VerticalStackLayout Spacing="6">
+                <HorizontalStackLayout Spacing="10">
+                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="38" HeightRequest="38">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                        <Label Text="🔥" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Border>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="¿Qué se te antoja hoy?" FontSize="22" FontAttributes="Bold" TextColor="#F5F5F5" CharacterSpacing="0.3"/>
+                        <Label Text="Explora nuestros platillos" FontSize="12" TextColor="#666666"/>
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+                <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="40" HorizontalOptions="Start" Margin="0,4,0,0">
+                    <BoxView.Shadow>
+                        <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.5"/>
+                    </BoxView.Shadow>
+                </BoxView>
+            </VerticalStackLayout>
         </Border>
 
+        <!-- ══ Search Bar ══ -->
+        <Border Grid.Row="1" BackgroundColor="#141414" Margin="16,10,16,8" Padding="4,0" 
+                StrokeThickness="1" Stroke="#1E1E1E">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16"/>
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+            </Border.Shadow>
+            <SearchBar x:Name="searchBar" Placeholder="Buscar platillo..." TextColor="White" PlaceholderColor="#555555" BackgroundColor="Transparent" CancelButtonColor="#FF6B00" TextChanged="OnSearchTextChanged"/>
+        </Border>
+
+        <!-- ══ Filter Chips ══ -->
         <ScrollView Grid.Row="2" Orientation="Horizontal" Margin="16,0,16,10" HorizontalScrollBarVisibility="Never">
-            <HorizontalStackLayout Spacing="10">
-                <Button Text="Todos" x:Name="btnFiltroTodos" Clicked="OnFiltroClicked" CornerRadius="16" HeightRequest="36" BackgroundColor="#fc4b08" TextColor="White" FontSize="13" Padding="16,0" FontAttributes="Bold"/>
-                <Button Text="Comidas" x:Name="btnFiltroComida" Clicked="OnFiltroClicked" CornerRadius="16" HeightRequest="36" BackgroundColor="#1A1A1A" TextColor="#AAAAAA" FontSize="13" Padding="16,0" FontAttributes="Bold"/>
-                <Button Text="Bebidas" x:Name="btnFiltroBebidas" Clicked="OnFiltroClicked" CornerRadius="16" HeightRequest="36" BackgroundColor="#1A1A1A" TextColor="#AAAAAA" FontSize="13" Padding="16,0" FontAttributes="Bold"/>
-                <Button Text="Postres" x:Name="btnFiltroPostres" Clicked="OnFiltroClicked" CornerRadius="16" HeightRequest="36" BackgroundColor="#1A1A1A" TextColor="#AAAAAA" FontSize="13" Padding="16,0" FontAttributes="Bold"/>
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="Todos" x:Name="btnFiltroTodos" Clicked="OnFiltroClicked" BackgroundColor="#FF6B00" TextColor="White" CornerRadius="20" HeightRequest="38" Padding="18,0" FontAttributes="Bold" FontSize="13">
+                    <Button.Shadow>
+                        <Shadow Brush="#fc4b08" Offset="0,2" Radius="8" Opacity="0.3"/>
+                    </Button.Shadow>
+                </Button>
+                <Button Text="Comidas" x:Name="btnFiltroComida" Clicked="OnFiltroClicked" BackgroundColor="#141414" TextColor="#888888" CornerRadius="20" HeightRequest="38" Padding="18,0" FontSize="13" BorderWidth="1" BorderColor="#1E1E1E"/>
+                <Button Text="Bebidas" x:Name="btnFiltroBebidas" Clicked="OnFiltroClicked" BackgroundColor="#141414" TextColor="#888888" CornerRadius="20" HeightRequest="38" Padding="18,0" FontSize="13" BorderWidth="1" BorderColor="#1E1E1E"/>
+                <Button Text="Postres" x:Name="btnFiltroPostres" Clicked="OnFiltroClicked" BackgroundColor="#141414" TextColor="#888888" CornerRadius="20" HeightRequest="38" Padding="18,0" FontSize="13" BorderWidth="1" BorderColor="#1E1E1E"/>
             </HorizontalStackLayout>
         </ScrollView>
 
+        <!-- ══ Dish List ══ -->
         <CollectionView Grid.Row="3" x:Name="listaMenu" Margin="16,0,16,16">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Border BackgroundColor="#1A1A1A" Margin="0,8" Padding="10" StrokeThickness="0">
+                    <Border BackgroundColor="#111111" Margin="0,5" Padding="12" StrokeThickness="1" Stroke="#1A1A1A">
                         <Border.StrokeShape>
                             <RoundRectangle CornerRadius="18"/>
                         </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="Black" Offset="0,4" Radius="14" Opacity="0.35"/>
+                        </Border.Shadow>
 
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OnPlatilloTapped" CommandParameter="{Binding .}"/>
                         </Border.GestureRecognizers>
 
-                        <Grid ColumnDefinitions="100,*" ColumnSpacing="12">
-                            <Image Source="{Binding FotografiaUrl}" HeightRequest="90" WidthRequest="90" Aspect="AspectFill">
-                                <Image.Clip>
-                                    <RoundRectangleGeometry CornerRadius="16" Rect="0,0,90,90"/>
-                                </Image.Clip>
-                            </Image>
+                        <Grid ColumnDefinitions="100,*" ColumnSpacing="14">
+                            <!-- Image -->
+                            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#0D0D0D">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                                <Image Source="{Binding FotografiaUrl}" HeightRequest="90" WidthRequest="90" Aspect="AspectFill">
+                                    <Image.Clip>
+                                        <RoundRectangleGeometry CornerRadius="16" Rect="0,0,90,90"/>
+                                    </Image.Clip>
+                                </Image>
+                            </Border>
 
+                            <!-- Info -->
                             <VerticalStackLayout Grid.Column="1" Spacing="4">
-                                <Label Text="{Binding Nombre}" FontSize="16" FontAttributes="Bold" TextColor="White"/>
-                                <Label Text="{Binding Descripcion}" FontSize="12" TextColor="#AAAAAA" MaxLines="2"/>
+                                <Label Text="{Binding Nombre}" FontSize="16" FontAttributes="Bold" TextColor="#F0F0F0" CharacterSpacing="0.3"/>
+                                <Label Text="{Binding Descripcion}" FontSize="12" TextColor="#777777" MaxLines="2" LineBreakMode="TailTruncation"/>
 
-                                <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
-                                    <Label Text="{Binding Precio, StringFormat='$ {0:F2}'}" FontSize="18" FontAttributes="Bold" TextColor="#FF6B00"/>
-                                    <Label Text="Ver ➔" TextColor="#FF6B00" FontAttributes="Bold" VerticalOptions="Center"/>
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                                    <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                                        <Border StrokeThickness="0" BackgroundColor="#1C1206" Padding="10,4">
+                                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                                            <Label Text="{Binding Precio, StringFormat='$ {0:F2}'}" FontSize="16" FontAttributes="Bold" TextColor="#fc4b08"/>
+                                        </Border>
+                                    </HorizontalStackLayout>
+
+                                    <Button Grid.Column="1" Text="+" BackgroundColor="#fc4b08" TextColor="White" WidthRequest="38" HeightRequest="38" CornerRadius="19" Clicked="OnAgregarClicked" CommandParameter="{Binding .}" FontSize="18" FontAttributes="Bold">
+                                        <Button.Shadow>
+                                            <Shadow Brush="#fc4b08" Offset="0,2" Radius="8" Opacity="0.3"/>
+                                        </Button.Shadow>
+                                    </Button>
                                 </Grid>
                             </VerticalStackLayout>
                         </Grid>
@@ -57,12 +111,20 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.RowSpan="4" Text="🛒" BackgroundColor="#FF6B00" TextColor="White" FontSize="24" WidthRequest="60" HeightRequest="60" CornerRadius="30" HorizontalOptions="End" VerticalOptions="End" Margin="20" Clicked="OnVerCarritoClicked">
-            <Button.Shadow>
-                <Shadow Brush="Black" Offset="0,4" Radius="10" Opacity="0.5"/>
-            </Button.Shadow>
-        </Button>
+        <!-- ══ FAB ══ -->
+        <Grid Grid.RowSpan="4" HorizontalOptions="End" VerticalOptions="End" Margin="20">
+            <Button x:Name="fabCarrito" Text="🛒" BackgroundColor="#fc4b08" TextColor="White" FontSize="22" WidthRequest="65" HeightRequest="65" CornerRadius="32" Clicked="OnVerCarritoClicked">
+                <Button.Shadow>
+                    <Shadow Brush="#fc4b08" Offset="0,4" Radius="16" Opacity="0.5"/>
+                </Button.Shadow>
+            </Button>
 
+            <Border x:Name="badgeCarritoMenu" BackgroundColor="#FF3B30" WidthRequest="22" HeightRequest="22" HorizontalOptions="End" VerticalOptions="Start" TranslationX="5" TranslationY="-5" StrokeThickness="2" Stroke="#0A0A0A" IsVisible="False">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="11"/>
+                </Border.StrokeShape>
+                <Label x:Name="lblCantidadCarrito" Text="0" FontSize="11" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Border>
+        </Grid>
     </Grid>
-
 </ContentPage>

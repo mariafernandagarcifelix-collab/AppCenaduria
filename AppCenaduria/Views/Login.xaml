@@ -3,77 +3,130 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppCenaduria.Views.Login"
              Title="Iniciar Sesión"
-             BackgroundColor="#0D0D0D"
+             BackgroundColor="#0A0A0A"
              NavigationPage.HasNavigationBar="False">
 
-    <VerticalStackLayout Padding="30" Spacing="28" VerticalOptions="Center">
+    <Grid>
+        <!-- ══ Decorative Background Circles ══ -->
+        <BoxView Color="#fc4b08" Opacity="0.04" WidthRequest="300" HeightRequest="300"
+                 CornerRadius="150" HorizontalOptions="Start" VerticalOptions="Start"
+                 TranslationX="-100" TranslationY="-60"/>
+        <BoxView Color="#fc4b08" Opacity="0.03" WidthRequest="250" HeightRequest="250"
+                 CornerRadius="125" HorizontalOptions="End" VerticalOptions="End"
+                 TranslationX="80" TranslationY="100"/>
 
-        <!-- Logo -->
-        <Border BackgroundColor="#1A1A1A"
-                StrokeThickness="0"
-                WidthRequest="120"
-                HeightRequest="120"
-                HorizontalOptions="Center">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="60"/>
-            </Border.StrokeShape>
+        <VerticalStackLayout Padding="34" Spacing="32" VerticalOptions="Center">
 
-            <Image Source="dotnet_bot.png"
-                   HeightRequest="80"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"/>
-        </Border>
+            <!-- ══ Logo Avatar ══ -->
+            <Border BackgroundColor="#111111"
+                    StrokeThickness="2"
+                    Stroke="#fc4b08"
+                    WidthRequest="130"
+                    HeightRequest="130"
+                    HorizontalOptions="Center">
 
-        <!-- Título -->
-        <VerticalStackLayout Spacing="4">
-            <Label Text="Cenaduría"
-                   FontSize="36"
-                   FontAttributes="Bold"
-                   TextColor="#FF6B00"
-                   HorizontalOptions="Center"/>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="65"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#fc4b08" Offset="0,0" Radius="30" Opacity="0.25"/>
+                </Border.Shadow>
 
-            <Label Text="El Parquesito"
-                   FontSize="18"
-                   TextColor="White"
-                   HorizontalOptions="Center"/>
-        </VerticalStackLayout>
+                <Grid>
+                    <Grid.Clip>
+                        <RoundRectangleGeometry CornerRadius="65" Rect="0,0,130,130"/>
+                    </Grid.Clip>
 
-        <!-- Botón estilo Google -->
-        <Border BackgroundColor="White"
-                Padding="12,0"
-                HeightRequest="56"
-                StrokeThickness="1"
-                Stroke="#E0E0E0">
+                    <Image Source="logo_cenaduria.png"
+                           Aspect="AspectFill"
+                           HeightRequest="130"
+                           WidthRequest="130"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
 
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="14"/>
-            </Border.StrokeShape>
+                    <BoxView x:Name="shine"
+                             Color="#88FFFFFF"
+                             WidthRequest="40"
+                             HeightRequest="200"
+                             Rotation="25"
+                             TranslationX="-120"
+                             Opacity="0"
+                             HorizontalOptions="Center"
+                             VerticalOptions="Center"/>
+                </Grid>
+            </Border>
 
-            <Border.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnGoogleAuthClicked"/>
-            </Border.GestureRecognizers>
-
-            <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
-
-                <!-- Logo Google (agrega una imagen llamada google.png) -->
-                <Image Source="google.png"
-                       HeightRequest="22"
-                       WidthRequest="22"
-                       Margin="10,0"
-                       VerticalOptions="Center"/>
-
-                <Label Grid.Column="1"
-                       Text="Continuar con Google"
-                       TextColor="#444"
-                       FontSize="15"
+            <!-- ══ Brand Name ══ -->
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Cenaduría"
+                       FontSize="40"
                        FontAttributes="Bold"
-                       VerticalOptions="Center"
+                       TextColor="#fc4b08"
+                       CharacterSpacing="1.5"
                        HorizontalOptions="Center"/>
 
-            </Grid>
+                <Label Text="El Parquesito"
+                       FontSize="20"
+                       TextColor="#CCCCCC"
+                       CharacterSpacing="3"
+                       HorizontalOptions="Center"/>
 
-        </Border>
+                <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="50"
+                         HorizontalOptions="Center" Margin="0,8,0,0">
+                    <BoxView.Shadow>
+                        <Shadow Brush="#fc4b08" Offset="0,0" Radius="10" Opacity="0.6"/>
+                    </BoxView.Shadow>
+                </BoxView>
+            </VerticalStackLayout>
 
-    </VerticalStackLayout>
+            <!-- ══ Google Sign-In Button ══ -->
+            <Border BackgroundColor="#FAFAFA"
+                    Padding="14,0"
+                    HeightRequest="58"
+                    StrokeThickness="1"
+                    Stroke="#E8E8E8"
+                    Margin="10,8">
 
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="16"/>
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="Black" Offset="0,4" Radius="16" Opacity="0.15"/>
+                </Border.Shadow>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnGoogleAuthClicked"/>
+                </Border.GestureRecognizers>
+
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="14">
+
+                    <Image Source="google_logo.png"
+                           HeightRequest="40"
+                           WidthRequest="40"
+                           VerticalOptions="Center"/>
+
+                    <Label Text="Continuar con Google"
+                           TextColor="#333333"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           CharacterSpacing="0.3"
+                           VerticalOptions="Center"/>
+
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- ══ Footer Decorative ══ -->
+            <VerticalStackLayout Spacing="4" Margin="0,16,0,0">
+                <Label Text="Tu comida favorita, a un toque"
+                       TextColor="#444444" FontSize="12"
+                       HorizontalOptions="Center" FontAttributes="Italic"/>
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                    <BoxView HeightRequest="1" WidthRequest="30" Color="#222222" VerticalOptions="Center"/>
+                    <Label Text="🍽️" FontSize="10"/>
+                    <BoxView HeightRequest="1" WidthRequest="30" Color="#222222" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>
