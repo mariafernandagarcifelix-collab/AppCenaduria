@@ -19,11 +19,8 @@ public partial class Menu : FlyoutPage
         }
     }
 
-    protected override async void OnAppearing()
+    public void ActualizarBadgeCarrito()
     {
-        base.OnAppearing();
-
-        // 1. ACTUALIZAR EL CONTADOR DEL CARRITO
         int cantidadPlatillos = Carrito.CarritoGlobal.Articulos.Count;
         if (cantidadPlatillos > 0)
         {
@@ -34,6 +31,14 @@ public partial class Menu : FlyoutPage
         {
             badgeCarrito.IsVisible = false;
         }
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        // 1. ACTUALIZAR EL CONTADOR DEL CARRITO
+        ActualizarBadgeCarrito();
 
         // 2. ANIMACIÓN EN CASCADA DEL MENÚ
         foreach (var item in menuStack.Children)

@@ -80,7 +80,7 @@
             </VerticalStackLayout>
 
             <!-- ══ Google Sign-In Button ══ -->
-            <Border BackgroundColor="#FAFAFA"
+            <Border x:Name="btnGoogle" BackgroundColor="#FAFAFA"
                     Padding="14,0"
                     HeightRequest="58"
                     StrokeThickness="1"
@@ -105,12 +105,20 @@
                            WidthRequest="40"
                            VerticalOptions="Center"/>
 
-                    <Label Text="Continuar con Google"
+                    <Label x:Name="lblGoogleBtn" Text="Continuar con Google"
                            TextColor="#333333"
                            FontSize="16"
                            FontAttributes="Bold"
                            CharacterSpacing="0.3"
                            VerticalOptions="Center"/>
+
+                    <ActivityIndicator x:Name="loaderGoogle" 
+                                       IsVisible="False" 
+                                       IsRunning="False" 
+                                       Color="#fc4b08" 
+                                       WidthRequest="22" 
+                                       HeightRequest="22" 
+                                       VerticalOptions="Center" />
 
                 </HorizontalStackLayout>
             </Border>

@@ -51,19 +51,35 @@ public partial class MiCarrito : ContentPage
         {
             var miUsuarioReal = await _controller.ObtenerUsuarioActualAsync();
 
-            bool esAdmin = miUsuarioReal?.Rol == "Administrador";
-
-            if (!esAdmin && (string.IsNullOrWhiteSpace(miUsuarioReal?.NombreCompleto) ||
-                string.IsNullOrWhiteSpace(miUsuarioReal?.Telefono) ||
-                string.IsNullOrWhiteSpace(miUsuarioReal?.Domicilio)))
+            if (miUsuarioReal == null)
             {
-                await DisplayAlert("Datos Incompletos", "Para realizar un pedido, necesitamos tu nombre, teléfono y dirección de entrega.", "Ir a Mi Perfil");
-
-                if (Application.Current.MainPage is FlyoutPage menu)
-                {
-                    menu.Detail = new NavigationPage(new Perfil());
-                }
+                await DisplayAlert("Sesión Caducada", "No pudimos recuperar tu perfil. Por favor, cierra sesión y vuelve a ingresar con Google.", "Entendido");
                 return;
+            }
+
+            bool esAdmin = miUsuarioReal.Rol == "Administrador";
+
+            if (!esAdmin)
+            {
+                bool faltanDatosBasicos = string.IsNullOrWhiteSpace(miUsuarioReal.NombreCompleto) ||
+                                          string.IsNullOrWhiteSpace(miUsuarioReal.Telefono);
+                                          
+                bool faltaDomicilio = tipoEntrega == "Domicilio" && string.IsNullOrWhiteSpace(miUsuarioReal.Domicilio);
+
+                if (faltanDatosBasicos || faltaDomicilio)
+                {
+                    string mensajeAlerta = tipoEntrega == "Domicilio" 
+                        ? "Para realizar un pedido a domicilio, necesitamos tu nombre, teléfono y dirección de entrega."
+                        : "Para procesar tu pedido, necesitamos al menos tu nombre y teléfono.";
+
+                    await DisplayAlert("Datos Incompletos", mensajeAlerta, "Ir a Mi Perfil");
+
+                    if (Application.Current.MainPage is FlyoutPage menu)
+                    {
+                        menu.Detail = new NavigationPage(new Perfil());
+                    }
+                    return;
+                }
             }
 
             decimal totalReal = Carrito.CarritoGlobal.Articulos.Sum(x => x.Subtotal);
@@ -78,7 +94,12 @@ public partial class MiCarrito : ContentPage
 
             await _controller.NotificarAdminAsync(pedidoGuardado);
 
-            if (Application.Current.MainPage is FlyoutPage flyout)
+            if (Application.Current.MainPage is AppCenaduria.Views.Menu menuApp)
+            {
+                menuApp.ActualizarBadgeCarrito();
+                menuApp.Detail = new NavigationPage(new VerMenuCliente());
+            }
+            else if (Application.Current.MainPage is FlyoutPage flyout)
             {
                 flyout.Detail = new NavigationPage(new VerMenuCliente());
             }

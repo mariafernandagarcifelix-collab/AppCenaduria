@@ -55,6 +55,12 @@ public partial class PersonalizarPlatillo : ContentPage
 
         CarritoGlobal.Articulos.Add(nuevoItem);
 
+        // Forzar la actualización visual del Menú Lateral (Flyout) para reflejar el número
+        if (Application.Current.MainPage is AppCenaduria.Views.Menu m)
+        {
+            m.ActualizarBadgeCarrito();
+        }
+
         // Preguntamos al usuario qué quiere hacer
         bool irACarrito = await DisplayAlert("¡Añadido!", $"{_cantidad}x {_platilloActual.Nombre} en tu carrito.", "Ir a Mi Carrito", "Seguir pidiendo");
 

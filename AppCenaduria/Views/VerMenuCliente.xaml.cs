@@ -16,6 +16,20 @@ public partial class VerMenuCliente : ContentPage
         InitializeComponent();
     }
 
+    private bool _isAnimatingFab = false;
+
+    // Detenemos la animación al salir de la vista para evitar colisiones en la memoria
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _isAnimatingFab = false;
+        
+        if (fabCarrito != null)
+        {
+            fabCarrito.CancelAnimations();
+        }
+    }
+
     protected override async void OnAppearing()
     {
         base.OnAppearing();
@@ -27,7 +41,11 @@ public partial class VerMenuCliente : ContentPage
         }
 
         // 🔥 ANIMACIÓN DEL BOTÓN FLOTANTE
-        _ = AnimarFAB();
+        if (!_isAnimatingFab)
+        {
+            _isAnimatingFab = true;
+            _ = AnimarFAB();
+        }
 
         // 🔥 ACTUALIZAR EL GLOBO ROJO DEL CARRITO (BADGE)
         int cantidadPlatillos = Carrito.CarritoGlobal.Articulos.Count;
@@ -59,13 +77,24 @@ public partial class VerMenuCliente : ContentPage
 
     private async Task AnimarFAB()
     {
-        if (fabCarrito != null)
+        try
         {
-            while (true)
+            while (_isAnimatingFab && fabCarrito != null)
             {
                 await fabCarrito.ScaleTo(1.1, 800, Easing.SinInOut);
+                
+                if (!_isAnimatingFab) break; // verificamos antes de hacer el segundo
+
                 await fabCarrito.ScaleTo(1, 800, Easing.SinInOut);
             }
+        }
+        catch (TaskCanceledException)
+        {
+            // La animación fue cancelada al cambiar de página, no hacemos nada y salimos seguros.
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Error de animación FAB: {ex.Message}");
         }
     }
 

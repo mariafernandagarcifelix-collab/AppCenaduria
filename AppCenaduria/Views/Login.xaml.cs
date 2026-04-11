@@ -29,8 +29,18 @@ public partial class Login : ContentPage
 
     private async void OnGoogleAuthClicked(object sender, EventArgs e)
     {
+        if (loaderGoogle.IsRunning) return; // Prevenir doble click
+
         try
         {
+            loaderGoogle.IsRunning = true;
+            loaderGoogle.IsVisible = true;
+            lblGoogleBtn.Text = "Procesando...";
+            btnGoogle.Opacity = 0.7;
+
+            // Damos un respiro al hilo principal para que dibuje el loader antes de abrir el navegador
+            await Task.Delay(150);
+
             var usuarioDb = await _controller.IniciarSesionGoogleAsync();
 
             Preferences.Set("UserRole", usuarioDb.Rol);
@@ -42,6 +52,7 @@ public partial class Login : ContentPage
         }
         catch (TaskCanceledException)
         {
+            RestaurarBotonLogin();
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await DisplayAlert("Cancelado", "Se canceló el inicio de sesión con Google.", "OK");
@@ -49,11 +60,23 @@ public partial class Login : ContentPage
         }
         catch (Exception ex)
         {
+            RestaurarBotonLogin();
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 await DisplayAlert("Error de Conexión", "Ocurrió un problema: " + ex.Message, "OK");
             });
         }
+    }
+
+    private void RestaurarBotonLogin()
+    {
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            loaderGoogle.IsRunning = false;
+            loaderGoogle.IsVisible = false;
+            lblGoogleBtn.Text = "Continuar con Google";
+            btnGoogle.Opacity = 1.0;
+        });
     }
 
     // --- Animación tipo brillo infinito ---

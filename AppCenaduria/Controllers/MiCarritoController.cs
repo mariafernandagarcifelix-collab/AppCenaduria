@@ -17,6 +17,8 @@ namespace AppCenaduria.Controllers
 
         public async Task<Usuario> ObtenerUsuarioActualAsync()
         {
+            if (_supabase.Auth.CurrentUser == null) return null;
+
             string correoActual = _supabase.Auth.CurrentUser.Email;
             var respuestaUsuario = await _supabase.From<Usuario>().Where(x => x.CorreoGoogle == correoActual).Get();
             return respuestaUsuario.Models.FirstOrDefault();
