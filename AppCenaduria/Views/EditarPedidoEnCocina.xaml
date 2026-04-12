@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppCenaduria.Views.EditarPedidoEnCocina"
+             Title="Editar Pedido"
+             BackgroundColor="#0A0A0A">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Padding="16">
+
+        <Label x:Name="lblFolio" Grid.Row="0" Text="Editando Orden #" FontSize="22" FontAttributes="Bold" TextColor="White" Margin="0,0,0,15"/>
+
+        <Border Grid.Row="1" BackgroundColor="#111111" StrokeThickness="1" Stroke="#1A1A1A" Padding="10" Margin="0,0,0,15">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10"/>
+            </Border.StrokeShape>
+            <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+                <Picker x:Name="pckPlatillos" Grid.Column="0" Title="Seleccionar platillo extra..." TextColor="White" ItemDisplayBinding="{Binding Nombre}" BackgroundColor="#1A1A1A"/>
+                <Button Grid.Column="1" Text="➕ Agregar" BackgroundColor="#fc4b08" TextColor="White" FontAttributes="Bold" CornerRadius="8" Clicked="OnAgregarPlatilloClicked"/>
+            </Grid>
+        </Border>
+
+        <CollectionView x:Name="listaEdicion" Grid.Row="2">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border BackgroundColor="#111111" Padding="15" Margin="0,5" StrokeThickness="1" Stroke="#1E1E1E">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12"/>
+                        </Border.StrokeShape>
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*, Auto" RowSpacing="10">
+
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="4">
+                                <Label Text="{Binding NombrePlatillo}" TextColor="White" FontAttributes="Bold" FontSize="16"/>
+                                <Label Text="{Binding PrecioUnitario, StringFormat='${0:F2} c/u'}" TextColor="#AAAAAA" FontSize="14"/>
+                                <Label Text="{Binding Subtotal, StringFormat='Subtotal: ${0:F2}'}" TextColor="#fc4b08" FontAttributes="Bold" FontSize="14"/>
+                            </VerticalStackLayout>
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="10" VerticalOptions="Start">
+                                <Button Text="-" CommandParameter="{Binding .}" Clicked="OnDisminuirClicked" BackgroundColor="#333333" TextColor="White" WidthRequest="40" HeightRequest="40" CornerRadius="20" Padding="0" FontAttributes="Bold" FontSize="18"/>
+                                <Label Text="{Binding Cantidad}" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center"/>
+                                <Button Text="+" CommandParameter="{Binding .}" Clicked="OnAumentarClicked" BackgroundColor="#fc4b08" TextColor="White" WidthRequest="40" HeightRequest="40" CornerRadius="20" Padding="0" FontAttributes="Bold" FontSize="18"/>
+                                <Button Text="🗑️" CommandParameter="{Binding .}" Clicked="OnEliminarClicked" BackgroundColor="Transparent" FontSize="20" Padding="0" Margin="10,0,0,0"/>
+                            </HorizontalStackLayout>
+
+                            <Entry Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Comentarios}" Placeholder="Añadir comentario (ej. Sin cebolla)" TextColor="White" BackgroundColor="#1A1A1A" PlaceholderColor="#666666" TextChanged="OnComentarioChanged"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout Grid.Row="3" Spacing="10" Margin="0,15,0,0">
+            <BoxView HeightRequest="1" Color="#1E1E1E"/>
+            <Label x:Name="lblTotal" Text="Nuevo Total: $0.00" TextColor="White" FontSize="22" FontAttributes="Bold" HorizontalOptions="End"/>
+            <Button Text="💾 GUARDAR Y ACTUALIZAR" BackgroundColor="#fc4b08" TextColor="White" FontAttributes="Bold" CornerRadius="10" HeightRequest="50" FontSize="16" Clicked="OnGuardarCambiosClicked"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -9,16 +9,30 @@ public partial class Menu : FlyoutPage
     {
         InitializeComponent();
 
-        if (rolUsuario != "Administrador")
+        // Escondemos todo por defecto
+        seccionCliente.IsVisible = false;
+        seccionMesero.IsVisible = false;
+        seccionAdmin.IsVisible = false;
+
+        // Mostramos solo la sección que le corresponde a su rol
+        if (rolUsuario == "Administrador")
         {
-            seccionAdmin.IsVisible = false;
+            seccionAdmin.IsVisible = true;
+            Detail = new NavigationPage(new GestionPedidos());
         }
-        else 
+        else if (rolUsuario == "Mesero")
         {
-            seccionPerfil.IsVisible = false;
+            seccionMesero.IsVisible = true;
+            Detail = new NavigationPage(new VerMenuMesero());
+        }
+        else // Si es "Cliente"
+        {
+            seccionCliente.IsVisible = true;
+            Detail = new NavigationPage(new VerMenuCliente());
         }
     }
 
+    // ¡AQUÍ ESTÁ EL MÉTODO QUE FALTABA!
     public void ActualizarBadgeCarrito()
     {
         int cantidadPlatillos = Carrito.CarritoGlobal.Articulos.Count;
@@ -37,26 +51,19 @@ public partial class Menu : FlyoutPage
     {
         base.OnAppearing();
 
-        // 1. ACTUALIZAR EL CONTADOR DEL CARRITO
         ActualizarBadgeCarrito();
 
-        // 2. ANIMACIÓN EN CASCADA DEL MENÚ
+        // Animación en cascada solo para la sección que esté visible
         foreach (var item in menuStack.Children)
         {
-            if (item is Border b)
+            if (item is VerticalStackLayout stack && stack.IsVisible)
             {
-                b.Opacity = 0;
-                await b.FadeTo(1, 150);
-                await Task.Delay(30);
-            }
-            else if (item is VerticalStackLayout adminStack)
-            {
-                foreach (var adminItem in adminStack.Children)
+                foreach (var subItem in stack.Children)
                 {
-                    if (adminItem is Border adminB)
+                    if (subItem is Border controlBorder)
                     {
-                        adminB.Opacity = 0;
-                        await adminB.FadeTo(1, 150);
+                        controlBorder.Opacity = 0;
+                        await controlBorder.FadeTo(1, 150);
                         await Task.Delay(30);
                     }
                 }
@@ -78,7 +85,7 @@ public partial class Menu : FlyoutPage
         }
     }
 
-    // --- BOTONES DEL MENÚ (AHORA USAN TappedEventArgs) ---
+    // --- BOTONES CLIENTE ---
     private async void OnPerfilClicked(object sender, TappedEventArgs e)
     {
         await AnimarBotonClic(sender);
@@ -107,6 +114,29 @@ public partial class Menu : FlyoutPage
         IsPresented = false;
     }
 
+    // --- BOTONES MESERO ---
+    private async void OnVerMenuMeseroClicked(object sender, TappedEventArgs e)
+    {
+        await AnimarBotonClic(sender);
+        Detail = new NavigationPage(new VerMenuMesero());
+        IsPresented = false;
+    }
+
+    private async void OnComandaMeseroClicked(object sender, TappedEventArgs e)
+    {
+        await AnimarBotonClic(sender);
+        Detail = new NavigationPage(new ComandaMesero());
+        IsPresented = false;
+    }
+
+    private async void OnEstatusCocinaMeseroClicked(object sender, TappedEventArgs e)
+    {
+        await AnimarBotonClic(sender);
+        Detail = new NavigationPage(new EstatusCocinaMesero());
+        IsPresented = false;
+    }
+
+    // --- BOTONES ADMIN ---
     private async void OnAltaMenuClicked(object sender, TappedEventArgs e)
     {
         await AnimarBotonClic(sender);
@@ -135,6 +165,7 @@ public partial class Menu : FlyoutPage
         IsPresented = false;
     }
 
+    // --- CERRAR SESIÓN ---
     private async void OnCerrarSesionClicked(object sender, TappedEventArgs e)
     {
         await AnimarBotonClic(sender);
@@ -146,14 +177,4 @@ public partial class Menu : FlyoutPage
             Application.Current.MainPage = new Login();
         }
     }
-
-    // --- MÉTODO PARA EL BOTÓN FLOTANTE DE LA PANTALLA DE INICIO ---
-    private async void OnFabInicioClicked(object sender, EventArgs e)
-    {
-        await AnimarBotonClic(sender);
-        Detail = new NavigationPage(new MiCarrito());
-        IsPresented = false;
-    }
-
-    
 }

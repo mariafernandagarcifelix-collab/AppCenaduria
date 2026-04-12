@@ -99,7 +99,7 @@ namespace AppCenaduria.Services
             try
             {
                 var respuesta = await supabase.From<Usuario>()
-                                              .Where(u => u.Rol == "Administrador" || u.Rol == "Mesero")
+                                              .Where(u => u.Rol == "Administrador")
                                               .Get();
 
                 foreach (var staff in respuesta.Models)

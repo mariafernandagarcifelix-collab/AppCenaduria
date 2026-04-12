@@ -55,26 +55,31 @@ public partial class PersonalizarPlatillo : ContentPage
 
         CarritoGlobal.Articulos.Add(nuevoItem);
 
-        // Forzar la actualización visual del Menú Lateral (Flyout) para reflejar el número
         if (Application.Current.MainPage is AppCenaduria.Views.Menu m)
         {
             m.ActualizarBadgeCarrito();
         }
 
-        // Preguntamos al usuario qué quiere hacer
-        bool irACarrito = await DisplayAlert("¡Añadido!", $"{_cantidad}x {_platilloActual.Nombre} en tu carrito.", "Ir a Mi Carrito", "Seguir pidiendo");
+        // Cambiamos un poco el texto para que suene bien para ambos roles
+        bool irACarrito = await DisplayAlert("¡Añadido!", $"{_cantidad}x {_platilloActual.Nombre} agregado a la cuenta.", "Ir a Pagar/Mandar", "Seguir pidiendo");
 
         if (irACarrito)
         {
-            // Si elige ir al carrito, cambiamos la pantalla principal usando el menú lateral
             if (Application.Current.MainPage is FlyoutPage menu)
             {
-                menu.Detail = new NavigationPage(new MiCarrito());
+                // 🔥 AQUÍ ESTÁ LA MAGIA: Redirigimos según el rol
+                if (App.UsuarioActual != null && App.UsuarioActual.Rol == "Mesero")
+                {
+                    menu.Detail = new NavigationPage(new ComandaMesero());
+                }
+                else
+                {
+                    menu.Detail = new NavigationPage(new MiCarrito());
+                }
             }
         }
         else
         {
-            // Si elige seguir pidiendo, lo regresamos al catálogo
             await Navigation.PopAsync();
         }
     }

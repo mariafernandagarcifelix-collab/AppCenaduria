@@ -12,138 +12,210 @@
                 <ScrollView Grid.Row="0">
                     <VerticalStackLayout x:Name="menuStack" Padding="16" Spacing="6">
 
-                        <!-- ══ Brand Header ══ -->
                         <VerticalStackLayout Spacing="6" Margin="8,34,8,20">
-                            <Label Text="Cenaduría" FontSize="26" TextColor="#fc4b08" 
-                                   FontAttributes="Bold" CharacterSpacing="1"/>
-                            <Label Text="El Parquesito" FontSize="14" TextColor="#666666" 
-                                   CharacterSpacing="2"/>
-                            <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="45"
-                                     HorizontalOptions="Start" Margin="0,4,0,0">
+                            <Label Text="Cenaduría" FontSize="26" TextColor="#fc4b08" FontAttributes="Bold" CharacterSpacing="1"/>
+                            <Label Text="El Parquesito" FontSize="14" TextColor="#666666" CharacterSpacing="2"/>
+                            <BoxView HeightRequest="3" Color="#fc4b08" WidthRequest="45" HorizontalOptions="Start" Margin="0,4,0,0">
                                 <BoxView.Shadow>
                                     <Shadow Brush="#fc4b08" Offset="0,0" Radius="8" Opacity="0.5"/>
                                 </BoxView.Shadow>
                             </BoxView>
                         </VerticalStackLayout>
 
-                        <!-- ══ Sección label ══ -->
-                        <HorizontalStackLayout Spacing="8" Margin="10,4,0,6">
-                            <BoxView WidthRequest="3" HeightRequest="12" Color="#333333" VerticalOptions="Center"/>
-                            <Label Text="NAVEGACIÓN" TextColor="#555555" FontSize="10" 
-                                   FontAttributes="Bold" CharacterSpacing="1.5" VerticalOptions="Center"/>
-                        </HorizontalStackLayout>
-
-                        <!-- Mi Perfil -->
-                        <Border x:Name="seccionPerfil" BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="14"/>
-                            </Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
-                            </Border.Shadow>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnPerfilClicked"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="5, *">
-                                <BoxView Grid.Column="0" Color="#fc4b08" WidthRequest="5">
-                                    <BoxView.Clip>
-                                        <RoundRectangleGeometry CornerRadius="14,0,14,0" Rect="0,0,5,60"/>
-                                    </BoxView.Clip>
-                                </BoxView>
-                                <HorizontalStackLayout Grid.Column="1" Spacing="12" Padding="14">
-                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                                        <Image Source="perfil.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                    </Border>
-                                    <Label Text="Mi Perfil" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15" FontAttributes="Bold"/>
-                                </HorizontalStackLayout>
-                            </Grid>
-                        </Border>
-
-                        <!-- Ver Menú -->
-                        <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="14"/>
-                            </Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
-                            </Border.Shadow>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnVerMenuClicked"/>
-                            </Border.GestureRecognizers>
-                            <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
-                                <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                                    <Image Source="menu.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <Label Text="Ver Menú" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
+                        <VerticalStackLayout x:Name="seccionCliente" IsVisible="False">
+                            <HorizontalStackLayout Spacing="8" Margin="10,4,0,6">
+                                <BoxView WidthRequest="3" HeightRequest="12" Color="#333333" VerticalOptions="Center"/>
+                                <Label Text="NAVEGACIÓN" TextColor="#555555" FontSize="10" FontAttributes="Bold" CharacterSpacing="1.5" VerticalOptions="Center"/>
                             </HorizontalStackLayout>
-                        </Border>
 
-                        <!-- Mi Carrito -->
-                        <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="14"/>
-                            </Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
-                            </Border.Shadow>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnMiCarritoClicked"/>
-                            </Border.GestureRecognizers>
-                            <Grid ColumnDefinitions="Auto,*" Padding="14" Margin="5,0,0,0">
-                                <Grid WidthRequest="34" HeightRequest="34">
-                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                                        <Image Source="mi_carrito.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                    </Border>
-                                    <Border x:Name="badgeCarrito" BackgroundColor="#FF3B30" WidthRequest="18" HeightRequest="18" HorizontalOptions="End" VerticalOptions="Start" Padding="0" IsVisible="False" TranslationX="5" TranslationY="-5" StrokeThickness="0">
-                                        <Border.StrokeShape>
-                                            <RoundRectangle CornerRadius="9"/>
-                                        </Border.StrokeShape>
-                                        <Label x:Name="lblCantidadCarrito" Text="0" FontSize="10" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                    </Border>
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPerfilClicked"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="5, *">
+                                    <BoxView Grid.Column="0" Color="#fc4b08" WidthRequest="5">
+                                        <BoxView.Clip>
+                                            <RoundRectangleGeometry CornerRadius="14,0,14,0" Rect="0,0,5,60"/>
+                                        </BoxView.Clip>
+                                    </BoxView>
+                                    <HorizontalStackLayout Grid.Column="1" Spacing="12" Padding="14">
+                                        <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10"/>
+                                            </Border.StrokeShape>
+                                            <Image Source="perfil.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <Label Text="Mi Perfil" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
                                 </Grid>
-                                <Label Grid.Column="1" Text="Mi Carrito" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15" Margin="12,0,0,0"/>
-                            </Grid>
-                        </Border>
+                            </Border>
 
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnVerMenuClicked"/>
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
+                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="menu.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Label Text="Ver Menú" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
+                                </HorizontalStackLayout>
+                            </Border>
 
-                        <!-- Mis Pedidos -->
-                        <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
-                            <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="14"/>
-                            </Border.StrokeShape>
-                            <Border.Shadow>
-                                <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
-                            </Border.Shadow>
-                            <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnHistorialClicked"/>
-                            </Border.GestureRecognizers>
-                            <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
-                                <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
-                                    <Image Source="historial_de_pedidos.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
-                                </Border>
-                                <Label Text="Mis Pedidos" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
-                            </HorizontalStackLayout>
-                        </Border>
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnMiCarritoClicked"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*" Padding="14" Margin="5,0,0,0">
+                                    <Grid WidthRequest="34" HeightRequest="34">
+                                        <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10"/>
+                                            </Border.StrokeShape>
+                                            <Image Source="mi_carrito.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                        <Border x:Name="badgeCarrito" BackgroundColor="#FF3B30" WidthRequest="18" HeightRequest="18" HorizontalOptions="End" VerticalOptions="Start" Padding="0" IsVisible="False" TranslationX="5" TranslationY="-5" StrokeThickness="0">
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="9"/>
+                                            </Border.StrokeShape>
+                                            <Label x:Name="lblCantidadCarrito" Text="0" FontSize="10" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        </Border>
+                                    </Grid>
+                                    <Label Grid.Column="1" Text="Mi Carrito" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15" Margin="12,0,0,0"/>
+                                </Grid>
+                            </Border>
 
-                        <!-- ══ Admin Section ══ -->
-                        <VerticalStackLayout x:Name="seccionAdmin">
-                            <!-- Divider Chip -->
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnHistorialClicked"/>
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
+                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="historial_de_pedidos.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Label Text="Mis Pedidos" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout x:Name="seccionMesero" IsVisible="False">
                             <Grid ColumnDefinitions="*, Auto, *" Margin="0,18,0,10">
                                 <BoxView Grid.Column="0" HeightRequest="1" Color="#1A1A1A" VerticalOptions="Center"/>
-                                <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#141414" 
-                                        Padding="14,5" Margin="8,0">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
-                                    <Label Text="ADMINISTRACIÓN" TextColor="#fc4b08" FontSize="9" 
-                                           FontAttributes="Bold" CharacterSpacing="1.5"/>
+                                <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#141414" Padding="14,5" Margin="8,0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="ESTACIÓN DE SERVICIO" TextColor="#fc4b08" FontSize="9" FontAttributes="Bold" CharacterSpacing="1.5"/>
                                 </Border>
                                 <BoxView Grid.Column="2" HeightRequest="1" Color="#1A1A1A" VerticalOptions="Center"/>
                             </Grid>
 
-                            <!-- Gestión Menú -->
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnVerMenuMeseroClicked"/>
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
+                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="tomar_orden.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Label Text="Tomar Orden" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnComandaMeseroClicked"/>
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
+                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="comanda_de_la_mesa.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Label Text="Comanda de la Mesa" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
+                                </HorizontalStackLayout>
+                            </Border>
+
+                            <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14"/>
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="Black" Offset="0,2" Radius="8" Opacity="0.2"/>
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnEstatusCocinaMeseroClicked"/>
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
+                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
+                                        <Image Source="estatus_de_cocina.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Border>
+                                    <Label Text="Estatus de Cocina" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
+                                </HorizontalStackLayout>
+                            </Border>
+                        </VerticalStackLayout>
+
+                        <VerticalStackLayout x:Name="seccionAdmin" IsVisible="False">
+                            <Grid ColumnDefinitions="*, Auto, *" Margin="0,18,0,10">
+                                <BoxView Grid.Column="0" HeightRequest="1" Color="#1A1A1A" VerticalOptions="Center"/>
+                                <Border Grid.Column="1" StrokeThickness="0" BackgroundColor="#141414" Padding="14,5" Margin="8,0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="8"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="ADMINISTRACIÓN" TextColor="#fc4b08" FontSize="9" FontAttributes="Bold" CharacterSpacing="1.5"/>
+                                </Border>
+                                <BoxView Grid.Column="2" HeightRequest="1" Color="#1A1A1A" VerticalOptions="Center"/>
+                            </Grid>
+
                             <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="14"/>
@@ -156,14 +228,15 @@
                                 </Border.GestureRecognizers>
                                 <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
                                     <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
                                         <Image Source="gestion_menu.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
                                     </Border>
                                     <Label Text="Gestión Menú" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
                                 </HorizontalStackLayout>
                             </Border>
 
-                            <!-- Cocina / Pedidos -->
                             <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="14"/>
@@ -176,14 +249,15 @@
                                 </Border.GestureRecognizers>
                                 <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
                                     <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
                                         <Image Source="cocina_pedidos.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
                                     </Border>
                                     <Label Text="Cocina / Pedidos" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
                                 </HorizontalStackLayout>
                             </Border>
 
-                            <!-- Reportes -->
                             <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="14"/>
@@ -196,14 +270,15 @@
                                 </Border.GestureRecognizers>
                                 <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
                                     <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
                                         <Image Source="reportes.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
                                     </Border>
                                     <Label Text="Reportes" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
                                 </HorizontalStackLayout>
                             </Border>
 
-                            <!-- Historial Ventas -->
                             <Border BackgroundColor="#111111" Padding="0" Margin="4,3" StrokeThickness="1" Stroke="#1A1A1A">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="14"/>
@@ -216,25 +291,31 @@
                                 </Border.GestureRecognizers>
                                 <HorizontalStackLayout Spacing="12" Padding="14" Margin="5,0,0,0">
                                     <Border StrokeThickness="0" BackgroundColor="#1C1206" WidthRequest="34" HeightRequest="34">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="10"/></Border.StrokeShape>
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="10"/>
+                                        </Border.StrokeShape>
                                         <Image Source="historial_ventas.png" WidthRequest="18" HeightRequest="18" HorizontalOptions="Center" VerticalOptions="Center"/>
                                     </Border>
                                     <Label Text="Historial Ventas" TextColor="#E0E0E0" VerticalOptions="Center" FontSize="15"/>
                                 </HorizontalStackLayout>
                             </Border>
                         </VerticalStackLayout>
+
                     </VerticalStackLayout>
                 </ScrollView>
 
-                <!-- ══ Logout ══ -->
                 <Border Grid.Row="1" Padding="18" BackgroundColor="#0D0D0D" StrokeThickness="1" Stroke="#1A1A1A" Margin="0">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="0"/></Border.StrokeShape>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="0"/>
+                    </Border.StrokeShape>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnCerrarSesionClicked"/>
                     </Border.GestureRecognizers>
                     <HorizontalStackLayout Spacing="12" HorizontalOptions="Center">
                         <Border StrokeThickness="0" BackgroundColor="#200D0D" WidthRequest="30" HeightRequest="30">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="8"/>
+                            </Border.StrokeShape>
                             <Image Source="cerrar_sesion.png" WidthRequest="16" HeightRequest="16" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Border>
                         <Label Text="Cerrar Sesión" TextColor="#666666" FontAttributes="Bold" VerticalOptions="Center" FontSize="14"/>

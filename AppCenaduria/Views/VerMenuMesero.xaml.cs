@@ -4,17 +4,17 @@ using AppCenaduria.Controllers;
 
 namespace AppCenaduria.Views;
 
-public partial class VerMenuCliente : ContentPage
+public partial class VerMenuMesero : ContentPage
 {
     private VerMenuClienteController _controller;
     private List<Platillo> _platillosTodos;
     private string _categoriaActual = "Todos";
     private string _textoBusqueda = "";
 
-    public VerMenuCliente()
-    {
-        InitializeComponent();
-    }
+    public VerMenuMesero()
+	{
+		InitializeComponent();
+	}
 
     private bool _isAnimatingFab = false;
 
@@ -23,7 +23,7 @@ public partial class VerMenuCliente : ContentPage
     {
         base.OnDisappearing();
         _isAnimatingFab = false;
-        
+
         if (fabCarrito != null)
         {
             fabCarrito.CancelAnimations();
@@ -82,7 +82,7 @@ public partial class VerMenuCliente : ContentPage
             while (_isAnimatingFab && fabCarrito != null)
             {
                 await fabCarrito.ScaleTo(1.1, 800, Easing.SinInOut);
-                
+
                 if (!_isAnimatingFab) break; // verificamos antes de hacer el segundo
 
                 await fabCarrito.ScaleTo(1, 800, Easing.SinInOut);
