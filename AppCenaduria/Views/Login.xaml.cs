@@ -1,7 +1,7 @@
 using Supabase;
 using AppCenaduria.Controllers;
 using Microsoft.Maui.Authentication;
-using System.Threading.Tasks; // Necesario para la animación
+using System.Threading.Tasks;
 
 namespace AppCenaduria.Views;
 
@@ -23,7 +23,7 @@ public partial class Login : ContentPage
             _controller = new LoginController(supabase);
         }
 
-        // 🔥 Disparamos la animación del logo al abrir la pantalla
+        // Disparamos la animación del logo al abrir la pantalla
         _ = AnimarLogo();
     }
 
@@ -31,17 +31,30 @@ public partial class Login : ContentPage
     {
         if (loaderGoogle.IsRunning) return; // Prevenir doble click
 
-        try
+        // 1. FORZAMOS el cambio visual en el hilo principal para que SÍ diga "Procesando..."
+        MainThread.BeginInvokeOnMainThread(() =>
         {
             loaderGoogle.IsRunning = true;
             loaderGoogle.IsVisible = true;
             lblGoogleBtn.Text = "Procesando...";
             btnGoogle.Opacity = 0.7;
+        });
 
-            // Damos un respiro al hilo principal para que dibuje el loader antes de abrir el navegador
-            await Task.Delay(150);
+        // 2. Damos tiempo suficiente para que la pantalla se dibuje antes de abrir el navegador
+        await Task.Delay(300);
 
-            var usuarioDb = await _controller.IniciarSesionGoogleAsync();
+        try
+        {
+            string loginUrl = "https://lliiyuxmrswelexktuxh.supabase.co/auth/v1/authorize?provider=google&redirect_to=cenaduriaapp://";
+            var authResult = await WebAuthenticator.Default.AuthenticateAsync(new Uri(loginUrl), new Uri("cenaduriaapp://"));
+
+            string accessToken = authResult.Properties["access_token"];
+            string refreshToken = authResult.Properties["refresh_token"];
+
+            var usuarioDb = await _controller.IniciarSesionGoogleAsync(accessToken, refreshToken);
+
+            // 🔥 3. RECUPERAMOS EL FIX DEL CARRITO QUE SE HABÍA BORRADO 🔥
+            App.UsuarioActual = usuarioDb;
 
             Preferences.Set("UserRole", usuarioDb.Rol);
 

@@ -15,14 +15,8 @@ namespace AppCenaduria.Controllers
             _supabase = supabase;
         }
 
-        public async Task<Usuario> IniciarSesionGoogleAsync()
+        public async Task<Usuario> IniciarSesionGoogleAsync(string accessToken, string refreshToken)
         {
-            string loginUrl = "https://lliiyuxmrswelexktuxh.supabase.co/auth/v1/authorize?provider=google&redirect_to=cenaduriaapp://";
-
-            var authResult = await WebAuthenticator.Default.AuthenticateAsync(new Uri(loginUrl), new Uri("cenaduriaapp://"));
-
-            string accessToken = authResult.Properties["access_token"];
-            string refreshToken = authResult.Properties["refresh_token"];
 
             var sesionGoogle = await _supabase.Auth.SetSession(accessToken, refreshToken);
 

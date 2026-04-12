@@ -154,4 +154,6 @@ public partial class Menu : FlyoutPage
         Detail = new NavigationPage(new MiCarrito());
         IsPresented = false;
     }
+
+    
 }

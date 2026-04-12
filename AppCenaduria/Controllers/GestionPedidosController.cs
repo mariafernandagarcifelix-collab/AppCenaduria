@@ -30,7 +30,7 @@ namespace AppCenaduria.Controllers
             await _supabase.From<Pedido>().Update(pedido);
         }
 
-        public async Task NotificarClienteAsync(Pedido pedidoSeleccionado, string nuevoEstado)
+        public async Task<bool> NotificarClienteAsync(Pedido pedidoSeleccionado, string nuevoEstado)
         {
             var resCliente = await _supabase.From<Usuario>().Where(u => u.IdUsuario == pedidoSeleccionado.IdUsuario).Get();
             var cliente = resCliente.Models.FirstOrDefault();
@@ -40,17 +40,21 @@ namespace AppCenaduria.Controllers
                 string titulo = "Actualización de tu pedido 🌮";
                 string mensaje = $"Tu orden #{pedidoSeleccionado.Folio} ahora está: {nuevoEstado}";
 
-                if (nuevoEstado == "En proceso de entrega")
-                    mensaje = $"¡Buenas noticias! Tu pedido #{pedidoSeleccionado.Folio} va en camino a tu domicilio. 🛵";
+                if (nuevoEstado == "En preparación")
+                    mensaje = "Tu platillo ya se está cocinando en la cenaduría. 🧑‍🍳";
+                else if (nuevoEstado == "Listo")
+                    mensaje = "Tu pedido te espera en la barra. ¡Ven a recogerlo! 🟢";
+                else if (nuevoEstado == "En camino")
+                    mensaje = "El repartidor va hacia tu domicilio. 🛵";
                 else if (nuevoEstado == "Entregado")
                     mensaje = $"Tu pedido #{pedidoSeleccionado.Folio} ha sido entregado. ¡Que lo disfrutes! 😊";
 
-                await Task.Delay(2500);
-                await EnviarNotificacionPushV1(cliente.TokenNotificacion, titulo, mensaje);
+                return await EnviarNotificacionPushV1(cliente.TokenNotificacion, titulo, mensaje);
             }
+            return false;
         }
 
-        private async Task EnviarNotificacionPushV1(string tokenDestino, string titulo, string mensajeCuerpo)
+        private async Task<bool> EnviarNotificacionPushV1(string tokenDestino, string titulo, string mensajeCuerpo)
         {
             try
             {
@@ -73,12 +77,13 @@ namespace AppCenaduria.Controllers
                     var payload = new { message = new { token = tokenDestino, notification = new { title = titulo, body = mensajeCuerpo } } };
                     var content = new StringContent(JsonSerializer.Serialize(payload), System.Text.Encoding.UTF8, "application/json");
 
-                    await client.PostAsync(url, content);
+                    var response = await client.PostAsync(url, content);
+                    return response.IsSuccessStatusCode;
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error en push: {ex.Message}");
+                return false;
             }
         }
     }

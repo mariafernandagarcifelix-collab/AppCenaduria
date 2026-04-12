@@ -27,16 +27,59 @@ public partial class MiCarrito : ContentPage
         // Cargar el usuario real una sola vez
         _usuarioActual = await _controller.ObtenerUsuarioActualAsync();
 
+        ActualizarTotalInterfaz();
+    }
+
+    private void ActualizarTotalInterfaz()
+    {
+        decimal totalPedido = _controller.RecalcularTotal(Carrito.CarritoGlobal.Articulos);
+        lblTotal.Text = $"${totalPedido:F2}";
+        
+        // Actualizar el List Source para forzar re-render de subtotales
         listaCarrito.ItemsSource = null;
         listaCarrito.ItemsSource = Carrito.CarritoGlobal.Articulos;
-
-        decimal totalPedido = 0;
-        foreach (var item in Carrito.CarritoGlobal.Articulos)
+        
+        // Actualizar el numerito del menú (opcional)
+        if (Application.Current.MainPage is AppCenaduria.Views.Menu menuApp)
         {
-            totalPedido += item.Subtotal;
+            menuApp.ActualizarBadgeCarrito();
         }
+    }
 
-        lblTotal.Text = $"${totalPedido:F2}";
+    private void OnAumentarCantidad(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var item = button?.CommandParameter as Carrito.ItemCarrito;
+        if (item != null)
+        {
+            item.Cantidad++;
+            ActualizarTotalInterfaz();
+        }
+    }
+
+    private void OnDisminuirCantidad(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var item = button?.CommandParameter as Carrito.ItemCarrito;
+        if (item != null)
+        {
+            if (item.Cantidad > 1) 
+            {
+                item.Cantidad--;
+                ActualizarTotalInterfaz();
+            }
+        }
+    }
+
+    private void OnEliminarPlatillo(object sender, EventArgs e)
+    {
+        var button = sender as Button;
+        var item = button?.CommandParameter as Carrito.ItemCarrito;
+        if (item != null)
+        {
+            Carrito.CarritoGlobal.Articulos.Remove(item);
+            ActualizarTotalInterfaz();
+        }
     }
 
     private void OnPickerEntregaSelectedIndexChanged(object sender, EventArgs e)
@@ -71,7 +114,11 @@ public partial class MiCarrito : ContentPage
 
     private async void OnConfirmarPedidoClicked(object sender, EventArgs e)
     {
-        if (Carrito.CarritoGlobal.Articulos.Count == 0) return;
+        if (Carrito.CarritoGlobal.Articulos == null || Carrito.CarritoGlobal.Articulos.Count == 0)
+        {
+            await DisplayAlert("Carrito de Compras", "Carrito vacío. Agrega al menos un platillo para continuar", "OK");
+            return;
+        }
 
         if (pickerEntrega.SelectedItem == null || pickerPago.SelectedItem == null)
         {

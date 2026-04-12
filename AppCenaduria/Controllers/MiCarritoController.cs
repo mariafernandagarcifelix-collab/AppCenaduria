@@ -24,6 +24,12 @@ namespace AppCenaduria.Controllers
             return respuestaUsuario.Models.FirstOrDefault();
         }
 
+        public decimal RecalcularTotal(List<Carrito.ItemCarrito> carritoActual)
+        {
+            if (carritoActual == null || carritoActual.Count == 0) return 0;
+            return carritoActual.Sum(x => x.Subtotal);
+        }
+
         public async Task<NuevoPedido> CrearPedidoAsync(Usuario usuario, decimal total, List<Carrito.ItemCarrito> items, string tipoEntrega = "Local", string tipoPago = "Efectivo")
         {
             var nuevoPedido = new NuevoPedido
@@ -55,84 +61,76 @@ namespace AppCenaduria.Controllers
             return pedidoGuardado;
         }
 
-        public async Task NotificarAdminAsync(NuevoPedido pedidoGuardado)
+        public async Task<bool> NotificarAdminAsync(NuevoPedido pedidoGuardado)
         {
             try
             {
-                var resAdmin = await _supabase.From<Usuario>().Where(u => u.Rol == "Administrador").Get();
-                var administrador = resAdmin.Models.FirstOrDefault();
-
-                if (administrador != null && !string.IsNullOrEmpty(administrador.TokenNotificacion))
-                {
-                    await EnviarNotificacionPushV1(
-                        administrador.TokenNotificacion,
-                        "¡Nuevo Pedido Recibido! 🔥",
-                        $"Nueva orden a nombre de {pedidoGuardado.NombreCliente} por ${pedidoGuardado.Total:F2} 🌮"
-                    );
-                }
+                // Llamamos a nuestro nuevo cerebro de notificaciones
+                await AppCenaduria.Services.NotificationService.NotificarNuevoPedidoAStaffAsync(_supabase);
+                return true;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error notificando al admin: " + ex.Message);
+                return false;
             }
         }
 
-        private async Task EnviarNotificacionPushV1(string tokenDestino, string titulo, string mensajeCuerpo)
-        {
-            try
-            {
-                string jsonKey = "";
-                using (var stream = await FileSystem.OpenAppPackageFileAsync("firebase-key.json"))
-                using (var reader = new System.IO.StreamReader(stream))
-                {
-                    jsonKey = await reader.ReadToEndAsync();
-                }
+        //private async Task EnviarNotificacionPushV1(string tokenDestino, string titulo, string mensajeCuerpo)
+        //{
+        //    try
+        //    {
+        //        string jsonKey = "";
+        //        using (var stream = await FileSystem.OpenAppPackageFileAsync("firebase-key.json"))
+        //        using (var reader = new System.IO.StreamReader(stream))
+        //        {
+        //            jsonKey = await reader.ReadToEndAsync();
+        //        }
 
-                string projectId = "cenaduriaapp";
+        //        string projectId = "cenaduriaapp";
 
-                var credential = GoogleCredential.FromJson(jsonKey)
-                                                 .CreateScoped("https://www.googleapis.com/auth/firebase.messaging");
+        //        var credential = GoogleCredential.FromJson(jsonKey)
+        //                                         .CreateScoped("https://www.googleapis.com/auth/firebase.messaging");
 
-                string accessToken = await ((ITokenAccess)credential).GetAccessTokenForRequestAsync();
+        //        string accessToken = await ((ITokenAccess)credential).GetAccessTokenForRequestAsync();
 
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-                    string url = $"https://fcm.googleapis.com/v1/projects/{projectId}/messages:send";
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+        //            string url = $"https://fcm.googleapis.com/v1/projects/{projectId}/messages:send";
 
-                    var payload = new
-                    {
-                        message = new
-                        {
-                            token = tokenDestino,
-                            notification = new
-                            {
-                                title = titulo,
-                                body = mensajeCuerpo
-                            }
-                        }
-                    };
+        //            var payload = new
+        //            {
+        //                message = new
+        //                {
+        //                    token = tokenDestino,
+        //                    notification = new
+        //                    {
+        //                        title = titulo,
+        //                        body = mensajeCuerpo
+        //                    }
+        //                }
+        //            };
 
-                    string jsonPayload = JsonSerializer.Serialize(payload);
-                    var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
+        //            string jsonPayload = JsonSerializer.Serialize(payload);
+        //            var content = new StringContent(jsonPayload, System.Text.Encoding.UTF8, "application/json");
 
-                    var response = await client.PostAsync(url, content);
+        //            var response = await client.PostAsync(url, content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        System.Diagnostics.Debug.WriteLine("Notificación al admin enviada con éxito");
-                    }
-                    else
-                    {
-                        string error = await response.Content.ReadAsStringAsync();
-                        System.Diagnostics.Debug.WriteLine("Error de Google Push: " + error);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Error crítico en push al admin: {ex.Message}");
-            }
-        }
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                System.Diagnostics.Debug.WriteLine("Notificación al admin enviada con éxito");
+        //            }
+        //            else
+        //            {
+        //                string error = await response.Content.ReadAsStringAsync();
+        //                System.Diagnostics.Debug.WriteLine("Error de Google Push: " + error);
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine($"Error crítico en push al admin: {ex.Message}");
+        //    }
+        //}
     }
 }

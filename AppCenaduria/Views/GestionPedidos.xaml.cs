@@ -42,13 +42,14 @@ public partial class GestionPedidos : ContentPage
     private async void OnCambiarEstadoClicked(object sender, EventArgs e)
     {
         var boton = sender as Button;
-        var pedidoSeleccionado = boton.CommandParameter as Pedido;
+        var pedidoSeleccionado = boton.CommandParameter as Pedido; // Ojo aquí, verifica si tu modelo Pedido usa IdUsuario
 
         string nuevoEstado = await DisplayActionSheet(
             $"Orden #{pedidoSeleccionado.Folio}",
             "Cerrar", null,
             "En preparación",
-            "En proceso de entrega",
+            "Listo",
+            "En camino",
             "Entregado",
             "Cancelado"
         );
@@ -58,9 +59,17 @@ public partial class GestionPedidos : ContentPage
             try
             {
                 pedidoSeleccionado.Estado = nuevoEstado;
-                await _controller.ActualizarEstadoPedidoAsync(pedidoSeleccionado);
-                await _controller.NotificarClienteAsync(pedidoSeleccionado, nuevoEstado);
 
+                // 1. Guardamos el nuevo estado en Supabase
+                await _controller.ActualizarEstadoPedidoAsync(pedidoSeleccionado);
+
+                // 🔥 2. AQUÍ MANDAMOS LA NOTIFICACIÓN AL CLIENTE 🔥
+                var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
+
+                // Nota: Asegúrate de que tu modelo "Pedido" tenga la propiedad "IdUsuario". Si se llama distinto, cámbialo aquí.
+                await AppCenaduria.Services.NotificationService.NotificarCambioEstadoAClienteAsync(supabase, pedidoSeleccionado.IdUsuario, nuevoEstado);
+
+                // 3. Recargamos la lista
                 await CargarPedidosPendientes();
             }
             catch (Exception ex)

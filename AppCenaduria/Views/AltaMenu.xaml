@@ -134,7 +134,7 @@
                                             <Label Grid.Column="0" Text="$" TextColor="#fc4b08" FontSize="18" 
                                                    FontAttributes="Bold" VerticalOptions="Center" Margin="0,0,4,0"/>
                                             <Entry Grid.Column="1" x:Name="txtPrecio" Placeholder="0.00" 
-                                                   Keyboard="Numeric" PlaceholderColor="#444444" 
+                                                   Keyboard="Numeric" MaxLength="6" PlaceholderColor="#444444" 
                                                    TextColor="White" BackgroundColor="Transparent" FontSize="16"/>
                                         </Grid>
                                     </Border>

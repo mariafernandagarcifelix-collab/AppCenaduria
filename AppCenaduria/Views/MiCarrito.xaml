@@ -43,10 +43,10 @@
                         <Border.Shadow>
                             <Shadow Brush="Black" Offset="0,4" Radius="14" Opacity="0.35"/>
                         </Border.Shadow>
-                        <Grid ColumnDefinitions="78, *, Auto" ColumnSpacing="14">
+                        <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="78, *, Auto" ColumnSpacing="14" RowSpacing="10">
 
                             <!-- Image -->
-                            <Border Grid.Column="0" StrokeThickness="1" Stroke="#1E1E1E" 
+                            <Border Grid.Row="0" Grid.Column="0" StrokeThickness="1" Stroke="#1E1E1E" 
                                     BackgroundColor="#0D0D0D" WidthRequest="70" HeightRequest="70">
                                 <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
                                 <Image Source="{Binding FotografiaUrl}" Aspect="AspectFill" 
@@ -57,24 +57,36 @@
                                 </Image>
                             </Border>
 
-                            <!-- Info -->
-                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                            <!-- Info and Quantity Controls -->
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="1" VerticalOptions="Center" Spacing="6">
                                 <Label Text="{Binding Nombre}" FontSize="15" FontAttributes="Bold" TextColor="#F0F0F0" CharacterSpacing="0.3"/>
-                                <HorizontalStackLayout Spacing="6">
-                                    <Border StrokeThickness="0" BackgroundColor="#1C1206" Padding="10,4">
-                                        <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
-                                        <Label Text="{Binding Cantidad, StringFormat='×{0}'}" FontSize="12" 
-                                               FontAttributes="Bold" TextColor="#fc4b08"/>
-                                    </Border>
+                                
+                                <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                                    <Button Text="−" CommandParameter="{Binding .}" Clicked="OnDisminuirCantidad" 
+                                            WidthRequest="32" HeightRequest="32" CornerRadius="16" 
+                                            BackgroundColor="#222222" TextColor="White" Padding="0" FontSize="16" FontAttributes="Bold"/>
+                                    <Label Text="{Binding Cantidad}" FontSize="15" FontAttributes="Bold" TextColor="#fc4b08" VerticalOptions="Center" Margin="4,0"/>
+                                    <Button Text="+" CommandParameter="{Binding .}" Clicked="OnAumentarCantidad" 
+                                            WidthRequest="32" HeightRequest="32" CornerRadius="16" 
+                                            BackgroundColor="#222222" TextColor="White" Padding="0" FontSize="16" FontAttributes="Bold"/>
                                 </HorizontalStackLayout>
                             </VerticalStackLayout>
 
-                            <!-- Price -->
-                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center" Spacing="2">
+                            <!-- Price and Delete -->
+                            <VerticalStackLayout Grid.Row="0" Grid.Column="2" VerticalOptions="Center" Spacing="6">
                                 <Label Text="{Binding Subtotal, StringFormat='${0:F2}'}" 
                                        FontSize="18" FontAttributes="Bold" TextColor="#F0F0F0" 
                                        HorizontalTextAlignment="End"/>
+                                <Button Text="🗑️" CommandParameter="{Binding .}" Clicked="OnEliminarPlatillo" 
+                                        BackgroundColor="Transparent" HorizontalOptions="End" FontSize="18" HeightRequest="36" Padding="0"/>
                             </VerticalStackLayout>
+
+                            <!-- Comments Entry -->
+                            <Border Grid.Row="1" Grid.ColumnSpan="3" StrokeThickness="1" Stroke="#252525" BackgroundColor="#161616" Padding="10,0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                <Entry Text="{Binding Comentarios}" Placeholder="Añadir nota o instrucción (ej: sin cebolla)" 
+                                       TextColor="#DDDDDD" PlaceholderColor="#555555" FontSize="13" BackgroundColor="Transparent"/>
+                            </Border>
                         </Grid>
                     </Border>
                 </DataTemplate>

@@ -62,6 +62,23 @@ public partial class AltaMenu : ContentPage
 
     private async void OnGuardarClicked(object sender, EventArgs e)
     {
+        // 🛡️ CANDADO 1: Evitar que traten de guardar con campos vacíos
+        if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
+            string.IsNullOrWhiteSpace(txtPrecio.Text) ||
+            pickerCategoria.SelectedItem == null) // Si tienes un picker de categoría
+        {
+            await DisplayAlert("Faltan datos", "Por favor llena todos los campos obligatorios antes de guardar.", "OK");
+            return; // Detiene el código aquí para que no avance y no explote
+        }
+
+        // 🛡️ CANDADO 2: Conversión segura del precio (¡Esto arregla el crash!)
+        // Si lo que escribieron no es un número válido, mostrará alerta en vez de crashear.
+        if (!decimal.TryParse(txtPrecio.Text, out decimal precioSano))
+        {
+            await DisplayAlert("Precio inválido", "Asegúrate de escribir solo números válidos en el precio.", "OK");
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(txtNombre.Text) || string.IsNullOrWhiteSpace(txtPrecio.Text))
         {
             await DisplayAlert("Atención", "El nombre y el precio son obligatorios.", "OK");

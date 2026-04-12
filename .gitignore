@@ -2,3 +2,9 @@ AppCenaduria/Resources/Raw/firebase-key.json
 .vs/
 bin/
 obj/
+
+# ========================================================
+# ARCHIVOS DE SEGURIDAD Y LLAVES PRIVADAS (NO SUBIR)
+# ========================================================
+**/Resources/Raw/firebase-auth.json
+firebase-auth.json
