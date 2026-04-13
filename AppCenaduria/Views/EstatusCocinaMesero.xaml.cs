@@ -6,6 +6,8 @@ namespace AppCenaduria.Views;
 public partial class EstatusCocinaMesero : ContentPage
 {
     private GestionPedidosController _controller;
+    private List<Pedido> _todosLosPedidosPendientes = new List<Pedido>();
+    private string _filtroActivo = "Todos";
     public EstatusCocinaMesero()
 	{
 		InitializeComponent();
@@ -27,10 +29,8 @@ public partial class EstatusCocinaMesero : ContentPage
     {
         try
         {
-            var pedidos = await _controller.ObtenerPedidosPendientesAsync();
-
-            listaPedidos.ItemsSource = null;
-            listaPedidos.ItemsSource = pedidos;
+            _todosLosPedidosPendientes = await _controller.ObtenerPedidosPendientesAsync();
+            AplicarFiltros();
         }
         catch (Exception ex)
         {
@@ -38,7 +38,43 @@ public partial class EstatusCocinaMesero : ContentPage
         }
     }
 
-    // Borra el OnCambiarEstadoClicked viejo y pega este nuevo:
+    private void OnFiltrosCambiados(object sender, EventArgs e) => AplicarFiltros();
+
+    private void OnFiltroChipClicked(object sender, EventArgs e)
+    {
+        var botonPresionado = sender as Button;
+        _filtroActivo = botonPresionado.StyleId;
+
+        // Limpiar colores de todos los chips
+        var contenedor = botonPresionado.Parent as HorizontalStackLayout;
+        foreach (Button btn in contenedor.Children)
+        {
+            btn.BackgroundColor = Color.FromArgb("#141414");
+            btn.TextColor = Color.FromArgb("#888888");
+        }
+        // Iluminar el seleccionado
+        botonPresionado.BackgroundColor = Color.FromArgb("#fc4b08");
+        botonPresionado.TextColor = Colors.White;
+
+        AplicarFiltros();
+    }
+
+    private void AplicarFiltros()
+    {
+        if (_todosLosPedidosPendientes == null) return;
+
+        var textoBusqueda = sbBuscador.Text?.ToLower() ?? "";
+
+        var filtrados = _todosLosPedidosPendientes.Where(p =>
+            ((p.NombreCliente != null && p.NombreCliente.ToLower().Contains(textoBusqueda)) ||
+             (p.Folio.ToString().Contains(textoBusqueda))) &&
+            (_filtroActivo == "Todos" || p.TipoEntrega == _filtroActivo)
+        ).ToList();
+
+        listaPedidos.ItemsSource = filtrados;
+    }
+
+    
 
     private async void OnEditarPedidoClicked(object sender, EventArgs e)
     {

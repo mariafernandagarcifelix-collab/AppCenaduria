@@ -10,6 +10,8 @@ public partial class AltaMenu : ContentPage
     private AltaMenuController _controller;
     private FileResult _fotoSeleccionada;
     private Platillo _platilloEnEdicion;
+    private byte[] _fotoBytes; 
+    private string _nombreFoto; 
 
     public AltaMenu()
     {
@@ -41,15 +43,42 @@ public partial class AltaMenu : ContentPage
         }
     }
 
+    //private async void OnSeleccionarFotoClicked(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        _fotoSeleccionada = await MediaPicker.Default.PickPhotoAsync();
+    //        if (_fotoSeleccionada != null)
+    //        {
+    //            var stream = await _fotoSeleccionada.OpenReadAsync();
+    //            imgPreview.Source = ImageSource.FromStream(() => stream);
+    //            borderPreview.IsVisible = true;
+    //            txtFotoUrl.Text = string.Empty;
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        await DisplayAlert("Error", "No se pudo abrir la galería: " + ex.Message, "OK");
+    //    }
+    //}
+
     private async void OnSeleccionarFotoClicked(object sender, EventArgs e)
     {
         try
         {
-            _fotoSeleccionada = await MediaPicker.Default.PickPhotoAsync();
-            if (_fotoSeleccionada != null)
+            var fotoTemporal = await MediaPicker.Default.PickPhotoAsync();
+            if (fotoTemporal != null)
             {
-                var stream = await _fotoSeleccionada.OpenReadAsync();
-                imgPreview.Source = ImageSource.FromStream(() => stream);
+                // 🔥 LEEMOS EL ARCHIVO INMEDIATAMENTE ANTES DE QUE ANDROID LO BORRE
+                using var stream = await fotoTemporal.OpenReadAsync();
+                using var ms = new MemoryStream();
+                await stream.CopyToAsync(ms);
+
+                _fotoBytes = ms.ToArray(); // Guardamos los datos puros
+                _nombreFoto = fotoTemporal.FileName; // Guardamos el nombre
+
+                // Mostramos la imagen usando nuestra memoria, no la ruta de Android
+                imgPreview.Source = ImageSource.FromStream(() => new MemoryStream(_fotoBytes));
                 borderPreview.IsVisible = true;
                 txtFotoUrl.Text = string.Empty;
             }
@@ -87,11 +116,17 @@ public partial class AltaMenu : ContentPage
 
         try
         {
+            //string urlFinal = txtFotoUrl.Text?.Trim() ?? "";
+
+            //if (_fotoSeleccionada != null)
+            //{
+            //    urlFinal = await _controller.SubirFotoAsync(_fotoSeleccionada);
+            //}
             string urlFinal = txtFotoUrl.Text?.Trim() ?? "";
 
-            if (_fotoSeleccionada != null)
+            if (_fotoBytes != null && _fotoBytes.Length > 0)
             {
-                urlFinal = await _controller.SubirFotoAsync(_fotoSeleccionada);
+                urlFinal = await _controller.SubirFotoAsync(_fotoBytes, _nombreFoto);
             }
 
             if (_platilloEnEdicion == null)
@@ -167,6 +202,8 @@ public partial class AltaMenu : ContentPage
         }
         
         _fotoSeleccionada = null;
+        _fotoBytes = null;
+        _nombreFoto = null;
 
         // Desplaza la vista arriba
         _ = mainScroll.ScrollToAsync(0, 0, true);
@@ -213,6 +250,8 @@ public partial class AltaMenu : ContentPage
         txtFotoUrl.Text = string.Empty;
         borderPreview.IsVisible = false;
         _fotoSeleccionada = null;
+        _fotoBytes = null;
+        _nombreFoto = null;
         swDisponible.IsToggled = true;
     }
 }

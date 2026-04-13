@@ -81,7 +81,7 @@
                             <Border StrokeThickness="1" Stroke="#252525" BackgroundColor="#0D0D0D" Padding="16,0" HeightRequest="52">
                                 <Border.StrokeShape><RoundRectangle CornerRadius="14"/></Border.StrokeShape>
                                 <Entry x:Name="txtTelefono" TextColor="White" BackgroundColor="Transparent" 
-                                       Keyboard="Telephone" Placeholder="Ej. 687..." PlaceholderColor="#444444" FontSize="15"/>
+                                       Keyboard="Telephone" MaxLength="10" Placeholder="Ej. 687..." PlaceholderColor="#444444" FontSize="15"/>
                             </Border>
                         </VerticalStackLayout>
 

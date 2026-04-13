@@ -75,10 +75,13 @@
                 <Button Text="Tarjeta" StyleId="Tarjeta" Clicked="OnFiltroChipClicked" 
                         BackgroundColor="#141414" TextColor="#888888" CornerRadius="18" 
                         HeightRequest="38" Padding="18,0" FontSize="12" BorderWidth="1" BorderColor="#1E1E1E"/>
-                <Button Text="Comedor" StyleId="Comedor" Clicked="OnFiltroChipClicked" 
+                <Button Text="Comedor" StyleId="Comer ahí" Clicked="OnFiltroChipClicked" 
                         BackgroundColor="#141414" TextColor="#888888" CornerRadius="18" 
                         HeightRequest="38" Padding="18,0" FontSize="12" BorderWidth="1" BorderColor="#1E1E1E"/>
                 <Button Text="Domicilio" StyleId="Domicilio" Clicked="OnFiltroChipClicked" 
+                        BackgroundColor="#141414" TextColor="#888888" CornerRadius="18" 
+                        HeightRequest="38" Padding="18,0" FontSize="12" BorderWidth="1" BorderColor="#1E1E1E"/>
+                <Button Text="Recoger" StyleId="Recoger" Clicked="OnFiltroChipClicked" 
                         BackgroundColor="#141414" TextColor="#888888" CornerRadius="18" 
                         HeightRequest="38" Padding="18,0" FontSize="12" BorderWidth="1" BorderColor="#1E1E1E"/>
             </HorizontalStackLayout>

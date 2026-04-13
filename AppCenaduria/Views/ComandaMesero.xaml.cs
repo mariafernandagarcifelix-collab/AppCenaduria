@@ -111,6 +111,7 @@ public partial class ComandaMesero : ContentPage
         string infoClienteFinal = "";
 
         // Validaciones de los campos que aparecieron
+        // Validaciones de los campos que aparecieron
         if (tipoEntrega == "Domicilio")
         {
             if (string.IsNullOrWhiteSpace(entryMeseroNombre.Text) || string.IsNullOrWhiteSpace(entryMeseroTelefono.Text) || string.IsNullOrWhiteSpace(entryMeseroDomicilio.Text))
@@ -118,6 +119,14 @@ public partial class ComandaMesero : ContentPage
                 await DisplayAlert("Faltan Datos", "Si es a Domicilio debes ingresar el nombre, teléfono y domicilio del cliente.", "OK");
                 return;
             }
+
+            // 🔥 NUEVO CANDADO PARA TELÉFONO 🔥
+            if (entryMeseroTelefono.Text.Trim().Length != 10)
+            {
+                await DisplayAlert("Teléfono Inválido", "El número de teléfono debe tener exactamente 10 dígitos.", "OK");
+                return;
+            }
+
             infoClienteFinal = $"{entryMeseroNombre.Text.Trim()} | Tel: {entryMeseroTelefono.Text.Trim()} | Dom: {entryMeseroDomicilio.Text.Trim()}";
         }
         else if (tipoEntrega == "Para recoger")
@@ -127,6 +136,14 @@ public partial class ComandaMesero : ContentPage
                 await DisplayAlert("Faltan Datos", "Si es para Recoger debes ingresar el nombre y teléfono del cliente.", "OK");
                 return;
             }
+
+            // 🔥 NUEVO CANDADO PARA TELÉFONO 🔥
+            if (entryMeseroTelefono.Text.Trim().Length != 10)
+            {
+                await DisplayAlert("Teléfono Inválido", "El número de teléfono debe tener exactamente 10 dígitos.", "OK");
+                return;
+            }
+
             infoClienteFinal = $"{entryMeseroNombre.Text.Trim()} | Tel: {entryMeseroTelefono.Text.Trim()}";
         }
         else if (tipoEntrega == "Comer ahí (Mesa)")

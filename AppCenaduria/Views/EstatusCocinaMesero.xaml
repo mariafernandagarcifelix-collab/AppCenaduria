@@ -5,7 +5,7 @@
                           Title="Estatus de Cocina"
              BackgroundColor="#0A0A0A">
 
-    <Grid RowDefinitions="Auto, *">
+    <Grid RowDefinitions="Auto, Auto, *">
 
         <!-- ══ Header ══ -->
         <Border Grid.Row="0" StrokeThickness="0" BackgroundColor="#111111" Padding="24,30,24,22">
@@ -36,9 +36,25 @@
                 </BoxView>
             </VerticalStackLayout>
         </Border>
+        <VerticalStackLayout Grid.Row="1" Spacing="12" Margin="16,10,16,0">
+            <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#0D0D0D" Padding="0" HeightRequest="45">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12"/>
+                </Border.StrokeShape>
+                <SearchBar x:Name="sbBuscador" Placeholder="Buscar por mesa o nombre..." PlaceholderColor="#555555" TextColor="White" BackgroundColor="Transparent" TextChanged="OnFiltrosCambiados"/>
+            </Border>
 
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="Todos" StyleId="Todos" Clicked="OnFiltroChipClicked" BackgroundColor="#fc4b08" TextColor="White" CornerRadius="14" HeightRequest="32" Padding="16,0" FontSize="11" FontAttributes="Bold"/>
+                    <Button Text="Comedor" StyleId="Comer ahí" Clicked="OnFiltroChipClicked" BackgroundColor="#141414" TextColor="#888888" CornerRadius="14" HeightRequest="32" Padding="16,0" FontSize="11" BorderWidth="1" BorderColor="#1E1E1E"/>
+                    <Button Text="Recoger" StyleId="Recoger" Clicked="OnFiltroChipClicked" BackgroundColor="#141414" TextColor="#888888" CornerRadius="14" HeightRequest="32" Padding="16,0" FontSize="11" BorderWidth="1" BorderColor="#1E1E1E"/>
+                    <Button Text="Domicilio" StyleId="Domicilio" Clicked="OnFiltroChipClicked" BackgroundColor="#141414" TextColor="#888888" CornerRadius="14" HeightRequest="32" Padding="16,0" FontSize="11" BorderWidth="1" BorderColor="#1E1E1E"/>
+                </HorizontalStackLayout>
+            </ScrollView>
+        </VerticalStackLayout>
         <!-- ══ Orders List ══ -->
-        <CollectionView x:Name="listaPedidos" Grid.Row="1" Margin="16,14,16,16">
+        <CollectionView x:Name="listaPedidos" Grid.Row="2" Margin="16,14,16,16">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border StrokeThickness="1" Stroke="#1E1E1E" BackgroundColor="#111111" 

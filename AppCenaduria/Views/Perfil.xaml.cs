@@ -52,6 +52,11 @@ public partial class Perfil : ContentPage
             await DisplayAlert("Atención", "El nombre es obligatorio.", "OK");
             return;
         }
+        if (string.IsNullOrWhiteSpace(txtTelefono.Text) || txtTelefono.Text.Trim().Length != 10)
+        {
+            await DisplayAlert("Teléfono Inválido", "Por favor ingresa un número de teléfono válido de exactamente 10 dígitos.", "OK");
+            return;
+        }
 
         try
         {

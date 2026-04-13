@@ -18,18 +18,32 @@ namespace AppCenaduria.Controllers
             return response.Models.OrderBy(p => p.Nombre).ToList();
         }
 
-        public async Task<string> SubirFotoAsync(FileResult foto)
+        //public async Task<string> SubirFotoAsync(FileResult foto)
+        //{
+        //    if (foto == null) return null;
+
+        //    using var stream = await foto.OpenReadAsync();
+        //    using var memoryStream = new MemoryStream();
+        //    await stream.CopyToAsync(memoryStream);
+        //    var bytes = memoryStream.ToArray();
+
+        //    string nombreArchivoUnico = $"{Guid.NewGuid()}_{foto.FileName}";
+        //    await _supabase.Storage.From("platillos").Upload(bytes, nombreArchivoUnico);
+
+        //    return _supabase.Storage.From("platillos").GetPublicUrl(nombreArchivoUnico);
+        //}
+        // 🔥 AHORA RECIBE LOS BYTES Y EL NOMBRE DIRECTAMENTE
+        public async Task<string> SubirFotoAsync(byte[] fotoBytes, string fileName)
         {
-            if (foto == null) return null;
+            if (fotoBytes == null || fotoBytes.Length == 0) return null;
 
-            using var stream = await foto.OpenReadAsync();
-            using var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
-            var bytes = memoryStream.ToArray();
+            // Generamos un nombre único
+            string nombreArchivoUnico = $"{Guid.NewGuid()}_{fileName}";
 
-            string nombreArchivoUnico = $"{Guid.NewGuid()}_{foto.FileName}";
-            await _supabase.Storage.From("platillos").Upload(bytes, nombreArchivoUnico);
+            // Subimos directamente a Supabase
+            await _supabase.Storage.From("platillos").Upload(fotoBytes, nombreArchivoUnico);
 
+            // Obtenemos la URL pública
             return _supabase.Storage.From("platillos").GetPublicUrl(nombreArchivoUnico);
         }
 

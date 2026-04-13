@@ -78,4 +78,28 @@ public partial class Reportes : ContentPage
         listaResumen.ItemsSource = pedidosFiltrados;
         lblTotalFiltrado.Text = $"${pedidosFiltrados.Sum(p => p.Total):F2}";
     }
+
+    // --- ATAJOS RÁPIDOS DE FECHA ---
+    private void OnChipHoyClicked(object sender, EventArgs e)
+    {
+        dpInicio.Date = DateTime.Now;
+        dpFin.Date = DateTime.Now;
+        AplicarFiltro();
+    }
+
+    private void OnChipSemanaClicked(object sender, EventArgs e)
+    {
+        // Resta los días necesarios para llegar al inicio de la semana (Lunes o Domingo según tu configuración)
+        dpInicio.Date = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek);
+        dpFin.Date = DateTime.Now;
+        AplicarFiltro();
+    }
+
+    private void OnChipMesClicked(object sender, EventArgs e)
+    {
+        // Pone el día 1 del mes actual
+        dpInicio.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        dpFin.Date = DateTime.Now;
+        AplicarFiltro();
+    }
 }
