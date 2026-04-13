@@ -46,5 +46,11 @@ namespace AppCenaduria.Controllers
             var respuestaPlatillos = await _supabase.From<Platillo>().Get();
             return respuestaPlatillos.Models;
         }
+
+        // Agrega este método para poder cancelar pedidos
+        public async Task ActualizarEstadoPedidoAsync(Pedido pedido)
+        {
+            await _supabase.From<Pedido>().Update(pedido);
+        }
     }
 }

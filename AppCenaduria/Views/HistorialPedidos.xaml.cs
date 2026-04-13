@@ -30,6 +30,18 @@ public partial class HistorialPedidos : ContentPage
         {
             var pedidos = await _controller.ObtenerMisPedidosAsync();
             listaHistorial.ItemsSource = pedidos;
+
+            // 🔥 Control manual de la vista vacía para Syncfusion
+            if (pedidos == null || pedidos.Count == 0)
+            {
+                listaHistorial.IsVisible = false;
+                vistaVacia.IsVisible = true;
+            }
+            else
+            {
+                listaHistorial.IsVisible = true;
+                vistaVacia.IsVisible = false;
+            }
         }
         catch (Exception ex)
         {
@@ -43,17 +55,24 @@ public partial class HistorialPedidos : ContentPage
 
         if (pedidoSeleccionado != null)
         {
-            // Llenar el encabezado del ticket
             lblTicketFolio.Text = $"Folio: #{pedidoSeleccionado.Folio}";
             lblTicketCliente.Text = $"{pedidoSeleccionado.NombreCliente ?? App.UsuarioActual.NombreCompleto}";
             lblTicketFecha.Text = $"{pedidoSeleccionado.FechaPedido:dd/MM/yyyy HH:mm}";
             lblTicketTipo.Text = $" {pedidoSeleccionado.TipoEntrega ?? "N/A"} - {pedidoSeleccionado.TipoPago ?? "N/A"}";
             lblTicketTotal.Text = $"${pedidoSeleccionado.Total:F2}";
 
+            if (pedidoSeleccionado.Estado == "En preparación")
+            {
+                btnCancelarPedido.IsVisible = true;
+                btnCancelarPedido.CommandParameter = pedidoSeleccionado;
+            }
+            else
+            {
+                btnCancelarPedido.IsVisible = false;
+            }
+
             try
             {
-                // OJO: Asegúrate de tener estos dos métodos en tu Controlador de Historial de Cliente
-                // Si no los tienes, cópialos de HistorialVentasController a tu HistorialClienteController
                 var detalles = await _controller.ObtenerDetallesPedidoAsync(pedidoSeleccionado.IdPedido);
                 var catalogo = await _controller.ObtenerCatalogoPlatillosAsync();
 
@@ -83,5 +102,22 @@ public partial class HistorialPedidos : ContentPage
     private void OnCerrarTicketClicked(object sender, EventArgs e)
     {
         modalTicket.IsVisible = false;
+    }
+
+    private async void OnCancelarPedidoClienteClicked(object sender, EventArgs e)
+    {
+        var boton = sender as Button;
+        var pedido = boton.CommandParameter as Pedido;
+
+        bool confirmar = await DisplayAlert("Cancelar Pedido", "¿Estás seguro de que deseas cancelar la orden #" + pedido.Folio + "?", "Sí, cancelar", "No");
+
+        if (confirmar)
+        {
+            pedido.Estado = "Cancelado";
+            await _controller.ActualizarEstadoPedidoAsync(pedido);
+            await DisplayAlert("Cancelado", "Tu pedido ha sido cancelado exitosamente.", "OK");
+            modalTicket.IsVisible = false;
+            await CargarMiHistorial();
+        }
     }
 }

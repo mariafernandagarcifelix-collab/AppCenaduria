@@ -8,10 +8,11 @@ public partial class EstatusCocinaMesero : ContentPage
     private GestionPedidosController _controller;
     private List<Pedido> _todosLosPedidosPendientes = new List<Pedido>();
     private string _filtroActivo = "Todos";
+
     public EstatusCocinaMesero()
-	{
-		InitializeComponent();
-	}
+    {
+        InitializeComponent();
+    }
 
     protected override async void OnAppearing()
     {
@@ -45,14 +46,14 @@ public partial class EstatusCocinaMesero : ContentPage
         var botonPresionado = sender as Button;
         _filtroActivo = botonPresionado.StyleId;
 
-        // Limpiar colores de todos los chips
+        // Limpiar colores
         var contenedor = botonPresionado.Parent as HorizontalStackLayout;
         foreach (Button btn in contenedor.Children)
         {
             btn.BackgroundColor = Color.FromArgb("#141414");
             btn.TextColor = Color.FromArgb("#888888");
         }
-        // Iluminar el seleccionado
+        // Iluminar
         botonPresionado.BackgroundColor = Color.FromArgb("#fc4b08");
         botonPresionado.TextColor = Colors.White;
 
@@ -61,7 +62,12 @@ public partial class EstatusCocinaMesero : ContentPage
 
     private void AplicarFiltros()
     {
-        if (_todosLosPedidosPendientes == null) return;
+        if (_todosLosPedidosPendientes == null)
+        {
+            listaPedidos.IsVisible = false;
+            vistaVacia.IsVisible = true;
+            return;
+        }
 
         var textoBusqueda = sbBuscador.Text?.ToLower() ?? "";
 
@@ -72,36 +78,39 @@ public partial class EstatusCocinaMesero : ContentPage
         ).ToList();
 
         listaPedidos.ItemsSource = filtrados;
-    }
 
-    
+        // 🔥 Control manual de la vista vacía
+        if (filtrados.Count == 0)
+        {
+            listaPedidos.IsVisible = false;
+            vistaVacia.IsVisible = true;
+        }
+        else
+        {
+            listaPedidos.IsVisible = true;
+            vistaVacia.IsVisible = false;
+        }
+    }
 
     private async void OnEditarPedidoClicked(object sender, EventArgs e)
     {
         var boton = sender as Button;
         var pedidoSeleccionado = boton.CommandParameter as Pedido;
 
-        // 1. Validamos que el pedido siga en la cocina
         if (pedidoSeleccionado.Estado != "En preparación")
         {
             await DisplayAlert("Acción no permitida", "Solo se pueden editar los pedidos que siguen 'En preparación'.", "OK");
             return;
         }
 
-        // 2. Pedimos el PIN de seguridad al administrador
         string pin = await DisplayPromptAsync("Seguridad Requerida", "Pide a un Administrador que ingrese su PIN para autorizar el cambio:", keyboard: Keyboard.Numeric);
 
-        // Aquí defines el PIN secreto de tu local
         if (pin != "1234")
         {
             await DisplayAlert("Acceso Denegado", "PIN incorrecto o cancelado. No se puede editar la orden.", "OK");
             return;
         }
 
-        // 3. Si llegamos aquí, el Admin puso el PIN correcto
-        await DisplayAlert("Modo Edición", "Acceso concedido. Puede editar la orden #" + pedidoSeleccionado.Folio, "OK");
-
-        // En el futuro, aquí pondremos la navegación a tu nueva pantalla de edición:
         await Navigation.PushAsync(new EditarPedidoEnCocina(pedidoSeleccionado));
     }
 

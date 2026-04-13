@@ -30,8 +30,19 @@ public partial class GestionPedidos : ContentPage
         {
             var pedidos = await _controller.ObtenerPedidosPendientesAsync();
 
-            listaPedidos.ItemsSource = null;
             listaPedidos.ItemsSource = pedidos;
+
+            // 🔥 Control manual de la vista vacía para Syncfusion
+            if (pedidos == null || pedidos.Count == 0)
+            {
+                listaPedidos.IsVisible = false;
+                vistaVacia.IsVisible = true;
+            }
+            else
+            {
+                listaPedidos.IsVisible = true;
+                vistaVacia.IsVisible = false;
+            }
         }
         catch (Exception ex)
         {
@@ -42,7 +53,7 @@ public partial class GestionPedidos : ContentPage
     private async void OnCambiarEstadoClicked(object sender, EventArgs e)
     {
         var boton = sender as Button;
-        var pedidoSeleccionado = boton.CommandParameter as Pedido; // Ojo aquí, verifica si tu modelo Pedido usa IdUsuario
+        var pedidoSeleccionado = boton.CommandParameter as Pedido;
 
         string nuevoEstado = await DisplayActionSheet(
             $"Orden #{pedidoSeleccionado.Folio}",
@@ -59,17 +70,11 @@ public partial class GestionPedidos : ContentPage
             try
             {
                 pedidoSeleccionado.Estado = nuevoEstado;
-
-                // 1. Guardamos el nuevo estado en Supabase
                 await _controller.ActualizarEstadoPedidoAsync(pedidoSeleccionado);
 
-                // 🔥 2. AQUÍ MANDAMOS LA NOTIFICACIÓN AL CLIENTE 🔥
                 var supabase = Application.Current.Handler.MauiContext.Services.GetService<Supabase.Client>();
-
-                // Nota: Asegúrate de que tu modelo "Pedido" tenga la propiedad "IdUsuario". Si se llama distinto, cámbialo aquí.
                 await AppCenaduria.Services.NotificationService.NotificarCambioEstadoAClienteAsync(supabase, pedidoSeleccionado.IdUsuario, nuevoEstado);
 
-                // 3. Recargamos la lista
                 await CargarPedidosPendientes();
             }
             catch (Exception ex)

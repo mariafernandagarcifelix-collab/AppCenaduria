@@ -61,7 +61,7 @@ public partial class PersonalizarPlatillo : ContentPage
         }
 
         // Cambiamos un poco el texto para que suene bien para ambos roles
-        bool irACarrito = await DisplayAlert("¡Añadido!", $"{_cantidad}x {_platilloActual.Nombre} agregado a la cuenta.", "Ir a Pagar/Mandar", "Seguir pidiendo");
+        bool irACarrito = await DisplayAlert("¡Añadido!", $"{_cantidad}x {_platilloActual.Nombre} agregado a la cuenta.", "Ir a Mi Carrito", "Seguir pidiendo");
 
         if (irACarrito)
         {

@@ -11,6 +11,8 @@ namespace AppCenaduria
 
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JHaF5cWWdCe0x0WmFZfVhgdl9FaVZQQ2YuP1ZhSXxVdkFjW39cc31XQmFVWUZ9XEE=");
+
             InitializeComponent();
 
             MainPage = new NavigationPage(new ContentPage { Content = new ActivityIndicator { IsRunning = true, VerticalOptions = LayoutOptions.Center } });

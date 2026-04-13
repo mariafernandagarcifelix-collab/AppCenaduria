@@ -62,7 +62,13 @@ public partial class Reportes : ContentPage
 
     private void AplicarFiltro()
     {
-        if (_todosLosPedidos == null || !_todosLosPedidos.Any()) return;
+        if (_todosLosPedidos == null || !_todosLosPedidos.Any())
+        {
+            listaResumen.IsVisible = false;
+            vistaVaciaReportes.IsVisible = true;
+            lblTotalFiltrado.Text = "$0.00";
+            return;
+        }
 
         DateTime fechaInicioObj = Convert.ToDateTime(dpInicio.Date);
         DateTime fechaFinObj = Convert.ToDateTime(dpFin.Date);
@@ -77,9 +83,20 @@ public partial class Reportes : ContentPage
 
         listaResumen.ItemsSource = pedidosFiltrados;
         lblTotalFiltrado.Text = $"${pedidosFiltrados.Sum(p => p.Total):F2}";
+
+        // 🔥 Control manual de vista vacía para Syncfusion
+        if (pedidosFiltrados.Count == 0)
+        {
+            listaResumen.IsVisible = false;
+            vistaVaciaReportes.IsVisible = true;
+        }
+        else
+        {
+            listaResumen.IsVisible = true;
+            vistaVaciaReportes.IsVisible = false;
+        }
     }
 
-    // --- ATAJOS RÁPIDOS DE FECHA ---
     private void OnChipHoyClicked(object sender, EventArgs e)
     {
         dpInicio.Date = DateTime.Now;
@@ -89,7 +106,6 @@ public partial class Reportes : ContentPage
 
     private void OnChipSemanaClicked(object sender, EventArgs e)
     {
-        // Resta los días necesarios para llegar al inicio de la semana (Lunes o Domingo según tu configuración)
         dpInicio.Date = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek);
         dpFin.Date = DateTime.Now;
         AplicarFiltro();
@@ -97,7 +113,6 @@ public partial class Reportes : ContentPage
 
     private void OnChipMesClicked(object sender, EventArgs e)
     {
-        // Pone el día 1 del mes actual
         dpInicio.Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
         dpFin.Date = DateTime.Now;
         AplicarFiltro();
